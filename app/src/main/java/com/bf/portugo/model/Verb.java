@@ -24,7 +24,8 @@ public class Verb {
     private String past_part_en;
     private String past_part_pt;
 
-    private String tense_pres_en_all;
+    private String tense_pres_en_i;
+    private String tense_pres_en_youwethey;
     private String tense_pres_en_heshe;
 
     private String tense_pres_pt_i;
@@ -79,9 +80,12 @@ public class Verb {
      * @param phonetic_pt
      * @param categoryId
      * @param classification
+     * @param pres_part_en
      * @param pres_part_pt
+     * @param past_part_en
      * @param past_part_pt
-     * @param tense_pres_en_all
+     * @param tense_pres_en_i
+     * @param tense_pres_en_youwethey
      * @param tense_pres_en_heshe
      * @param tense_pres_pt_i
      * @param tense_pres_pt_you
@@ -116,7 +120,8 @@ public class Verb {
                 String pres_part_pt,
                 String past_part_en,
                 String past_part_pt,
-                String tense_pres_en_all,
+                String tense_pres_en_i,
+                String tense_pres_en_youwethey,
                 String tense_pres_en_heshe,
                 String tense_pres_pt_i,
                 String tense_pres_pt_you,
@@ -150,7 +155,8 @@ public class Verb {
         this.pres_part_pt = pres_part_pt;
         this.past_part_en = past_part_en;
         this.past_part_pt = past_part_pt;
-        this.tense_pres_en_all = tense_pres_en_all;
+        this.tense_pres_en_i = tense_pres_en_i;
+        this.tense_pres_en_youwethey = tense_pres_en_youwethey;
         this.tense_pres_en_heshe = tense_pres_en_heshe;
         this.tense_pres_pt_i = tense_pres_pt_i;
         this.tense_pres_pt_you = tense_pres_pt_you;
@@ -260,12 +266,20 @@ public class Verb {
         this.past_part_pt = past_part_pt;
     }
 
-    public String getTense_pres_en_all() {
-        return tense_pres_en_all;
+    public String getTense_pres_en_i() {
+        return tense_pres_en_i;
     }
 
-    public void setTense_pres_en_all(String tense_pres_en_all) {
-        this.tense_pres_en_all = tense_pres_en_all;
+    public void setTense_pres_en_i(String tense_pres_en_i) {
+        this.tense_pres_en_i = tense_pres_en_i;
+    }
+
+    public String getTense_pres_en_youwethey() {
+        return tense_pres_en_youwethey;
+    }
+
+    public void setTense_pres_en_youwethey(String tense_pres_en_youwethey) {
+        this.tense_pres_en_youwethey = tense_pres_en_youwethey;
     }
 
     public String getTense_pres_en_heshe() {

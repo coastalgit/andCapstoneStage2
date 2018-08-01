@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public interface IVerbBundleDataSource {
-    void fetchVerbItems(verbDataSourceListener listener);
+    void fetchVerbItemsByType(VerbStockData.VerbType verbType, verbDataSourceListener listener);
     void fetchVerbItemsByCategory(String category, verbDataSourceListener listener);
 
     public interface verbDataSourceListener{
