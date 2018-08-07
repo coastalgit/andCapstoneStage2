@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryLight"
+    tools:context=".ui.activity.LearnMainActivity"
+    tools:ignore="Overdraw">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_weight="1"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:title="@string/verbs">
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs_verbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/recyclerview_learnmain">
+
+<!--
+        card_view:tabIndicatorColor="@android:color/white"
+        card_view:tabIndicatorHeight="1.5dp"
+        card_view:tabMode="fixed"
+        card_view:tabBackground="@color/colorPrimaryLight"
+        card_view:tabTextColor="@android:color/white"
+-->
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/essential" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all" />
+
+    </android.support.design.widget.TabLayout>
+
+    <com.bf.popularmovies.ui.controls.FixedViewPager
+        android:id="@+id/viewpager_sections"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tabs_verbs"
+        android:layout_above="@+id/recyclerview_learnmain"
+        android:animateLayoutChanges="false"
+        android:background="@android:color/white" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_learnmain_essential"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"/>
+
+</RelativeLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "537538386631",
+    "firebase_url": "https://portugo-da229.firebaseio.com",
+    "project_id": "portugo-da229",
+    "storage_bucket": "portugo-da229.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537538386631:android:eb61191dffd1f72a",
+        "android_client_info": {
+          "package_name": "com.bf.portugo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537538386631-4c70j3av60jmhsdooh7ba8017kjdrsn0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bf.portugo",
+            "certificate_hash": "7a351a748c0a71e6ce6d3cb98af50a951038acd9"
+          }
+        },
+        {
+          "client_id": "537538386631-n29t8ftpmm3f4rb1ojscusmh8lfnj50d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbHBpsW5vbjzYlYR63YXcKeCF1vJ-aCxk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537538386631-n29t8ftpmm3f4rb1ojscusmh8lfnj50d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

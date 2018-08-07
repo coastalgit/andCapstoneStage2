@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Portugo</string>
+    <string name="app_name">Portu-go</string>
+    <string name="available_not">Not available</string>
+    <string name="loading">Loading</string>
+    <string name="bemvindo">Bem Vindo</string>
+    <string name="install_tts">Install TTS</string>
+    <string name="cancel">Cancel</string>
+    <string name="all">All</string>
+    <string name="essential">Essential</string>
+    <string name="verbs">verbs</string>
 </resources>

@@ -6,4 +6,5 @@ package com.bf.portugo.common;
  */
 public class Constants {
     public static final String DBNAME_VERBBUNDLE_PT = "verbpt.db";
+    public static final int VERB_CLASSIFICATIONCEILING_ESSENTIAL = 50;
 }

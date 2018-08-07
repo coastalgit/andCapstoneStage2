@@ -27,6 +27,14 @@ public class Enums {
         THEY {public String toString(){return "Eles/Elas/Voćes";}},
     }
 
+    public enum ErrorCode {
+        UNKNOWN,
+        CONNECTION_ERROR,
+        WORK_IN_PROGRESS,
+        INVALID_DATA,
+        INVALID_RESPONSE
+    }
+
 /*
     public enum TMDBQueryBy {
         POPULAR {public String toString(){return "popular";}},
