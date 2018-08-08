@@ -35,7 +35,7 @@ public class DBFuncsViewModel extends AndroidViewModel {
         Log.d(TAG, "DbFuncsViewModel: REG="+String.valueOf(mList_Reg.size())+" recs");
 
         VerbStockData stockData2 = new VerbStockData(VerbStockData.VerbType.IRREGULAR);
-        mList_Irreg = new ArrayList<>(stockData1.VERB_MAP.values());
+        mList_Irreg = new ArrayList<>(stockData2.VERB_MAP.values());
         Log.d(TAG, "DbFuncsViewModel: IRREG="+String.valueOf(mList_Irreg.size())+" recs");
 
         mSingleRecIndex = 0;

@@ -28,7 +28,6 @@ public class LearnVerbsMainViewModel extends AndroidViewModel {
     private FirebaseDataSource mDataSource;
     private boolean mHasAlreadyPolledDataSource;
 
-
     public LearnVerbsMainViewModel(@NonNull Application application) {
         super(application);
 

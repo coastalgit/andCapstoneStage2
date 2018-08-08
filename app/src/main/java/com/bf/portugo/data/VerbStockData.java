@@ -107,7 +107,7 @@ public class VerbStockData {
 
 
     public static final Verb V_BUY = new Verb(
-            "to but",
+            "to buy",
             "comprar",
             false,
             "kõpɾˈaɾ",

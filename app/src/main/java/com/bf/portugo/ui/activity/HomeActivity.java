@@ -18,6 +18,7 @@ package com.bf.portugo.ui.activity;
 */
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
+import static com.bf.portugo.common.Constants.Fonts.FONT_LOBSTER_REGULAR;
+
 /**
  * Responsible for checking if TTS engine is resident, and
  */
@@ -42,7 +46,12 @@ public class HomeActivity extends BaseActivity {
     private String TAG = HomeActivity.class.getSimpleName();
     private static final int CODE_TTS_CHECK = 100;
 
+    private Typeface mTitleFont;
+
     private KenBurnsView mKbv;
+
+    @BindView(R.id.tv_home_title)
+    TextView mTvTitle;
 
     @BindView(R.id.btn_home_learn)
     Button mBtnLearn;
@@ -61,6 +70,9 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setControlsVisibility(false);
+
+        mTitleFont = Typeface.createFromAsset(this.getAssets(), FONT_LOBSTER_REGULAR);
+        mTvTitle.setTypeface(mTitleFont);
 
         mKbv = (KenBurnsView) findViewById(R.id.iv_home);
 //        mKbv.setTransitionListener(new KenBurnsView.TransitionListener() {
@@ -91,7 +103,10 @@ public class HomeActivity extends BaseActivity {
     protected void actionHasTTS(boolean hasTTS) {
         if (hasTTS) {
             Toast.makeText(this, ">>> Vamos", Toast.LENGTH_SHORT).show();
-            doTTSSpeak(getString(R.string.bemvindo));
+            if (!mViewModel.getHasAlreadySpokenWelcome()) {
+                doTTSSpeak(getString(R.string.bemvindo));
+                mViewModel.setHasAlreadySpokenWelcome(true);
+            }
             setControlsVisibility(true);
         }
         else
@@ -108,6 +123,7 @@ public class HomeActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         mKbv.pause();
+        mTTS.stop();
     }
 
     private void setControlsVisibility(boolean visible){

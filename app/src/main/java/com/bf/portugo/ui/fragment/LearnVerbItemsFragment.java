@@ -120,7 +120,7 @@ public class LearnVerbItemsFragment extends Fragment{
                 public void onChanged(@Nullable List<Verb> verbs) {
                     Log.d(TAG, "onChanged(ESS):");
                     if ((verbs != null) && (verbs.size() > 0)) {
-                        Log.d(TAG, "onChanged(ESS): wordset="+String.valueOf(verbs.size()));
+                        Log.d(TAG, "onChanged(ESS): verbs="+String.valueOf(verbs.size()));
                     }
                     mVerbsAdapter.reloadAdapter(verbs);
                 }
@@ -132,7 +132,7 @@ public class LearnVerbItemsFragment extends Fragment{
                 public void onChanged(@Nullable List<Verb> verbs) {
                     Log.d(TAG, "onChanged(ALL):");
                     if ((verbs != null) && (verbs.size() > 0)) {
-                        Log.d(TAG, "onChanged(ALL): wordset="+String.valueOf(verbs.size()));
+                        Log.d(TAG, "onChanged(ALL): verbs="+String.valueOf(verbs.size()));
                     }
                     mVerbsAdapter.reloadAdapter(verbs);
                 }

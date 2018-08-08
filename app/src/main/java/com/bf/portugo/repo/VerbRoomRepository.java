@@ -15,6 +15,7 @@ import com.bf.portugo.model.Verb;
 
 import java.util.List;
 
+import static com.bf.portugo.common.Constants.VERB_CLASSIFICATIONCEILING_ESSENTIAL;
 import static com.bf.portugo.common.Enums.*;
 
 /*
@@ -118,6 +119,50 @@ public class VerbRoomRepository {
     }
 
     public LiveData<List<Verb>> getVerbs() {
+        populateVerbsFromDB_All();
+        return mObservableVerbs;
+    }
+
+    public LiveData<List<Verb>> getVerbsEssential() {
+        populateVerbsFromDB_Essential();
+        return mObservableVerbsEssential;
+    }
+
+    private void populateVerbsFromDB_All(){
+        if (mDao_Verb != null){
+            if (mObservableVerbs == null)
+                mObservableVerbs = new MutableLiveData<>();
+
+            mObservableVerbs = mDao_Verb.getListVerbItems();
+
+            //if ((mObservableVerbs != null) && (mObservableVerbs.getValue() != null))
+//            if (mObservableVerbs.getValue() != null)
+//                Log.d(TAG, "populateVerbsFromDB_All: Room Verb count="+String.valueOf(mObservableVerbs.getValue().size()));
+//            else
+//                Log.d(TAG, "populateVerbsFromDB_All: Room Verb count=NULL");
+        }
+
+    }
+
+    private void populateVerbsFromDB_Essential(){
+        if (mDao_Verb != null){
+            if (mObservableVerbsEssential == null)
+                mObservableVerbsEssential = new MutableLiveData<>();
+
+            mObservableVerbsEssential = mDao_Verb.getListVerbItemsEssential(VERB_CLASSIFICATIONCEILING_ESSENTIAL);
+
+            //if ((mObservableVerbsEssential != null) && (mObservableVerbsEssential.getValue() != null))
+//            if (mObservableVerbsEssential.getValue() != null)
+//                Log.d(TAG, "populateVerbsFromDB_Essential: Room Verb count="+String.valueOf(mObservableVerbsEssential.getValue().size()));
+//            else
+//                Log.d(TAG, "populateVerbsFromDB_Essential: Room Verb count=NULL");
+        }
+
+    }
+
+/*
+
+    public LiveData<List<Verb>> getVerbs() {
         if (mObservableVerbs == null)
             mObservableVerbs = new MutableLiveData<>();
 
@@ -151,6 +196,7 @@ public class VerbRoomRepository {
 
         return verbList;
     }
+*/
 
 
     //region TASKS (STATIC INNER CLASSES)

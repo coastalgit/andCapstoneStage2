@@ -13,7 +13,6 @@
         android:id="@+id/appbar_learnmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -25,6 +24,13 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name">
+
+            <TextView
+                android:id="@+id/toolbar_learnmain_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/verbs"
+                android:gravity = "center" />
 
         </android.support.v7.widget.Toolbar>
 

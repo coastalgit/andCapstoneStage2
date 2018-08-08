@@ -30,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     private static final int CODE_TTS_CHECK = 100;
-    private BaseViewModel mViewModel;
+    protected BaseViewModel mViewModel;
 
     //protected ColourPalette mPalette;
     protected TextToSpeech mTTS;
@@ -162,6 +162,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mTTS != null){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mTTS.speak(ttsText, TextToSpeech.QUEUE_FLUSH, null, "utteranceId");
+
             }
             else{
                 // TODO: 03/08/2018

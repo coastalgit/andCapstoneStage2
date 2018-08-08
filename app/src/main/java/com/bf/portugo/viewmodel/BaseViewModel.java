@@ -18,11 +18,13 @@ public class BaseViewModel extends AndroidViewModel {
     private String TAG = BaseViewModel.class.getSimpleName();
 
     private boolean mHasCheckedForTTS;
+    private boolean mHasAlreadySpokenWelcome;
 
     public BaseViewModel(Application application) {
         super(application);
-        Log.d(TAG, "MainViewModel: CREATED");
+        Log.d(TAG, "BaseViewModel: CREATED");
         mHasCheckedForTTS = false;
+        mHasAlreadySpokenWelcome = false;
     }
 
     public boolean getHasCheckedForTTS() {
@@ -32,5 +34,14 @@ public class BaseViewModel extends AndroidViewModel {
     public void setHasCheckedForTTS(boolean mHasCheckedForTTS) {
         this.mHasCheckedForTTS = mHasCheckedForTTS;
     }
+
+    public boolean getHasAlreadySpokenWelcome() {
+        return mHasAlreadySpokenWelcome;
+    }
+
+    public void setHasAlreadySpokenWelcome(boolean mHasAlreadySpokenWelcome) {
+        this.mHasAlreadySpokenWelcome = mHasAlreadySpokenWelcome;
+    }
+
 
 }

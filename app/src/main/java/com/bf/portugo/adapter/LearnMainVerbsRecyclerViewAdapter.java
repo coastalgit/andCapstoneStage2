@@ -1,6 +1,7 @@
 package com.bf.portugo.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +15,21 @@ import com.bf.portugo.ui.fragment.LearnVerbItemsFragment;
 
 import java.util.List;
 
+import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
+
 public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<LearnMainVerbsRecyclerViewAdapter.VerbViewHolder> {
 
     private final Context mContext;
     private List<Verb> mVerbs;
     private final LearnVerbItemsFragment.OnLearnVerbFragmentInteractionListener mListener;
+    private Typeface mFont;
 
     //public LearnMainVerbsRecyclerViewAdapter(Context mContext, List<Verb> verbs, OnListFragmentInteractionListener listener) {
     public LearnMainVerbsRecyclerViewAdapter(Context mContext, LearnVerbItemsFragment.OnLearnVerbFragmentInteractionListener listener) {
         this.mContext = mContext;
         //mVerbs = verbs;
         mListener = listener;
+        mFont = Typeface.createFromAsset(mContext.getAssets(), FONT_ITIM_REGULAR);
     }
 
     public void reloadAdapter(List<Verb> verbs){
@@ -73,7 +78,9 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
             super(view);
             mView = view;
             mTvVerb_PT = (TextView) view.findViewById(R.id.tv_learnmain_pt);
+            mTvVerb_PT.setTypeface(mFont);
             mTvVerb_EN = (TextView) view.findViewById(R.id.tv_learnmain_en);
+            mTvVerb_EN.setTypeface(mFont);
 
 //            itemView.setOnClickListener(view -> {
 //            int pos = getAdapterPosition();
