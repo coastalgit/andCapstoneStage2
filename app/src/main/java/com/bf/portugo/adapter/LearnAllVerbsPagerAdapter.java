@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class LearnAllVerbsPagerAdapter extends FragmentPagerAdapter {
 
+    private static int TABCOUNT = 2;
+
     public LearnAllVerbsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -22,6 +24,6 @@ public class LearnAllVerbsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return TABCOUNT;
     }
 }
