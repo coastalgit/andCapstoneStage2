@@ -11,6 +11,11 @@ public class Enums {
         PORTUGUESE {public String toString(){return "pt-PT";}}
     }
 
+    public enum VerbFilter{
+        ALL,
+        ESSENTIAL
+    }
+
     public enum VerbPrefix_EN{
         I {public String toString(){return "I";}},
         YOU {public String toString(){return "You";}},

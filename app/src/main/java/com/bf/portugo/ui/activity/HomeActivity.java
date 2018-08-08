@@ -124,4 +124,10 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_home_learn)
+    public void btnHomeLearn_onClick(Button btn){
+        Intent intent = new Intent(this, LearnMainActivity.class);
+        startActivity(intent);
+    }
+
 }

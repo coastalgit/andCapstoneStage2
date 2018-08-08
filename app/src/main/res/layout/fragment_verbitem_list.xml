@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--tools:context=".MainActivity$PlaceholderFragment"-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_learnmain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"/>
+
+</FrameLayout>
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +28,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
+
     tools:context=".ui.fragment.LearnVerbItemsFragment"
     tools:listitem="@layout/fragment_verbitem_main" />
+    &lt;!&ndash;app:layoutManager="LinearLayoutManager"&ndash;&gt;-->

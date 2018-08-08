@@ -15,8 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bf.portugo.R;
-import com.bf.portugo.factory.ColourPaletteFactory;
-import com.bf.portugo.util.ColourPalette;
+
 import com.bf.portugo.viewmodel.BaseViewModel;
 
 import java.util.Locale;
@@ -33,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final int CODE_TTS_CHECK = 100;
     private BaseViewModel mViewModel;
 
-    protected ColourPalette mPalette;
+    //protected ColourPalette mPalette;
     protected TextToSpeech mTTS;
 
     private int mTTSResult;
@@ -68,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this).get(BaseViewModel.class);
 
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mPalette = ColourPaletteFactory.createPalette(getResources());
+        //mPalette = ColourPaletteFactory.createPalette(getResources());
         //attachPresenterBase();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEditor = mPrefs.edit();

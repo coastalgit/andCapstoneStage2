@@ -73,7 +73,7 @@ public class Verb {
     private String sample_3_en;
 
     //region CONSTRUCTORS
-    //public Verb() {} // empty CTR for Firebase
+    public Verb() {} // empty CTR for Firebase
 
     /**
      *

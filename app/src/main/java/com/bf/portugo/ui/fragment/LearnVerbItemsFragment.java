@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
+import com.bf.portugo.data.VerbStockData;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.dummy.DummyContent;
-
+import static com.bf.portugo.common.Enums.*;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,9 +27,12 @@ public class LearnVerbItemsFragment extends Fragment{
 
     private static final String TAG = LearnVerbItemsFragment.class.getSimpleName();
 
+
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
+    //private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String KEY_VERBFILTER = "key_verbfilter";
+    //private int mColumnCount = 1;
+    private VerbFilter mVerbFilter = VerbFilter.ALL;
 
     private OnLearnVerbFragmentInteractionListener mListener;
     private LearnMainVerbsRecyclerViewAdapter mVerbsAdapter;
@@ -56,11 +60,11 @@ public class LearnVerbItemsFragment extends Fragment{
     }
 */
 
-    public static LearnVerbItemsFragment newInstance() {
+    public static LearnVerbItemsFragment newInstance(VerbFilter verbFilter) {
         LearnVerbItemsFragment fragment = new LearnVerbItemsFragment();
-        //Bundle args = new Bundle();
-        //args.putInt(ARG_COLUMN_COUNT, columnCount);
-        //fragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_VERBFILTER, verbFilter);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -68,9 +72,9 @@ public class LearnVerbItemsFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (getArguments() != null) {
-//            mColumnCount = getArguments().getliInt(ARG_COLUMN_COUNT);
-//        }
+        if (getArguments() != null) {
+            mVerbFilter = (VerbFilter) getArguments().getSerializable(KEY_VERBFILTER);
+        }
     }
 
     @Override

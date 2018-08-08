@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bf.portugo.common.Constants;
-import com.bf.portugo.common.Enums;
 import com.bf.portugo.data.FirebaseDataSource;
 import com.bf.portugo.data.IVerbDataSource;
 import com.bf.portugo.data.VerbDao;
@@ -16,20 +15,30 @@ import com.bf.portugo.model.Verb;
 
 import java.util.List;
 
+import static com.bf.portugo.common.Enums.*;
+
 /*
  * @author frielb
  * Created on 03/08/2018
  */
+@SuppressWarnings({"Convert2MethodRef", "SpellCheckingInspection"})
 public class VerbRoomRepository {
-    public static final String TAG = VerbRoomRepository.class.getSimpleName();
+    private static final String TAG = VerbRoomRepository.class.getSimpleName();
 
+/*
     public static enum VerbFilter{
         ALL,
         ESSENTIAL
     }
+*/
 
-    private VerbDatabase mDb_Verb;
-    private VerbDao mDao_Verb;
+    interface IAsyncTaskComplete{
+        void doRefresh();
+    }
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final VerbDatabase mDb_Verb;
+    private final VerbDao mDao_Verb;
     private LiveData<List<Verb>> mObservableVerbs;
     private LiveData<List<Verb>> mObservableVerbsEssential;
 
@@ -51,15 +60,17 @@ public class VerbRoomRepository {
             dataSource.fetchVerbItems(new IVerbDataSource.verbDataSourceListener() {
                 @Override
                 public void onSuccess(List<Verb> verbs) {
-                    Log.d(TAG, "onSuccess: Verb count=" + String.valueOf(getRecordCount(mObservableVerbs)) + " DS COUNT=" + String.valueOf(verbs.size()));
-
-                    //refresh local db
-                    new deleteAllTask(mDao_Verb).execute();
-                    new insertBatchTask(mDao_Verb).execute(verbs);
+                    if (verbs != null) {
+                        Log.d(TAG, "onSuccess: Verb count=" + String.valueOf(getRecordCount(mObservableVerbs)) + " DS COUNT=" + String.valueOf(verbs.size()));
+                        //refresh local db
+                        new deleteAllTask(mDao_Verb, () -> refreshLiveDataSets()).execute();
+                        //new insertBatchTask(mDao_Verb, () -> refreshLiveDataSets()).execute(verbs);
+                        new insertBatchTask(mDao_Verb, verbs, () -> refreshLiveDataSets()).execute();
+                    }
                 }
 
                 @Override
-                public void onError(Enums.ErrorCode errorCode, String errorMsg) {
+                public void onError(ErrorCode errorCode, String errorMsg) {
                     // TODO: 03/08/2018
                 }
             });
@@ -69,7 +80,7 @@ public class VerbRoomRepository {
     public void deleteAllRoomDbRecs(){
         int recCount = getRecordCount(mObservableVerbs);
         Log.d(TAG, "deleteAllRoomDbRecs: COUNT="+String.valueOf(recCount));
-        new deleteAllTask(mDao_Verb).execute();
+        new deleteAllTask(mDao_Verb, () -> refreshLiveDataSets()).execute();
     }
 
     public void subscribeToChildUpdates(FirebaseDataSource dataSource){
@@ -77,18 +88,18 @@ public class VerbRoomRepository {
             dataSource.attachChildListener(new FirebaseDataSource.IVerbChildEvent() {
                @Override
                public void onVerbAdded(Verb verb) {
-                   new insertTask(mDao_Verb).execute(verb);
+                   new insertTask(mDao_Verb, () -> refreshLiveDataSets()).execute(verb);
                }
 
                @Override
                public void onVerbChanged(Verb verb) {
                    // Replace on conflict
-                   new insertTask(mDao_Verb).execute(verb);
+                   new insertTask(mDao_Verb, () -> refreshLiveDataSets()).execute(verb);
                }
 
                @Override
                public void onVerbDeleted(Verb verb) {
-                   new deleteItemTask(mDao_Verb).execute(verb);
+                   new deleteItemTask(mDao_Verb,  () -> refreshLiveDataSets()).execute(verb);
                }
            });
         }
@@ -100,8 +111,10 @@ public class VerbRoomRepository {
     }
 
     private void refreshLiveDataSets(){
-        Log.d(TAG, "refreshLiveDataSets: Count (All)="+String.valueOf(getRecordCount(getVerbs())));
-        Log.d(TAG, "refreshLiveDataSets: Count (Essential)="+String.valueOf(getRecordCount(getVerbsEssential())));
+        int countAll = getRecordCount(getVerbs());
+        Log.d(TAG, "refreshLiveDataSets: Count (All)="+String.valueOf(countAll));
+        int countEss = getRecordCount(getVerbsEssential());
+        Log.d(TAG, "refreshLiveDataSets: Count (Essential)="+String.valueOf(countEss));
     }
 
     public LiveData<List<Verb>> getVerbs() {
@@ -140,20 +153,24 @@ public class VerbRoomRepository {
     }
 
 
-    //region TASKS
+    //region TASKS (STATIC INNER CLASSES)
 
-    private class insertTask extends AsyncTask<Verb, Void, Void> {
+    private static class insertTask extends AsyncTask<Verb, Void, Void> {
 
-        private VerbDao mTaskDao;
+        private final VerbDao mTaskDao;
+        private final IAsyncTaskComplete mListener;
 
-        insertTask(VerbDao dao) {
+        insertTask(VerbDao dao, IAsyncTaskComplete listener) {
             mTaskDao = dao;
+            mListener = listener;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            refreshLiveDataSets();
+            //refreshLiveDataSets();
+            if (mListener != null)
+                mListener.doRefresh();
         }
 
         @Override
@@ -163,45 +180,120 @@ public class VerbRoomRepository {
         }
     }
 
-    private class insertBatchTask extends AsyncTask<List<Verb>, Void, Void> {
+    //Unchecked generics array warning
+    //private static class insertBatchTask extends AsyncTask<List<Verb>, Void, Void> {
+    private static class insertBatchTask extends AsyncTask<Void, Void, Void> {
 
-        private VerbDao mTaskDao;
+        private final VerbDao mTaskDao;
         private int mCounter;
+        private final IAsyncTaskComplete mListener;
+        private final List<Verb> mVerbList;
 
-        insertBatchTask(VerbDao dao) {
+        insertBatchTask(VerbDao dao, List<Verb> verbList, IAsyncTaskComplete listener) {
             mTaskDao = dao;
+            mVerbList = verbList;
+            mListener = listener;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.d(TAG, "onPostExecute: Inserted count="+String.valueOf(mCounter));
-            refreshLiveDataSets();        }
+            Log.d(TAG, "onPostExecute: Inserted count=" + String.valueOf(mCounter));
+            //refreshLiveDataSets();        }
+            if (mListener != null)
+                mListener.doRefresh();
+        }
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(List<Verb>... lists) {
+        protected final Void doInBackground(Void... voids) {
             mCounter = 0;
-            List<Verb> vList = lists[0];
+/*
+            List<Verb> vList = (List<Verb>) lists[0];
             for (Verb v : vList) {
                 mTaskDao.insertVerbItem(v);
                 mCounter++;
             }
+*/
+            if (mVerbList != null){
+                for (Verb v : mVerbList) {
+                    mTaskDao.insertVerbItem(v);
+                    mCounter++;
+                }
+            }
+
             return null;
         }
     }
 
-    private class deleteAllTask extends AsyncTask<Void, Void, Void> {
+/*
+    //Unchecked generics array warning
+    //private static class insertBatchTask extends AsyncTask<List<Verb>, Void, Void> {
+    private static class insertBatchTask extends AsyncTask<Object, Void, Void> {
 
-        private VerbDao mTaskDao;
+        private final VerbDao mTaskDao;
+        private int mCounter;
+        private final IAsyncTaskComplete mListener;
 
-        deleteAllTask(VerbDao dao) {
+        insertBatchTask(VerbDao dao, IAsyncTaskComplete listener) {
             mTaskDao = dao;
+            mListener = listener;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            refreshLiveDataSets();
+            Log.d(TAG, "onPostExecute: Inserted count=" + String.valueOf(mCounter));
+            //refreshLiveDataSets();        }
+            if (mListener != null)
+                mListener.doRefresh();
+        }
+
+        @SafeVarargs
+        @Override
+        //protected final Void doInBackground(List<Verb>... lists) {
+        protected final Void doInBackground(Object... lists) {
+            mCounter = 0;
+*/
+/*
+            List<Verb> vList = (List<Verb>) lists[0];
+            for (Verb v : vList) {
+                mTaskDao.insertVerbItem(v);
+                mCounter++;
+            }
+*//*
+
+
+            for (Object obj : lists){
+                if (obj instanceof List){
+                    List<Verb> vList = (List<Verb>) obj;
+                    for (Verb v : vList) {
+                        mTaskDao.insertVerbItem(v);
+                        mCounter++;
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
+*/
+
+    private static class deleteAllTask extends AsyncTask<Void, Void, Void> {
+
+        private final VerbDao mTaskDao;
+        private final IAsyncTaskComplete mListener;
+
+        deleteAllTask(VerbDao dao, IAsyncTaskComplete listener) {
+            mTaskDao = dao;
+            mListener = listener;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (mListener != null)
+                mListener.doRefresh();
         }
 
         @Override
@@ -211,17 +303,20 @@ public class VerbRoomRepository {
         }
     }
 
-    private class deleteItemTask extends AsyncTask<Verb, Void, Void> {
+    private static class deleteItemTask extends AsyncTask<Verb, Void, Void> {
 
-        private VerbDao mTaskDao;
+        private final VerbDao mTaskDao;
+        private final IAsyncTaskComplete mListener;
 
-        deleteItemTask(VerbDao dao) {
+        deleteItemTask(VerbDao dao, IAsyncTaskComplete listener) {
             mTaskDao = dao;
+            mListener = listener;
         }
 
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            refreshLiveDataSets();
+            if (mListener != null)
+                mListener.doRefresh();
         }
 
         @Override
