@@ -6,4 +6,8 @@
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
 
+    <dimen name="text_size_title">26sp</dimen>
+    <dimen name="text_size_mid">20sp</dimen>
+    <dimen name="text_size_card">16sp</dimen>
+
 </resources>

@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
+import com.bf.portugo.common.Enums;
 import com.bf.portugo.common.Enums.VerbTense;
+import com.bf.portugo.helper.VerbHelper;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.activity.LearnMainActivity;
 import com.bf.portugo.ui.activity.LearnVerbActivity;
@@ -22,6 +24,7 @@ import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LearnVerbFragment extends Fragment{
 
@@ -105,6 +108,19 @@ public class LearnVerbFragment extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_verbtenseitem, container, false);
         ButterKnife.bind(this, rootView);
+
+        mTvVerb_tense_I_pt.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_You_pt.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_HeShe_pt.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_We_pt.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_They_pt.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+
+        mTvVerb_tense_I_en.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_You_en.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_HeShe_en.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_We_en.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+        mTvVerb_tense_They_en.setTypeface(((LearnVerbActivity)getActivity()).getFont());
+
         populateVerbByTense();
 
         return rootView;
@@ -141,6 +157,12 @@ public class LearnVerbFragment extends Fragment{
                 break;
         }
 
+        mTvVerb_tense_I_en.setText(VerbHelper.buildEnglishString(getActivity(),mVerbTense, Enums.VerbPrefix_EN.I,verb));
+        mTvVerb_tense_You_en.setText(VerbHelper.buildEnglishString(getActivity(),mVerbTense, Enums.VerbPrefix_EN.YOU,verb));
+        mTvVerb_tense_HeShe_en.setText(VerbHelper.buildEnglishString(getActivity(),mVerbTense, Enums.VerbPrefix_EN.HESHE,verb));
+        mTvVerb_tense_We_en.setText(VerbHelper.buildEnglishString(getActivity(),mVerbTense, Enums.VerbPrefix_EN.WE,verb));
+        mTvVerb_tense_They_en.setText(VerbHelper.buildEnglishString(getActivity(),mVerbTense, Enums.VerbPrefix_EN.THEY,verb));
+
     }
 
 /*
@@ -160,5 +182,56 @@ public class LearnVerbFragment extends Fragment{
         mListener = null;
     }
 */
+
+/*
+    @BindView(R.id.tv_verbtense_you_pt)
+    TextView mTvVerb_tense_You_pt;
+    @BindView(R.id.tv_verbtense_you_en)
+    TextView mTvVerb_tense_You_en;
+
+    @BindView(R.id.tv_verbtense_heshe_pt)
+    TextView mTvVerb_tense_HeShe_pt;
+    @BindView(R.id.tv_verbtense_heshe_en)
+    TextView mTvVerb_tense_HeShe_en;
+
+    @BindView(R.id.tv_verbtense_we_pt)
+    TextView mTvVerb_tense_We_pt;
+    @BindView(R.id.tv_verbtense_we_en)
+    TextView mTvVerb_tense_We_en;
+
+    @BindView(R.id.tv_verbtense_they_pt)
+    TextView mTvVerb_tense_They_pt;
+    @BindView(R.id.tv_verbtense_they_en)
+    TextView mTvVerb_tense_They_en;
+*/
+
+    private void speakTTS(String ttsText){
+        ((LearnVerbActivity)getActivity()).handleTTSRequest(ttsText);
+    }
+
+    @OnClick(R.id.tv_verbtense_i_pt)
+    public void tv_I_onClick(TextView tv){
+        speakTTS(tv.getText().toString());
+    }
+
+    @OnClick(R.id.tv_verbtense_you_pt)
+    public void tv_You_onClick(TextView tv){
+        speakTTS(tv.getText().toString());
+    }
+
+    @OnClick(R.id.tv_verbtense_heshe_pt)
+    public void tv_HeShe_onClick(TextView tv){
+        speakTTS(tv.getText().toString());
+    }
+
+    @OnClick(R.id.tv_verbtense_we_pt)
+    public void tv_We_onClick(TextView tv){
+        speakTTS(tv.getText().toString());
+    }
+
+    @OnClick(R.id.tv_verbtense_they_pt)
+    public void tv_They_onClick(TextView tv){
+        speakTTS(tv.getText().toString());
+    }
 
 }

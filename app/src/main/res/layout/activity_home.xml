@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:text="@string/loading"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_mid"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

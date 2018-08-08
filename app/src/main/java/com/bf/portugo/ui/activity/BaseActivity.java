@@ -28,11 +28,9 @@ import java.util.Locale;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
-
     private static final int CODE_TTS_CHECK = 100;
-    protected BaseViewModel mViewModel;
 
-    //protected ColourPalette mPalette;
+    protected BaseViewModel mViewModel;
     protected TextToSpeech mTTS;
 
     private int mTTSResult;
@@ -47,18 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String PREFKEY_SCOREPREV = "k_scoreprev";
     private static final String PREFKEY_SCOREBEST = "k_scorebest";
 
-/*
-    public static void addFragment(FragmentManager fragmentManager,
-                                   Fragment fragment,
-                                   int frameId,
-                                   String tag) {
-
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(frameId, fragment, tag);
-        transaction.commit();
-    }
-*/
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEditor = mPrefs.edit();
 
-        if (!mViewModel.getHasCheckedForTTS())
+        //if (!mViewModel.getHasCheckedForTTS())
             initTTSEngine();
     }
 
@@ -193,6 +179,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void showDialogTTSAction() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Audio Feedback")
+                // TODO: 08/08/2018 lang
                 .setMessage("This app requires Text-To-Speech (TTS) functionality for the full user experience. /r/nPlease select the option below to install the Android TTS Portuguese Engine.")
                 .setPositiveButton(R.string.install_tts, new DialogInterface.OnClickListener() {
                     @Override

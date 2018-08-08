@@ -10,7 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
@@ -22,10 +24,11 @@ import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 
-public class LearnVerbActivity extends AppCompatActivity {
+public class LearnVerbActivity extends BaseActivity {
 
     private String TAG = LearnVerbActivity.class.getSimpleName();
 
@@ -101,8 +104,10 @@ public class LearnVerbActivity extends AppCompatActivity {
         buildTabViewPager();
     }
 
-    public LearnVerbViewModel getViewModel() {
-        return mViewModel;
+    @Override
+    protected void actionHasTTS(boolean hasTTS) {
+        //Toast.makeText(this, "BANG - "+String.valueOf(hasTTS), Toast.LENGTH_SHORT).show();
+        // TODO: 08/08/2018 Handle display of Audio available etc
     }
 
     private void buildTabViewPager(){
@@ -133,7 +138,40 @@ public class LearnVerbActivity extends AppCompatActivity {
         mTvVerb_pastpart_pt.setText(verb.getPast_part_pt());
         mTvVerb_pastpart_en.setTypeface(mFont);
         mTvVerb_pastpart_en.setText(verb.getPast_part_en());
-
-
     }
+
+    public void handleTTSRequest(String ttsText){
+        Log.d(TAG, "handleTTSRequest: TTS Text["+ttsText+"]");
+        if (getHasTTSEngine()){
+            doTTSSpeak(ttsText);
+        }
+        else{
+            Toast.makeText(this, "TODO - Handle TTS", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public LearnVerbViewModel getViewModel() {
+        return mViewModel;
+    }
+
+    public Typeface getFont() {
+        return mFont;
+    }
+
+    @OnClick(R.id.layout_toucharea)
+    public void layout_touchArea_onClick(LinearLayout area){
+        handleTTSRequest(mViewModel.getVerb().getWord_pt());
+    }
+
+    @OnClick(R.id.tv_learnverb_prespart_pt)
+    public void tv_presentParticiple_onClick(TextView tv){
+        handleTTSRequest(tv.getText().toString());
+    }
+
+    @OnClick(R.id.tv_learnverb_pastpart_pt)
+    public void tv_pastParticiple_onClick(TextView tv){
+        handleTTSRequest(tv.getText().toString());
+    }
+
+
 }

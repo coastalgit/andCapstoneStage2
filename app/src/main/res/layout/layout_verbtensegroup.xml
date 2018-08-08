@@ -34,6 +34,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/pt_i" />
 
                 <TextView
@@ -41,6 +43,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_en"
                     android:text="@string/en_i" />
 
             </LinearLayout>
@@ -56,6 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/pt_you"/>
 
                 <TextView
@@ -63,6 +69,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_en"
                     android:text="@string/en_you" />
 
             </LinearLayout>
@@ -78,6 +86,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/pt_heshe" />
 
                 <TextView
@@ -85,6 +95,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_en"
                     android:text="@string/en_heshe" />
 
             </LinearLayout>
@@ -100,6 +112,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/pt_we" />
 
                 <TextView
@@ -107,6 +121,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_en"
                     android:text="@string/en_we" />
 
             </LinearLayout>
@@ -122,6 +138,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/pt_they" />
 
                 <TextView
@@ -129,6 +147,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:textSize="@dimen/text_size_card"
+                    android:textColor="@color/colorVerbItem_en"
                     android:text="@string/en_they" />
 
             </LinearLayout>

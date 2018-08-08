@@ -28,13 +28,11 @@
                 android:value=".ui.activity.HomeActivity" />
         </activity>
         <activity
-            android:name=".ui.activity.LearnVerbActivity">
-<!--
+            android:name=".ui.activity.LearnVerbActivity"
             android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.HomeActivity" />
--->
+                android:value=".ui.activity.LearnMainActivity" />
         </activity>
 
         <activity android:name=".datacreation.DBFuncsActivity"></activity>

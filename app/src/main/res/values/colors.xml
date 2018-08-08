@@ -8,4 +8,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDGray">#47494D</color>
     <color name="colorDGray_opac">#ad47494d</color>
+
+    <color name="colorVerbItem_pt">#005005</color>
+    <color name="colorVerbItem_en">#47494D</color>
 </resources>
