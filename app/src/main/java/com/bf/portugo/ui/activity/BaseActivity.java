@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +21,8 @@ import com.bf.portugo.viewmodel.BaseViewModel;
 
 import java.util.Locale;
 
+import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
+
 
 /*
  * @author frielb
@@ -32,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected BaseViewModel mViewModel;
     protected TextToSpeech mTTS;
+    protected Typeface mFont;
 
     private int mTTSResult;
 
@@ -49,6 +53,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate (BASE)");
+
+        mFont = Typeface.createFromAsset(this.getAssets(), FONT_ITIM_REGULAR);
 
         mViewModel = ViewModelProviders.of(this).get(BaseViewModel.class);
 

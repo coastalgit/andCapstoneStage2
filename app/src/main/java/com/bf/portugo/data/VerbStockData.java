@@ -176,10 +176,10 @@ public class VerbStockData {
             "comerão",
             "Sempre comemos o jantar às sete.",
             "We always eat dinner at seven.",
-            "blahblah",
-            "blahblah",
-            "blahblah",
-            "blahblah"
+            "",
+            "",
+            "",
+            ""
     );
 
 /*
@@ -257,10 +257,10 @@ public class VerbStockData {
             "estiveram",
             "pXXX",
             "eXXX",
-            "blahblah",
-            "blahblah",
-            "blahblah",
-            "blahblah"
+            "",
+            "",
+            "",
+            ""
     );
 
     public static final Verb V_BE_PERM = new Verb(
@@ -295,10 +295,10 @@ public class VerbStockData {
             "serão",
             "pXXX",
             "eXXX",
-            "blahblah",
-            "blahblah",
-            "blahblah",
-            "blahblah"
+            "",
+            "",
+            "",
+            ""
     );
 
     public static final Verb V_DO = new Verb(
@@ -333,10 +333,10 @@ public class VerbStockData {
             "farão",
             "Eu já tinha feito o trabalho.",
             "I had already done the work.",
-            "blahblah",
-            "blahblah",
-            "blahblah",
-            "blahblah"
+            "",
+            "",
+            "",
+            ""
     );
 
     public static final Verb V_BRING = new Verb(
@@ -371,10 +371,10 @@ public class VerbStockData {
             "traráo",
             "pXXX",
             "eXXX",
-            "blahblah",
-            "blahblah",
-            "blahblah",
-            "blahblah"
+            "",
+            "",
+            "",
+            ""
     );
 
     public static final Verb V_BLAH = new Verb(
@@ -409,10 +409,10 @@ public class VerbStockData {
             "blah",
             "pXXX",
             "eXXX",
-            "blahblah",
-            "blahblah",
-            "blahblah",
-            "blahblah"
+            "",
+            "",
+            "",
+            ""
     );
 
     //endregion IRREGULAR

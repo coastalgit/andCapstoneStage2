@@ -1,8 +1,12 @@
 package com.bf.portugo.ui.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +23,7 @@ import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
 import com.bf.portugo.adapter.LearnVerbPagerAdapter;
 import com.bf.portugo.common.Constants;
 import com.bf.portugo.model.Verb;
+import com.bf.portugo.viewmodel.LearnSamplesViewModel;
 import com.bf.portugo.viewmodel.LearnVerbViewModel;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
 
@@ -41,7 +46,7 @@ public class LearnVerbActivity extends BaseActivity {
     private Fragment mFragmentVerbs_Present;
     private Fragment mFragmentVerbs_Future;
 
-    private Typeface mFont;
+    //private Typeface mFont;
     private Typeface mFontPhonetic;
 
     @BindView(R.id.toolbar_learnverb)
@@ -76,14 +81,14 @@ public class LearnVerbActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        mFont = Typeface.createFromAsset(this.getAssets(), FONT_ITIM_REGULAR);
+        //mFont = Typeface.createFromAsset(this.getAssets(), FONT_ITIM_REGULAR);
         mFontPhonetic = Typeface.createFromAsset(this.getAssets(), Constants.Fonts.FONT_DOULUS_PHONETIC);
 
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            //mToolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+            mToolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
 
 
@@ -158,6 +163,12 @@ public class LearnVerbActivity extends BaseActivity {
         return mFont;
     }
 
+    private void showLearnSamplesActivity(Verb verb){
+        Intent verbIntent = new Intent(this, LearnSamplesActivity.class);
+        verbIntent.putExtra(LearnSamplesActivity.KEY_VERB, verb);
+        startActivity(verbIntent);
+    }
+
     @OnClick(R.id.layout_toucharea)
     public void layout_touchArea_onClick(LinearLayout area){
         handleTTSRequest(mViewModel.getVerb().getWord_pt());
@@ -171,6 +182,11 @@ public class LearnVerbActivity extends BaseActivity {
     @OnClick(R.id.tv_learnverb_pastpart_pt)
     public void tv_pastParticiple_onClick(TextView tv){
         handleTTSRequest(tv.getText().toString());
+    }
+
+    @OnClick(R.id.fab_learnverb)
+    public void btnLearnSamples_onClick(FloatingActionButton fab){
+        showLearnSamplesActivity(getViewModel().getVerb());
     }
 
 

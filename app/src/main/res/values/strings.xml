@@ -23,5 +23,9 @@
     <string name="en_heshe">He/She/It</string>
     <string name="en_we">We</string>
     <string name="en_they">They</string>
+    <string name="press_a_word_to_listen">Press a word to listen</string>
 
+    <string name="sample1">Sample One</string>
+    <string name="sample2">Sample Two</string>
+    <string name="sample3">Sample Three</string>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    tools:context=".ui.activity.LearnSamplesActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_learnsamples"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/toolbar_learnsamples_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Examples"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_mid"
+                android:layout_gravity = "center" />
+            <!--style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"-->
+            <!--android:layout_marginRight="?attr/actionBarSize"-->
+        </android.support.v7.widget.Toolbar>
+
+    <include android:id="@+id/sample_1" layout="@layout/layout_verbsample"/>
+    <include android:id="@+id/sample_2" layout="@layout/layout_verbsample"/>
+    <include android:id="@+id/sample_3" layout="@layout/layout_verbsample"/>
+
+</LinearLayout>

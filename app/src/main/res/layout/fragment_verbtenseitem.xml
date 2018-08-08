@@ -13,6 +13,6 @@
         android:gravity="center_horizontal"
         android:textStyle="italic"
         android:textColor="@color/colorDGray"
-        android:text="Select to listen"/>
+        android:text="@string/press_a_word_to_listen"/>
 
 </LinearLayout>
