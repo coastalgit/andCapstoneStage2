@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/layout_card_verbtensegroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="6dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorPrimary"
+        card_view:elevation="8dp">
+
+
+        <LinearLayout
+            android:id="@+id/layout_vert_verbtensegroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_verbtense_i_pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/pt_i" />
+
+                <TextView
+                    android:id="@+id/tv_verbtense_i_en"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/en_i" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_verbtense_you_pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/pt_you"/>
+
+                <TextView
+                    android:id="@+id/tv_verbtense_you_en"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/en_you" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_verbtense_heshe_pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/pt_heshe" />
+
+                <TextView
+                    android:id="@+id/tv_verbtense_heshe_en"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/en_heshe" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_verbtense_we_pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/pt_we" />
+
+                <TextView
+                    android:id="@+id/tv_verbtense_we_en"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/en_we" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_verbtense_they_pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/pt_they" />
+
+                <TextView
+                    android:id="@+id/tv_verbtense_they_en"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/en_they" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+<!--
+        <RelativeLayout
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
+
+
+            <ImageView
+                android:id="@+id/iv_detail_movieposterimage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="fitEnd"
+                android:adjustViewBounds="true"
+                android:contentDescription="Poster image"
+                tools:ignore="HardcodedText" />
+
+        </RelativeLayout>
+-->
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

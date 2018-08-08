@@ -18,20 +18,22 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_learnmain"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/app_name">
-
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+<!--            app:layout_scrollFlags="scroll|enterAlways"-->
             <TextView
                 android:id="@+id/toolbar_learnmain_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/verbs"
-                android:gravity = "center" />
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
 
+                android:layout_gravity = "center" />
+            <!--style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"-->
+            <!--android:layout_marginRight="?attr/actionBarSize"-->
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

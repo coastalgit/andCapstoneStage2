@@ -4,13 +4,15 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /*
  * @author frielb
  * Created on 31/07/2018
  */
 
 @Entity
-public class Verb {
+public class Verb implements Serializable {
 
     @PrimaryKey
     @NonNull

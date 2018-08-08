@@ -8,4 +8,20 @@
     <string name="all">All</string>
     <string name="essential">Essential</string>
     <string name="verbs">Verbs</string>
+    <string name="past">Past</string>
+    <string name="present">Present</string>
+    <string name="future">Future</string>
+
+    <string name="pt_i">Eu</string>
+    <string name="pt_you">Tu</string>
+    <string name="pt_heshe">Ele/Ela/Vocé</string>
+    <string name="pt_we">Nós</string>
+    <string name="pt_they">Eles/Elas/Vocés</string>
+
+    <string name="en_i">I</string>
+    <string name="en_you">You</string>
+    <string name="en_heshe">He/She/It</string>
+    <string name="en_we">We</string>
+    <string name="en_they">They</string>
+
 </resources>

@@ -6,17 +6,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.bf.portugo.common.Enums;
 import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
+import com.bf.portugo.ui.fragment.LearnVerbFragment;
 
 
 /*
  * @author frielb
  * Created on 07/08/2018
  */
-public class LearnMainVerbsPagerAdapter extends FragmentPagerAdapter {
+public class LearnVerbPagerAdapter extends FragmentPagerAdapter {
 
-    private static int TABCOUNT = 2;
+    private static int TABCOUNT = 3;
 
-    public LearnMainVerbsPagerAdapter(FragmentManager fm) {
+    public LearnVerbPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -29,10 +30,13 @@ public class LearnMainVerbsPagerAdapter extends FragmentPagerAdapter {
         Fragment frag = null;
         switch (position){
             case 0:
-                frag = LearnMainVerbsFragment.newInstance(Enums.VerbFilter.ESSENTIAL);
+                frag = LearnVerbFragment.newInstance(Enums.VerbTense.PAST);
                 break;
             case 1:
-                frag = LearnMainVerbsFragment.newInstance(Enums.VerbFilter.ALL);
+                frag = LearnVerbFragment.newInstance(Enums.VerbTense.PRESENT);
+                break;
+            case 2:
+                frag = LearnVerbFragment.newInstance(Enums.VerbTense.FUTURE);
                 break;
         }
         return frag;

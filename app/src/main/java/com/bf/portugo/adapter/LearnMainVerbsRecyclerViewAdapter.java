@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bf.portugo.R;
 import com.bf.portugo.model.Verb;
-import com.bf.portugo.ui.fragment.LearnVerbItemsFragment;
+import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
 
 
 import java.util.List;
@@ -21,11 +21,11 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
 
     private final Context mContext;
     private List<Verb> mVerbs;
-    private final LearnVerbItemsFragment.OnLearnVerbFragmentInteractionListener mListener;
+    private final LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener mListener;
     private Typeface mFont;
 
     //public LearnMainVerbsRecyclerViewAdapter(Context mContext, List<Verb> verbs, OnListFragmentInteractionListener listener) {
-    public LearnMainVerbsRecyclerViewAdapter(Context mContext, LearnVerbItemsFragment.OnLearnVerbFragmentInteractionListener listener) {
+    public LearnMainVerbsRecyclerViewAdapter(Context mContext, LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener listener) {
         this.mContext = mContext;
         //mVerbs = verbs;
         mListener = listener;
@@ -40,7 +40,7 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
     @Override
     public VerbViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_verbitem_main, parent, false);
+                .inflate(R.layout.fragment_mainverbitem, parent, false);
         return new VerbViewHolder(view);
     }
 
@@ -77,9 +77,9 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
         public VerbViewHolder(View view) {
             super(view);
             mView = view;
-            mTvVerb_PT = (TextView) view.findViewById(R.id.tv_learnmain_pt);
+            mTvVerb_PT = (TextView) view.findViewById(R.id.tv_mainverb_pt);
             mTvVerb_PT.setTypeface(mFont);
-            mTvVerb_EN = (TextView) view.findViewById(R.id.tv_learnmain_en);
+            mTvVerb_EN = (TextView) view.findViewById(R.id.tv_mainverb_en);
             mTvVerb_EN.setTypeface(mFont);
 
 //            itemView.setOnClickListener(view -> {

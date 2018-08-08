@@ -29,6 +29,6 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
 
-    tools:context=".ui.fragment.LearnVerbItemsFragment"
-    tools:listitem="@layout/fragment_verbitem_main" />
+    tools:context=".ui.fragment.LearnMainVerbsFragment"
+    tools:listitem="@layout/fragment_mainverbitem" />
     &lt;!&ndash;app:layoutManager="LinearLayoutManager"&ndash;&gt;-->

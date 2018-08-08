@@ -11,6 +11,8 @@ public class Constants {
     public class Fonts {
         public static final String FONT_ITIM_REGULAR = "Itim-Regular.ttf";
         public static final String FONT_LOBSTER_REGULAR = "Lobster-Regular.ttf";
+        public static final String FONT_DOULUS_PHONETIC = "DoulosSIL-R.ttf";
+
     }
 
 }

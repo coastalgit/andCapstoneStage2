@@ -16,6 +16,12 @@ public class Enums {
         ESSENTIAL
     }
 
+    public enum VerbTense{
+        PAST,
+        PRESENT,
+        FUTURE
+    }
+
     public enum VerbPrefix_EN{
         I {public String toString(){return "I";}},
         YOU {public String toString(){return "You";}},

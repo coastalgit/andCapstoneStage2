@@ -1,12 +1,10 @@
 package com.bf.portugo.ui.fragment;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,10 +14,8 @@ import android.view.ViewGroup;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
-import com.bf.portugo.data.VerbStockData;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.activity.LearnMainActivity;
-import com.bf.portugo.ui.dummy.DummyContent;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
 
 import static com.bf.portugo.common.Enums.*;
@@ -28,9 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LearnVerbItemsFragment extends Fragment{
+public class LearnMainVerbsFragment extends Fragment{
 
-    private static final String TAG = LearnVerbItemsFragment.class.getSimpleName();
+    private static final String TAG = LearnMainVerbsFragment.class.getSimpleName();
 
 
     // TODO: Customize parameter argument names
@@ -39,25 +35,25 @@ public class LearnVerbItemsFragment extends Fragment{
     //private int mColumnCount = 1;
     private VerbFilter mVerbFilter = VerbFilter.ALL;
 
-    private OnLearnVerbFragmentInteractionListener mListener;
+    private OnLearnMainVerbFragmentInteractionListener mListener;
     private LearnMainVerbsRecyclerViewAdapter mVerbsAdapter;
 
     @BindView(R.id.recyclerview_learnmain)
     RecyclerView mRecyclerViewVerbs;
 
-    public interface OnLearnVerbFragmentInteractionListener {
+    public interface OnLearnMainVerbFragmentInteractionListener {
         void onVerbItemClick(Verb verbItem);
     }
 
-    public LearnVerbItemsFragment() {
+    public LearnMainVerbsFragment() {
     // Mandatory empty public constructor
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
 /*
-    public static LearnVerbItemsFragment newInstance(int columnCount) {
-        LearnVerbItemsFragment fragment = new LearnVerbItemsFragment();
+    public static LearnMainVerbsFragment newInstance(int columnCount) {
+        LearnMainVerbsFragment fragment = new LearnMainVerbsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -65,8 +61,8 @@ public class LearnVerbItemsFragment extends Fragment{
     }
 */
 
-    public static LearnVerbItemsFragment newInstance(VerbFilter verbFilter) {
-        LearnVerbItemsFragment fragment = new LearnVerbItemsFragment();
+    public static LearnMainVerbsFragment newInstance(VerbFilter verbFilter) {
+        LearnMainVerbsFragment fragment = new LearnMainVerbsFragment();
         Bundle args = new Bundle();
         args.putSerializable(KEY_VERBFILTER, verbFilter);
         fragment.setArguments(args);
@@ -85,12 +81,14 @@ public class LearnVerbItemsFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_verbitem_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_mainverbitems_list, container, false);
         ButterKnife.bind(this, rootView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerViewVerbs.setLayoutManager(linearLayoutManager);
         mRecyclerViewVerbs.setHasFixedSize(true);
+
+
         mVerbsAdapter = new LearnMainVerbsRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerViewVerbs.setAdapter(mVerbsAdapter);
         subscribeUI();
@@ -145,8 +143,8 @@ public class LearnVerbItemsFragment extends Fragment{
     public void onAttach(Context context) {
         Log.d(TAG, "onAttach: ");
         super.onAttach(context);
-        if (context instanceof OnLearnVerbFragmentInteractionListener) {
-            mListener = (OnLearnVerbFragmentInteractionListener) context;
+        if (context instanceof OnLearnMainVerbFragmentInteractionListener) {
+            mListener = (OnLearnMainVerbFragmentInteractionListener) context;
         }
     }
 

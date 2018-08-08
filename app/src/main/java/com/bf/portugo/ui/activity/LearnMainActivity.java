@@ -1,10 +1,7 @@
 package com.bf.portugo.ui.activity;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.support.annotation.Nullable;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,28 +13,31 @@ import android.util.Log;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
-import com.bf.portugo.ui.fragment.LearnVerbItemsFragment;
+import com.bf.portugo.model.Verb;
+import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LearnMainActivity extends AppCompatActivity {
+public class LearnMainActivity extends AppCompatActivity implements LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener {
 
     private String TAG = LearnMainActivity.class.getSimpleName();
 
+/*
     private static final String FRAGMENT_VERBS_ALL = "key_verbs_all";
     private static final String FRAGMENT_VERBS_ALL_TAG = "key_verbs_all_tag";
     private static final String FRAGMENT_VERBS_ESSENTIAL = "key_verbs_essen";
     private static final String FRAGMENT_VERBS_ESSENTIAL_TAG = "key_verbs_essen_tag";
+*/
 
     private LearnVerbsMainViewModel mViewModel;
 
     private FragmentManager mFragmentManager;
+/*
     private Fragment mFragmentVerbs_All;
     private Fragment mFragmentVerbs_Essential;
+*/
 
     @BindView(R.id.toolbar_learnmain)
     Toolbar mToolbar;
@@ -47,7 +47,6 @@ public class LearnMainActivity extends AppCompatActivity {
 
     @BindView(R.id.tabs_learnmain)
     TabLayout mTabLayout;
-
 
 
     @Override
@@ -96,10 +95,10 @@ public class LearnMainActivity extends AppCompatActivity {
         else{
             switch (fragTag){
                 case FRAGMENT_VERBS_ESSENTIAL:
-                    frag = mFragmentVerbs_Essential = LearnVerbItemsFragment.newInstance();
+                    frag = mFragmentVerbs_Essential = LearnMainVerbsFragment.newInstance();
                     break;
                 case FRAGMENT_VERBS_ALL:
-                    frag = mFragmentVerbs_All = LearnVerbItemsFragment.newInstance();
+                    frag = mFragmentVerbs_All = LearnMainVerbsFragment.newInstance();
                     break;
             }
             mFragmentManager.beginTransaction()
@@ -141,4 +140,15 @@ public class LearnMainActivity extends AppCompatActivity {
 */
     }
 
+    private void showLearnVerbActivity(Verb verb){
+        Intent verbIntent = new Intent(this, LearnVerbActivity.class);
+        verbIntent.putExtra(LearnVerbActivity.KEY_VERB, verb);
+        startActivity(verbIntent);
+    }
+
+    @Override
+    public void onVerbItemClick(Verb verbItem) {
+        Log.d(TAG, "onVerbItemClick: verb["+verbItem.getWord_pt()+"]");
+        showLearnVerbActivity(verbItem);
+    }
 }
