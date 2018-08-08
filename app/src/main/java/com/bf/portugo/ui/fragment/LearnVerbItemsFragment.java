@@ -1,8 +1,10 @@
 package com.bf.portugo.ui.fragment;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +18,10 @@ import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
 import com.bf.portugo.data.VerbStockData;
 import com.bf.portugo.model.Verb;
+import com.bf.portugo.ui.activity.LearnMainActivity;
 import com.bf.portugo.ui.dummy.DummyContent;
+import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
+
 import static com.bf.portugo.common.Enums.*;
 import java.util.List;
 
@@ -88,7 +93,7 @@ public class LearnVerbItemsFragment extends Fragment{
         mRecyclerViewVerbs.setHasFixedSize(true);
         mVerbsAdapter = new LearnMainVerbsRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerViewVerbs.setAdapter(mVerbsAdapter);
-
+        subscribeUI();
 /*
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -105,6 +110,36 @@ public class LearnVerbItemsFragment extends Fragment{
         return rootView;
     }
 
+
+    private void subscribeUI(){
+        LearnVerbsMainViewModel vm = ((LearnMainActivity)getActivity()).getViewModel();
+
+        if (mVerbFilter == VerbFilter.ESSENTIAL){
+            vm.getObservableVerbsEssential().observe(this, new Observer<List<Verb>>() {
+                @Override
+                public void onChanged(@Nullable List<Verb> verbs) {
+                    Log.d(TAG, "onChanged(ESS):");
+                    if ((verbs != null) && (verbs.size() > 0)) {
+                        Log.d(TAG, "onChanged(ESS): wordset="+String.valueOf(verbs.size()));
+                    }
+                    mVerbsAdapter.reloadAdapter(verbs);
+                }
+            });
+        }
+        else{
+            vm.getObservableVerbsAll().observe(this, new Observer<List<Verb>>() {
+                @Override
+                public void onChanged(@Nullable List<Verb> verbs) {
+                    Log.d(TAG, "onChanged(ALL):");
+                    if ((verbs != null) && (verbs.size() > 0)) {
+                        Log.d(TAG, "onChanged(ALL): wordset="+String.valueOf(verbs.size()));
+                    }
+                    mVerbsAdapter.reloadAdapter(verbs);
+                }
+            });
+        }
+
+    }
 
     @Override
     public void onAttach(Context context) {

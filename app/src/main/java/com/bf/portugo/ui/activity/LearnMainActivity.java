@@ -1,8 +1,10 @@
 package com.bf.portugo.ui.activity;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +18,8 @@ import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
 import com.bf.portugo.ui.fragment.LearnVerbItemsFragment;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +69,8 @@ public class LearnMainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         buildTabViewPager();
 
+        // TODO: 08/08/2018 Check connectivity and Room content (for offline)
+        mViewModel.subscribeToChildUpdates();
 
 //        if (savedInstanceState == null) {
 //            Log.d(TAG, "onCreate: NO INSTANCE");
@@ -102,6 +108,10 @@ public class LearnMainActivity extends AppCompatActivity {
         }
     }
 */
+
+    public LearnVerbsMainViewModel getViewModel() {
+        return mViewModel;
+    }
 
     private void buildTabViewPager(){
         //mDetailsSectionsPagerAdapter = new DetailSectionsPagerAdapter(getSupportFragmentManager(), Details2Activity.this);
