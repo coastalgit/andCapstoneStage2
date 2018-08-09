@@ -1,10 +1,8 @@
 package com.bf.portugo.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +13,10 @@ import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
 import com.bf.portugo.common.Enums;
 import com.bf.portugo.common.Enums.VerbTense;
-import com.bf.portugo.helper.VerbHelper;
+import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.model.Verb;
-import com.bf.portugo.ui.activity.LearnMainActivity;
 import com.bf.portugo.ui.activity.LearnVerbActivity;
 import com.bf.portugo.viewmodel.LearnVerbViewModel;
-import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

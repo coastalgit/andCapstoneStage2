@@ -11,11 +11,16 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         card_view:cardUseCompatPadding="true"
+        card_view:cardPreventCornerOverlap="false"
         card_view:cardCornerRadius="6dp"
         android:animateLayoutChanges="true"
         android:background="@color/colorGlobalBG"
-        card_view:elevation="@dimen/global_elevation">
-
+        card_view:cardElevation="@dimen/card_elevation">
+        <!--card_view:elevation="@dimen/global_elevation"-->
+<!--
+        android:layout_marginTop="-4dp"
+        android:layout_marginBottom="-4dp"
+-->
 
         <LinearLayout
             android:layout_width="match_parent"

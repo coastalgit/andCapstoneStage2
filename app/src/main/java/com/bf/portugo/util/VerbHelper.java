@@ -1,4 +1,4 @@
-package com.bf.portugo.helper;
+package com.bf.portugo.util;
 
 import android.content.Context;
 
@@ -6,11 +6,15 @@ import com.bf.portugo.R;
 import com.bf.portugo.common.Enums;
 import com.bf.portugo.model.Verb;
 
+import java.util.List;
+import java.util.Random;
+
 /*
  * @author frielb
  * Created on 08/08/2018
  */
 public class VerbHelper {
+
     public static String buildEnglishString(Context context, Enums.VerbTense tense, Enums.VerbPrefix_EN prefix, Verb verb){
 
         String sI = context.getResources().getString(R.string.en_i);
@@ -68,5 +72,15 @@ public class VerbHelper {
             default:
                 return "-";
         }
+    }
+
+    public static Verb getRandomVerb(List<Verb> allverbs){
+
+        if (allverbs != null && allverbs.size() > 0)
+            return null;
+
+        Random random = new Random();
+        int indexer = random.nextInt(allverbs.size());
+        return allverbs.get(indexer);
     }
 }

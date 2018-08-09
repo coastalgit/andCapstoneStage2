@@ -42,6 +42,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs_learnmain"
             android:layout_width="match_parent"
+            android:elevation="@dimen/global_elevation"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TabItem
