@@ -23,6 +23,7 @@ public class LearnVerbViewModel extends ViewModel {
     private String TAG = LearnVerbViewModel.class.getSimpleName();
 
     private Verb mVerb;
+    private int mTabPosition;
 
     public Verb getVerb() {
         return mVerb;
@@ -30,6 +31,14 @@ public class LearnVerbViewModel extends ViewModel {
 
     public void setVerb(Verb mVerb) {
         this.mVerb = mVerb;
+    }
+
+    public int getTabPosition() {
+        return mTabPosition;
+    }
+
+    public void setTabPosition(int mTabPosition) {
+        this.mTabPosition = mTabPosition;
     }
 
 }

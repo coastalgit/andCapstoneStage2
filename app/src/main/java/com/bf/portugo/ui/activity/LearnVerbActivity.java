@@ -38,13 +38,13 @@ public class LearnVerbActivity extends BaseActivity {
     private String TAG = LearnVerbActivity.class.getSimpleName();
 
     public final static String KEY_VERB = "key_verb";
+    private static int TAB_INDEX_PAST = 0;
+    private static int TAB_INDEX_PRESENT = 1;
+    private static int TAB_INDEX_FUTURE = 2;
 
     private LearnVerbViewModel mViewModel;
 
     private FragmentManager mFragmentManager;
-    private Fragment mFragmentVerbs_Past;
-    private Fragment mFragmentVerbs_Present;
-    private Fragment mFragmentVerbs_Future;
 
     //private Typeface mFont;
     private Typeface mFontPhonetic;
@@ -99,6 +99,7 @@ public class LearnVerbActivity extends BaseActivity {
                 mViewModel.setVerb((Verb) getIntent().getSerializableExtra(KEY_VERB));
                 Log.d(TAG, "onCreate: Has INTENT. Verb is "+mViewModel.getVerb()==null?"NULL":"NOT NULL");
             }
+            mViewModel.setTabPosition(TAB_INDEX_PRESENT);
         }
         else
             Log.d(TAG, "onCreate: VM has verb");
@@ -106,7 +107,7 @@ public class LearnVerbActivity extends BaseActivity {
         populateVerbInfo(mViewModel.getVerb());
 
         mFragmentManager = getSupportFragmentManager();
-        buildTabViewPager();
+        buildTabViewPager(mViewModel.getTabPosition());
     }
 
     @Override
@@ -115,13 +116,31 @@ public class LearnVerbActivity extends BaseActivity {
         // TODO: 08/08/2018 Handle display of Audio available etc
     }
 
-    private void buildTabViewPager(){
+    private void buildTabViewPager(int tabPosition){
         //mDetailsSectionsPagerAdapter = new DetailSectionsPagerAdapter(getSupportFragmentManager(), Details2Activity.this);
         LearnVerbPagerAdapter mPagerAdapter = new LearnVerbPagerAdapter(mFragmentManager);
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabSelected: index="+String.valueOf(tab.getPosition()));
+                mViewModel.setTabPosition(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        mViewPager.setCurrentItem(mViewModel.getTabPosition());
     }
 
     private void populateVerbInfo(Verb verb){
@@ -169,10 +188,18 @@ public class LearnVerbActivity extends BaseActivity {
         startActivity(verbIntent);
     }
 
+/*
     @OnClick(R.id.layout_toucharea)
     public void layout_touchArea_onClick(LinearLayout area){
         handleTTSRequest(mViewModel.getVerb().getWord_pt());
     }
+*/
+
+    @OnClick(R.id.fab_verb_play)
+    public void fab_verb_play(FloatingActionButton fab){
+        handleTTSRequest(mViewModel.getVerb().getWord_pt());
+    }
+
 
     @OnClick(R.id.tv_learnverb_prespart_pt)
     public void tv_presentParticiple_onClick(TextView tv){
