@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">8dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="appbar_padding_top">12dp</dimen>
+    <dimen name="global_elevation">12dp</dimen>
 
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="fab_margin_mini">30dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
 
     <dimen name="text_size_title">28sp</dimen>
-    <dimen name="text_size_mid">20sp</dimen>
+    <dimen name="text_size_mid">21sp</dimen>
     <dimen name="text_size_card">16sp</dimen>
+    <dimen name="text_holder_y_offset">50dp</dimen>
 
 </resources>

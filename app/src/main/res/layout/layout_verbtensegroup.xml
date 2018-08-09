@@ -14,7 +14,7 @@
         card_view:cardCornerRadius="6dp"
         android:animateLayoutChanges="true"
         android:background="@color/colorPrimary"
-        card_view:elevation="8dp">
+        card_view:elevation="@dimen/global_elevation">
 
 
         <LinearLayout

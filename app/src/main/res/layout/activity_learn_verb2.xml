@@ -55,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/outline_play_circle_filled_white_white_24"/>
+                        android:src="@drawable/outline_play_circle_filled_white_24"/>
 
                     </LinearLayout>
 

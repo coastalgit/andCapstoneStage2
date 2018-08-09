@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -46,9 +47,11 @@ public class LearnVerbActivity extends BaseActivity {
 
     private FragmentManager mFragmentManager;
 
-    //private Typeface mFont;
+
     private Typeface mFontPhonetic;
 
+    @BindView(R.id.toolbar_collap_learnverb)
+    CollapsingToolbarLayout mCollapsingToolbar;
     @BindView(R.id.toolbar_learnverb)
     Toolbar mToolbar;
 
@@ -58,8 +61,8 @@ public class LearnVerbActivity extends BaseActivity {
     @BindView(R.id.tabs_learnverb)
     TabLayout mTabLayout;
 
-    @BindView(R.id.tv_learnverb_verb_pt)
-    TextView mTvVerb_word_pt;
+//    @BindView(R.id.tv_learnverb_verb_pt)
+//    TextView mTvVerb_word_pt;
     @BindView(R.id.tv_learnverb_verb_phonetic)
     TextView mTvVerb_phonetic;
     @BindView(R.id.tv_learnverb_verb_en)
@@ -77,6 +80,7 @@ public class LearnVerbActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_learn_verb);
         setContentView(R.layout.activity_learn_verb);
 
         ButterKnife.bind(this);
@@ -86,11 +90,11 @@ public class LearnVerbActivity extends BaseActivity {
 
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
+            getSupportActionBar().setTitle("");
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mToolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
-
 
         mViewModel = ViewModelProviders.of(this).get(LearnVerbViewModel.class);
 
@@ -105,6 +109,7 @@ public class LearnVerbActivity extends BaseActivity {
             Log.d(TAG, "onCreate: VM has verb");
 
         populateVerbInfo(mViewModel.getVerb());
+
 
         mFragmentManager = getSupportFragmentManager();
         buildTabViewPager(mViewModel.getTabPosition());
@@ -145,11 +150,18 @@ public class LearnVerbActivity extends BaseActivity {
 
     private void populateVerbInfo(Verb verb){
 
+        //mCollapsingToolbar.setCollapsedTitleTypeface(mFont);
+        mCollapsingToolbar.setExpandedTitleTypeface(mFont);
+        mCollapsingToolbar.setTitleEnabled(true);
+        mCollapsingToolbar.setTitle(mViewModel.getVerb().getWord_pt());
+
         mTvVerb_phonetic.setTypeface(mFontPhonetic);
         mTvVerb_phonetic.setText(verb.getPhonetic_pt());
 
-        mTvVerb_word_pt.setTypeface(mFont);
-        mTvVerb_word_pt.setText(verb.getWord_pt());
+
+//        mTvVerb_word_pt.setTypeface(mFont);
+//        mTvVerb_word_pt.setText(verb.getWord_pt());
+
         mTvVerb_word_en.setTypeface(mFont);
         mTvVerb_word_en.setText(verb.getWord_en());
 
@@ -188,17 +200,19 @@ public class LearnVerbActivity extends BaseActivity {
         startActivity(verbIntent);
     }
 
-/*
+
     @OnClick(R.id.layout_toucharea)
     public void layout_touchArea_onClick(LinearLayout area){
         handleTTSRequest(mViewModel.getVerb().getWord_pt());
     }
-*/
 
+
+/*
     @OnClick(R.id.fab_verb_play)
     public void fab_verb_play(FloatingActionButton fab){
         handleTTSRequest(mViewModel.getVerb().getWord_pt());
     }
+*/
 
 
     @OnClick(R.id.tv_learnverb_prespart_pt)

@@ -13,8 +13,8 @@
         card_view:cardUseCompatPadding="true"
         card_view:cardCornerRadius="6dp"
         android:animateLayoutChanges="true"
-        android:background="@color/colorPrimary"
-        card_view:elevation="8dp">
+        android:background="@color/colorGlobalBG"
+        card_view:elevation="@dimen/global_elevation">
 
 
         <LinearLayout
@@ -25,18 +25,24 @@
 
             <TextView
                 android:id="@+id/tv_mainverb_pt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
+                android:textColor="@color/colorVerbItem_pt"
                 android:textSize="@dimen/text_size_card"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="PT" />
 
             <TextView
                 android:id="@+id/tv_mainverb_en"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
+                android:textColor="@color/colorVerbItem_en"
                 android:textSize="@dimen/text_size_card"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="EN" />
 
         </LinearLayout>

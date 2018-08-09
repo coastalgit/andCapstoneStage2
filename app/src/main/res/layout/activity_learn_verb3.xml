@@ -78,7 +78,7 @@
                         app:fabSize="mini"
                         app:borderWidth="0dp"
                         app:backgroundTint="?attr/colorAccent"
-                        app:srcCompat="@drawable/outline_play_circle_filled_white_white_18" />
+                        app:srcCompat="@drawable/outline_play_circle_filled_white_24" />
 
                     <TextView
                         android:id="@+id/tv_learnverb_verb_phonetic"

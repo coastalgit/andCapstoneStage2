@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryLighter">#d9f7d8</color>
+    <!--<color name="colorPrimaryLighter">#9fe49d</color>-->
+    <color name="colorPrimaryLighter">#b1d7b0</color>
     <color name="colorPrimaryLight">#60ad5e</color>
     <color name="colorPrimary">#2e7d32</color>
     <color name="colorPrimaryDark">#005005</color>
@@ -12,4 +13,6 @@
 
     <color name="colorVerbItem_pt">#005005</color>
     <color name="colorVerbItem_en">#47494D</color>
+<!--    <color name="colorGlobalBG">#e4f4e3</color>-->
+    <color name="colorGlobalBG">#FFFFFF</color>
 </resources>
