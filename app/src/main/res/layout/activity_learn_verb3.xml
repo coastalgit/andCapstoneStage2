@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activity.LearnVerbActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_learnverb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+<!--
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+-->
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_learnverb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:layout_collapseMode="pin"
+            android:gravity="center_vertical"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity = "center"
+                android:orientation="horizontal">
+            <!--android:layout_marginRight="?attr/actionBarSize"-->
+
+            <TextView
+                android:id="@+id/tv_learnverb_verb_pt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_title"
+                android:gravity="center_vertical"
+                android:text="Verb PT" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_toucharea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity = "center"
+                android:orientation="vertical">
+                <!--android:layout_marginRight="?attr/actionBarSize"-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:clipChildren="false">
+                    <!--android:layout_marginRight="?attr/actionBarSize"-->
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab_verb_play"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/fab_margin_mini"
+                        android:layout_marginBottom="5dp"
+                        android:layout_centerInParent="true"
+                        android:elevation="@dimen/fab_elevation"
+                        android:scaleType="center"
+                        app:fabSize="mini"
+                        app:borderWidth="0dp"
+                        app:backgroundTint="?attr/colorAccent"
+                        app:srcCompat="@drawable/outline_play_circle_filled_white_white_18" />
+
+                    <TextView
+                        android:id="@+id/tv_learnverb_verb_phonetic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_mid"
+                        android:text="Phonetic"
+                        android:gravity = "center_vertical|center" />
+
+                    <!--
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_marginRight="@dimen/fab_margin"
+                                        android:gravity = "right"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/outline_play_circle_filled_white_white_24"/>
+                    -->
+
+
+                </RelativeLayout>
+
+                <!--
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity = "center|center_vertical"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                &lt;!&ndash;android:layout_marginRight="?attr/actionBarSize"&ndash;&gt;
+
+                                <TextView
+                                    android:id="@+id/tv_learnverb_verb_phonetic"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+
+                                    android:paddingBottom="8dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/text_size_mid"
+                                    android:text="Phonetic"
+                                    android:gravity = "center" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="60dp"
+                                    android:paddingLeft="20dp"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/outline_play_circle_filled_white_white_24"/>
+
+                            </LinearLayout>
+                -->
+
+                <TextView
+                    android:id="@+id/tv_learnverb_verb_en"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_mid"
+                    android:text="Verb EN"
+                    android:gravity = "center" />
+
+            </LinearLayout>
+
+            <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_learnverb_prespart_pt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorVerbItem_pt"
+                        android:textSize="@dimen/text_size_card"
+                        android:layout_weight="1"
+                        android:text="PT"
+                        android:gravity = "center|center_vertical"/>
+
+                    <TextView
+                        android:id="@+id/tv_learnverb_prespart_en"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorVerbItem_en"
+                        android:textSize="@dimen/text_size_card"
+                        android:layout_weight="1"
+                        android:text="EN"
+                        android:layout_gravity="left"
+                        android:gravity = "center|center_vertical"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_learnverb_pastpart_pt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorVerbItem_pt"
+                        android:textSize="@dimen/text_size_card"
+                        android:layout_weight="1"
+                        android:text="PT"
+                        android:gravity = "center|center_vertical"/>
+
+                    <TextView
+                        android:id="@+id/tv_learnverb_pastpart_en"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorVerbItem_en"
+                        android:textSize="@dimen/text_size_card"
+                        android:layout_weight="1"
+                        android:text="EN"
+                        android:layout_gravity="left"
+                        android:gravity = "center|center_vertical"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs_learnverb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_learnverb_item1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/past" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_learnverb_item2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/present" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_learnverb_item3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/future" />
+
+        </android.support.design.widget.TabLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_learnverb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_learnverb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_gravity="end|bottom"
+        android:elevation="@dimen/fab_elevation"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        app:backgroundTint="?attr/colorAccent"
+        app:srcCompat="@drawable/outline_visibility_white_24"
+        android:layout_marginRight="@dimen/fab_margin" />
+
+</android.support.design.widget.CoordinatorLayout>

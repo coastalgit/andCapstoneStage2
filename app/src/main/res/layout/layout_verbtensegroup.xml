@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
@@ -176,4 +177,12 @@
 
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="italic"
+        android:textColor="@color/colorDGray"
+        android:text="@string/press_a_word_to_listen"/>
+
+</LinearLayout>
