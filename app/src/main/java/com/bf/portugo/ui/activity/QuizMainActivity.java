@@ -22,7 +22,7 @@ import com.bf.portugo.viewmodel.QuizMainViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class QuizMainActivity extends AppCompatActivity implements{
+public class QuizMainActivity extends BaseActivity{
 
     private String TAG = QuizMainActivity.class.getSimpleName();
 
@@ -34,16 +34,15 @@ public class QuizMainActivity extends AppCompatActivity implements{
 */
 
     private QuizMainViewModel mViewModel;
-    private ViewPager mViewPager;
-
 
     private FragmentManager mFragmentManager;
 
     @BindView(R.id.toolbar_learnmain)
     Toolbar mToolbar;
 
-    @BindView(R.id.viewpager_learnmain)
+    @BindView(R.id.viewpager_quizmain)
     ViewPager mViewPager;
+
 
     @BindView(R.id.tabs_learnmain)
     TabLayout mTabLayout;
@@ -52,7 +51,7 @@ public class QuizMainActivity extends AppCompatActivity implements{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_learn_main);
+        setContentView(R.layout.activity_quiz_main);
 
         ButterKnife.bind(this);
 
@@ -64,12 +63,12 @@ public class QuizMainActivity extends AppCompatActivity implements{
         }
 
 
-        mViewModel = ViewModelProviders.of(this).get(LearnVerbsMainViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(QuizMainViewModel.class);
         mFragmentManager = getSupportFragmentManager();
         buildTabViewPager();
 
         // TODO: 08/08/2018 Check connectivity and Room content (for offline)
-        mViewModel.subscribeToChildUpdates();
+        //mViewModel.subscribeToChildUpdates();
 
 //        if (savedInstanceState == null) {
 //            Log.d(TAG, "onCreate: NO INSTANCE");
@@ -85,6 +84,11 @@ public class QuizMainActivity extends AppCompatActivity implements{
 //            mFragmentSteps = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STEPS);
 //            mFragmentInstructions = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_INSTRUCTION);
 //        }
+
+    }
+
+    @Override
+    protected void actionHasTTS(boolean hasTTS) {
 
     }
 
@@ -108,17 +112,20 @@ public class QuizMainActivity extends AppCompatActivity implements{
     }
 */
 
-    public LearnVerbsMainViewModel getViewModel() {
+    public QuizMainViewModel getViewModel() {
         return mViewModel;
     }
 
     private void buildTabViewPager(){
-        //mDetailsSectionsPagerAdapter = new DetailSectionsPagerAdapter(getSupportFragmentManager(), Details2Activity.this);
+
         LearnMainVerbsPagerAdapter mPagerAdapter = new LearnMainVerbsPagerAdapter(mFragmentManager);
 
+/*
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+*/
+
 /*
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -140,15 +147,15 @@ public class QuizMainActivity extends AppCompatActivity implements{
 */
     }
 
-    private void showLearnVerbActivity(Verb verb){
-        Intent verbIntent = new Intent(this, LearnVerbActivity.class);
-        verbIntent.putExtra(LearnVerbActivity.KEY_VERB, verb);
-        startActivity(verbIntent);
-    }
+//    private void showLearnVerbActivity(Verb verb){
+//        Intent verbIntent = new Intent(this, LearnVerbActivity.class);
+//        verbIntent.putExtra(LearnVerbActivity.KEY_VERB, verb);
+//        startActivity(verbIntent);
+//    }
 
-    @Override
-    public void onVerbItemClick(Verb verbItem) {
-        Log.d(TAG, "onVerbItemClick: verb["+verbItem.getWord_pt()+"]");
-        showLearnVerbActivity(verbItem);
-    }
+//    @Override
+//    public void onVerbItemClick(Verb verbItem) {
+//        Log.d(TAG, "onVerbItemClick: verb["+verbItem.getWord_pt()+"]");
+//        showLearnVerbActivity(verbItem);
+//    }
 }

@@ -27,6 +27,8 @@ ext{
     firebase_ads_version = "11.8.0"
     playServices_version = '15.0.1'
     kenburnsview_version ="1.0.7"
+
+    mockito_version ="2.7.22"
 }
 
 allprojects {

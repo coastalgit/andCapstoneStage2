@@ -42,6 +42,14 @@
                 android:value=".ui.activity.LearnVerbActivity" />
         </activity>
 
+        <activity
+            android:name=".ui.activity.QuizMainActivity"
+            android:launchMode="singleTask">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.HomeActivity" />
+        </activity>
+
         <activity android:name=".datacreation.DBFuncsActivity"></activity>
 
 

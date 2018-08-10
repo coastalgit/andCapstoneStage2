@@ -1,11 +1,15 @@
 package com.bf.portugo.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bf.portugo.R;
 import com.bf.portugo.common.Enums;
 import com.bf.portugo.model.Verb;
+import com.bf.portugo.ui.activity.QuizMainActivity;
 
+import java.text.Collator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +18,8 @@ import java.util.Random;
  * Created on 08/08/2018
  */
 public class VerbHelper {
+
+    private static String TAG = VerbHelper.class.getSimpleName();
 
     public static String buildEnglishString(Context context, Enums.VerbTense tense, Enums.VerbPrefix_EN prefix, Verb verb){
 
@@ -76,11 +82,78 @@ public class VerbHelper {
 
     public static Verb getRandomVerb(List<Verb> allverbs){
 
-        if (allverbs != null && allverbs.size() > 0)
+        if (allverbs != null && allverbs.size() < 1)
             return null;
 
         Random random = new Random();
         int indexer = random.nextInt(allverbs.size());
-        return allverbs.get(indexer);
+        Verb v = allverbs.get(indexer);
+        Log.d(TAG, "getRandomVerb: ["+v.getWord_en()+"]");
+
+        return v;
     }
+
+    public static List<Verb> generateQuizAnswersForVerb(Verb quizVerb, int requiredAnswerCount, List<Verb> allVerbs){
+
+        if ((allVerbs == null) || (quizVerb == null))
+            return null;
+
+        if (allVerbs.size() < 1)
+            return null;
+
+        if (requiredAnswerCount > allVerbs.size())
+            requiredAnswerCount = allVerbs.size()-1;
+
+        Log.d(TAG, "generateQuizAnswersForVerb: requiredAnswerCount="+String.valueOf(requiredAnswerCount));
+        if (requiredAnswerCount == 0)
+            return null;
+
+        List<Verb> wrongAnswers = new ArrayList<Verb>();
+        int counter = 0;
+
+        do{
+            Verb randomVerb = getRandomVerb(allVerbs);
+            if (randomVerb != null){
+                // check random is not our answer
+                if (!randomVerb.getWord_en().equalsIgnoreCase(quizVerb.getWord_en())){
+                    boolean alreadyAdded = false;
+                    for (Verb v: wrongAnswers){
+                        if (randomVerb.getWord_en().equalsIgnoreCase(v.getWord_en())){
+                            Log.d(TAG, "generateQuizAnswersForVerb: Already added");
+                            alreadyAdded = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyAdded) {
+                        wrongAnswers.add(randomVerb);
+                        Log.d(TAG, "generateQuizAnswersForVerb: Added[" + randomVerb.getWord_en() + "]");
+                        counter++;
+                    }
+                }
+            }
+            else
+                break;
+        }
+        while (counter < requiredAnswerCount);
+
+        return wrongAnswers;
+    }
+
+    /**
+     * Compare two strings regardless of accented characters
+     *
+     * @param originalString
+     * @param userInput
+     * @return
+     */
+    public static boolean isMatch(Boolean ignoreAccents, String originalString, String userInput){
+
+        final Collator instance = Collator.getInstance();
+
+        instance.setStrength(ignoreAccents?Collator.NO_DECOMPOSITION:Collator.IDENTICAL);
+        // Zero is a match
+        int comp = instance.compare(originalString.toLowerCase(), userInput.toLowerCase());
+        return (comp==0);
+    }
+
 }
