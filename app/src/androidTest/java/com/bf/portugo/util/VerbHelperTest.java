@@ -64,6 +64,13 @@ public class VerbHelperTest {
     }
 
     @Test
+    public void generateRandomVerbList() {
+        List<Verb> rndVerbs = VerbHelper.generateRandomVerbList(4, verbs);
+        assertNotNull("No answers",rndVerbs);
+        assertEquals("Count mismatch",4,rndVerbs.size());
+    }
+
+    @Test
     public void generateQuizAnswersForVerb() {
         List<Verb> answers = VerbHelper.generateQuizAnswersForVerb(v1, 4, verbs);
         assertNotNull("No answers",answers);

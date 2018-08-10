@@ -9,9 +9,9 @@ import java.util.List;
 public class QuestionCard {
 
     private Verb mVerb;
-    private List<String> mWrongAnswers;
+    private List<Verb> mWrongAnswers;
 
-    public QuestionCard(Verb mVerb, List<String> mWrongAnswers) {
+    public QuestionCard(Verb mVerb, List<Verb> mWrongAnswers) {
         this.mVerb = mVerb;
         this.mWrongAnswers = mWrongAnswers;
     }
@@ -24,11 +24,11 @@ public class QuestionCard {
         this.mVerb = mVerb;
     }
 
-    public List<String> getWrongAnswers() {
+    public List<Verb> getWrongAnswers() {
         return mWrongAnswers;
     }
 
-    public void setWrongAnswers(List<String> mWrongAnswers) {
+    public void setWrongAnswers(List<Verb> mWrongAnswers) {
         this.mWrongAnswers = mWrongAnswers;
     }
 

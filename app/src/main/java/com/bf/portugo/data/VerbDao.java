@@ -22,6 +22,9 @@ public interface VerbDao {
     @Query("SELECT * FROM Verb")
     LiveData<List<Verb>> getListVerbItems();
 
+    @Query("SELECT * FROM Verb")
+    List<Verb> getListVerbItemsSync();
+
     @Query("SELECT * FROM Verb WHERE classification <= :classificationCeiling")
     LiveData<List<Verb>> getListVerbItemsEssential(int classificationCeiling);
 

@@ -146,4 +146,10 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_home_quiz)
+    public void btnHomeQuiz_onClick(Button btn){
+        Intent intent = new Intent(this, QuizMainActivity.class);
+        startActivity(intent);
+    }
+
 }

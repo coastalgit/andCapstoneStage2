@@ -13,6 +13,7 @@ import com.bf.portugo.data.VerbDao;
 import com.bf.portugo.data.VerbDatabase;
 import com.bf.portugo.model.Verb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bf.portugo.common.Constants.VERB_CLASSIFICATIONCEILING_ESSENTIAL;
@@ -40,6 +41,7 @@ public class VerbRoomRepository {
     @SuppressWarnings("FieldCanBeLocal")
     private final VerbDatabase mDb_Verb;
     private final VerbDao mDao_Verb;
+    private List<Verb> mObservableVerbsSync;
     private LiveData<List<Verb>> mObservableVerbs;
     private LiveData<List<Verb>> mObservableVerbsEssential;
 
@@ -118,6 +120,11 @@ public class VerbRoomRepository {
         Log.d(TAG, "refreshLiveDataSets: Count (Essential)="+String.valueOf(countEss));
     }
 
+    public List<Verb> getVerbsSync() {
+        populateVerbsFromDB_All_Sync();
+        return mObservableVerbsSync;
+    }
+
     public LiveData<List<Verb>> getVerbs() {
         populateVerbsFromDB_All();
         return mObservableVerbs;
@@ -126,6 +133,16 @@ public class VerbRoomRepository {
     public LiveData<List<Verb>> getVerbsEssential() {
         populateVerbsFromDB_Essential();
         return mObservableVerbsEssential;
+    }
+
+    private void populateVerbsFromDB_All_Sync(){
+        if (mDao_Verb != null){
+            if (mObservableVerbsSync == null)
+                mObservableVerbsSync = new ArrayList<>();
+
+            mObservableVerbsSync = mDao_Verb.getListVerbItemsSync();
+        }
+
     }
 
     private void populateVerbsFromDB_All(){

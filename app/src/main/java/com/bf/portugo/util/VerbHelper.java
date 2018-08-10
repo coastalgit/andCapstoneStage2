@@ -93,6 +93,49 @@ public class VerbHelper {
         return v;
     }
 
+    public static List<Verb> generateRandomVerbList(int requiredCount, List<Verb> allVerbs){
+
+        if ((allVerbs == null))
+            return null;
+
+        if (allVerbs.size() < 1)
+            return null;
+
+        if (requiredCount > allVerbs.size())
+            requiredCount = allVerbs.size()-1;
+
+        Log.d(TAG, "generateRandomVerbList: requiredAnswerCount="+String.valueOf(requiredCount));
+        if (requiredCount == 0)
+            return null;
+
+        List<Verb> selectedVerbs = new ArrayList<Verb>();
+        int counter = 0;
+
+        do{
+            Verb randomVerb = getRandomVerb(allVerbs);
+            if (randomVerb != null){
+                boolean alreadyAdded = false;
+                for (Verb v: selectedVerbs){
+                    if (randomVerb.getWord_en().equalsIgnoreCase(v.getWord_en())){
+                        Log.d(TAG, "generateRandomVerbList: Already added");
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+                if (!alreadyAdded) {
+                    selectedVerbs.add(randomVerb);
+                    Log.d(TAG, "generateRandomVerbList: Added[" + randomVerb.getWord_en() + "]");
+                    counter++;
+                }
+            }
+            else
+                break;
+        }
+        while (counter < requiredCount);
+
+        return selectedVerbs;
+    }
+
     public static List<Verb> generateQuizAnswersForVerb(Verb quizVerb, int requiredAnswerCount, List<Verb> allVerbs){
 
         if ((allVerbs == null) || (quizVerb == null))

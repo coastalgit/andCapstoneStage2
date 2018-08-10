@@ -13,6 +13,7 @@
     <dimen name="text_size_title">28sp</dimen>
     <dimen name="text_size_mid">21sp</dimen>
     <dimen name="text_size_card">16sp</dimen>
+
     <dimen name="text_holder_y_offset">50dp</dimen>
 
 </resources>

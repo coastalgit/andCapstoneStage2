@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
+import com.bf.portugo.adapter.QuestionCardPagerAdapter;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
@@ -34,19 +35,15 @@ public class QuizMainActivity extends BaseActivity{
 */
 
     private QuizMainViewModel mViewModel;
+    private QuestionCardPagerAdapter mPagerAdapter;
 
-    private FragmentManager mFragmentManager;
+    //private FragmentManager mFragmentManager;
 
-    @BindView(R.id.toolbar_learnmain)
+    @BindView(R.id.toolbar_quizmain)
     Toolbar mToolbar;
 
     @BindView(R.id.viewpager_quizmain)
     ViewPager mViewPager;
-
-
-    @BindView(R.id.tabs_learnmain)
-    TabLayout mTabLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,27 +61,17 @@ public class QuizMainActivity extends BaseActivity{
 
 
         mViewModel = ViewModelProviders.of(this).get(QuizMainViewModel.class);
-        mFragmentManager = getSupportFragmentManager();
-        buildTabViewPager();
 
-        // TODO: 08/08/2018 Check connectivity and Room content (for offline)
-        //mViewModel.subscribeToChildUpdates();
+        if (mViewModel.getVerbsAll() == null){
+            mViewModel.buildNewQuiz();
+        }
+        else
+            Log.d(TAG, "onCreate: VM has a quiz");
 
-//        if (savedInstanceState == null) {
-//            Log.d(TAG, "onCreate: NO INSTANCE");
-//            applyFragment(mFragmentVerbs_All, R.id.layout_main_steps, FRAGMENT_STEPS_TAG);
-//
-//            mFragmentInstructions = RecipeInstructionFragment.newInstance(mViewModel.getRecipe());
-//            if (mIsTwoPane) {
-//                applyFragment(mFragmentInstructions, R.id.layout_main_instructions, FRAGMENT_INSTRUCTION_TAG);
-//            }
-//        }
-//        else{
-//            Log.d(TAG, "onCreate: HAVE INSTANCE");
-//            mFragmentSteps = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STEPS);
-//            mFragmentInstructions = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_INSTRUCTION);
-//        }
+//        populateVerbInfo(mViewModel.getVerb());
+//        mFragmentManager = getSupportFragmentManager();
 
+        buildQuestionCardsViewPager();
     }
 
     @Override
@@ -92,33 +79,15 @@ public class QuizMainActivity extends BaseActivity{
 
     }
 
-/*
-    private void applyFragment(Fragment frag, int layoutId, String fragTag){
-        if (frag != null)
-            mFragmentManager.beginTransaction().replace(layoutId, frag, fragTag).commit();
-        else{
-            switch (fragTag){
-                case FRAGMENT_VERBS_ESSENTIAL:
-                    frag = mFragmentVerbs_Essential = LearnMainVerbsFragment.newInstance();
-                    break;
-                case FRAGMENT_VERBS_ALL:
-                    frag = mFragmentVerbs_All = LearnMainVerbsFragment.newInstance();
-                    break;
-            }
-            mFragmentManager.beginTransaction()
-                    .add(layoutId, frag, fragTag)
-                    .commit();
-        }
-    }
-*/
-
     public QuizMainViewModel getViewModel() {
         return mViewModel;
     }
 
-    private void buildTabViewPager(){
+    private void buildQuestionCardsViewPager(){
 
-        LearnMainVerbsPagerAdapter mPagerAdapter = new LearnMainVerbsPagerAdapter(mFragmentManager);
+        mPagerAdapter = new QuestionCardPagerAdapter(mViewModel.getQuestionCards());
+        mViewPager.setAdapter(mPagerAdapter);
+
 
 /*
         mViewPager.setAdapter(mPagerAdapter);

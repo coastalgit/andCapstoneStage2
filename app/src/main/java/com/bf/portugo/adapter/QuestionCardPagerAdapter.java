@@ -16,24 +16,33 @@ import java.util.List;
  */
 public class QuestionCardPagerAdapter extends PagerAdapter{
 
-    private List<CardView> mViews;
+    //private List<CardView> mViews;
     private List<QuestionCard> mCards;
     //private float mBaseElevation;
 
 
-    public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCard> mCards) {
-        this.mViews = mViews;
+    //public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCard> mCards) {
+    public QuestionCardPagerAdapter(List<QuestionCard> mCards) {
+        //this.mViews = mViews;
         this.mCards = mCards;
     }
 
+    public QuestionCard getQuestionCardAtPosition(int position){
+        if (mCards == null)
+            return null;
+        return mCards.get(position);
+    };
+
     @Override
     public int getCount() {
-        return 0;
+        if (mCards == null)
+            return 0;
+        return mCards.size();
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return false;
+        return view == object;
     }
 
 }
