@@ -3,6 +3,7 @@ package com.bf.portugo.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -31,21 +32,22 @@ public class QuizMainViewModel extends AndroidViewModel {
 
     private VerbRoomRepository mRepo;
     private int mActiveCardIndex;
-    private List<Verb> mVerbsAll;
+    private LiveData<List<Verb>> mVerbsAll;
     private List<QuestionCard> mQuestionCards;
 
     public QuizMainViewModel(@NonNull Application application) {
         super(application);
         mRepo = new VerbRoomRepository(application);
+        //mVerbsAll = new MutableLiveData<>();
+        buildNewQuiz();
     }
 
     public void buildNewQuiz(){
         mActiveCardIndex = 0;
-        mVerbsAll = mRepo.getVerbsSync();
-        buildQuizBase();
+        mVerbsAll = mRepo.getVerbs(false);
     }
 
-    public List<Verb> getVerbsAll() {
+    public LiveData<List<Verb>> getVerbsAll() {
         return mVerbsAll;
     }
 
@@ -53,13 +55,14 @@ public class QuizMainViewModel extends AndroidViewModel {
         return mQuestionCards;
     }
 
-    private void buildQuizBase(){
-        List<Verb> qVerbs = VerbHelper.generateRandomVerbList(QUIZ_QUESTION_COUNT, getVerbsAll());
+    public void buildQuizBase(){
+        Log.d(TAG, "buildQuizBase: ");
+        List<Verb> qVerbs = VerbHelper.generateRandomVerbList(QUIZ_QUESTION_COUNT, mVerbsAll.getValue());
         Log.d(TAG, "buildQuizBase: Count:"+qVerbs==null?"Null":String.valueOf(qVerbs.size()));
 
         mQuestionCards = new ArrayList<>();
         for (Verb v:qVerbs) {
-            List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,getVerbsAll());
+            List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,qVerbs);
             QuestionCard qc = new QuestionCard(v,wrongAnswers);
             mQuestionCards.add(qc);
         }
@@ -70,6 +73,7 @@ public class QuizMainViewModel extends AndroidViewModel {
     }
 
     public void setActiveCardIndex(int mActiveCardIndex) {
+        Log.d(TAG, "setActiveCardIndex: index="+String.valueOf(mActiveCardIndex));
         this.mActiveCardIndex = mActiveCardIndex;
     }
 

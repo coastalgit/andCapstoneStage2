@@ -41,7 +41,7 @@ public class VerbRoomRepository {
     @SuppressWarnings("FieldCanBeLocal")
     private final VerbDatabase mDb_Verb;
     private final VerbDao mDao_Verb;
-    private List<Verb> mObservableVerbsSync;
+    //private List<Verb> mObservableVerbsSync;
     private LiveData<List<Verb>> mObservableVerbs;
     private LiveData<List<Verb>> mObservableVerbsEssential;
 
@@ -114,19 +114,27 @@ public class VerbRoomRepository {
     }
 
     private void refreshLiveDataSets(){
-        int countAll = getRecordCount(getVerbs());
+        int countAll = getRecordCount(getVerbs(true));
         Log.d(TAG, "refreshLiveDataSets: Count (All)="+String.valueOf(countAll));
         int countEss = getRecordCount(getVerbsEssential());
         Log.d(TAG, "refreshLiveDataSets: Count (Essential)="+String.valueOf(countEss));
     }
 
-    public List<Verb> getVerbsSync() {
-        populateVerbsFromDB_All_Sync();
-        return mObservableVerbsSync;
-    }
+//    public List<Verb> getVerbsSync() {
+//        populateVerbsFromDB_All_Sync();
+//        return mObservableVerbsSync;
+//    }
 
-    public LiveData<List<Verb>> getVerbs() {
-        populateVerbsFromDB_All();
+    /**
+     * Method allowing a refresh from Room or just returning the existing list if already populated
+     *
+     * @param refreshFromRoom
+     * @return
+     */
+    public LiveData<List<Verb>> getVerbs(boolean refreshFromRoom) {
+        if ((refreshFromRoom) || (getRecordCount(mObservableVerbs) == 0))
+            populateVerbsFromDB_All();
+
         return mObservableVerbs;
     }
 
@@ -135,15 +143,15 @@ public class VerbRoomRepository {
         return mObservableVerbsEssential;
     }
 
-    private void populateVerbsFromDB_All_Sync(){
-        if (mDao_Verb != null){
-            if (mObservableVerbsSync == null)
-                mObservableVerbsSync = new ArrayList<>();
-
-            mObservableVerbsSync = mDao_Verb.getListVerbItemsSync();
-        }
-
-    }
+//    private void populateVerbsFromDB_All_Sync(){
+//        if (mDao_Verb != null){
+//            if (mObservableVerbsSync == null)
+//                mObservableVerbsSync = new ArrayList<>();
+//
+//            mObservableVerbsSync = mDao_Verb.getListVerbItemsSync();
+//        }
+//
+//    }
 
     private void populateVerbsFromDB_All(){
         if (mDao_Verb != null){

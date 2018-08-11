@@ -1,24 +1,21 @@
 package com.bf.portugo.ui.activity;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.bf.portugo.R;
-import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
 import com.bf.portugo.adapter.QuestionCardPagerAdapter;
 import com.bf.portugo.model.Verb;
-import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
-import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
 import com.bf.portugo.viewmodel.QuizMainViewModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,17 +58,43 @@ public class QuizMainActivity extends BaseActivity{
 
 
         mViewModel = ViewModelProviders.of(this).get(QuizMainViewModel.class);
+        subscribeUI();
 
-        if (mViewModel.getVerbsAll() == null){
-            mViewModel.buildNewQuiz();
-        }
-        else
-            Log.d(TAG, "onCreate: VM has a quiz");
+//        if (mViewModel.getVerbsAll().getValue() == null){
+//            mViewModel.buildNewQuiz();
+//        }
+//        else
+//            Log.d(TAG, "onCreate: VM has a quiz");
 
 //        populateVerbInfo(mViewModel.getVerb());
 //        mFragmentManager = getSupportFragmentManager();
 
-        buildQuestionCardsViewPager();
+    }
+
+    private void subscribeUI(){
+            mViewModel.getVerbsAll().observe(this, new Observer<List<Verb>>() {
+                @Override
+                public void onChanged(@Nullable List<Verb> verbs) {
+                    Log.d(TAG, "onChanged(ALL):");
+                    if ((verbs != null) && (verbs.size() > 0)) {
+                        Log.d(TAG, "onChanged(ALL): verbs="+String.valueOf(verbs.size()));
+                        //mViewModel.buildNewQuiz();
+                        mViewModel.buildQuizBase();
+                        buildQuestionCardsViewPager();
+                    }
+                }
+            });
+//        mViewModel.getQuestionCards().observe(this, new Observer<List<Verb>>() {
+//            @Override
+//            public void onChanged(@Nullable List<Verb> qCards) {
+//                Log.d(TAG, "onChanged(QUIZ):");
+//                if ((qCards != null) && (qCards.size() > 0)) {
+//                    Log.d(TAG, "onChanged(QUIZ): verbs="+String.valueOf(qCards.size()));
+//                    mViewModel.buildNewQuiz();
+//                }
+//                mPagerAdapter.reloadAdapter(verbs);
+//            }
+//        });
     }
 
     @Override
@@ -84,9 +107,38 @@ public class QuizMainActivity extends BaseActivity{
     }
 
     private void buildQuestionCardsViewPager(){
+        Log.d(TAG, "buildQuestionCardsViewPager: ");
 
-        mPagerAdapter = new QuestionCardPagerAdapter(mViewModel.getQuestionCards());
+/*        mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards(), new QuestionCardPagerAdapter.IPagerAdapterAction() {
+            @Override
+            public void onQuestionCardChanged(int pos) {
+                mViewModel.setActiveCardIndex(pos);
+            }
+        });*/
+
+        mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards());
+
+        ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d(TAG, "onPageScrolled: Pos="+String.valueOf(position));
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d(TAG, "onPageSelected: Pos="+String.valueOf(position));
+                mViewModel.setActiveCardIndex(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        };
+
+        mViewPager.addOnPageChangeListener(pageChangeListener);
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
 
 
 /*

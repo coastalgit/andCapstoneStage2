@@ -52,7 +52,7 @@ public class LearnVerbsMainViewModel extends AndroidViewModel {
 
     public LiveData<List<Verb>> getObservableVerbsAll() {
         if (mRepo != null)
-            return mRepo.getVerbs();
+            return mRepo.getVerbs(true);
         return null;
     }
 
