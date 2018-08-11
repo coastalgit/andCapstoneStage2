@@ -15,6 +15,9 @@ import com.bf.portugo.util.VerbHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bf.portugo.common.Constants.QUIZ_QUESTION_COUNT;
+import static com.bf.portugo.common.Constants.WRONG_ANSWER_COUNT;
+
 
 /*
  * @author frielb
@@ -23,8 +26,6 @@ import java.util.List;
 public class QuizMainViewModel extends AndroidViewModel {
 
     private String TAG = QuizMainViewModel.class.getSimpleName();
-    private int QUIZ_QUESTION_COUNT = 5;
-    private int WRONG_ANSWER_COUNT = 3;
 
     private VerbRoomRepository mRepo;
     private int mActiveCardIndex;
@@ -73,28 +74,5 @@ public class QuizMainViewModel extends AndroidViewModel {
         Log.d(TAG, "setActiveCardIndex: index="+String.valueOf(mActiveCardIndex));
         this.mActiveCardIndex = mActiveCardIndex;
     }
-
-
-/*
-    public Verb getVerb() {
-        return mVerb;
-    }
-
-    public void setVerb(Verb mVerb) {
-        this.mVerb = mVerb;
-    }
-
-    ArrayList<Verb> verbList;
-
-    String questionTitles [] = {"Question 1", "Question 2", "Question 3", "Question 4", "Question 5",};
-
-    String  detailsArray [] = {
-            "Time table details radom, Lorem ipsum characters ment for testing of programs and characters or displaying random informations",
-            "Time table details radom, Lorem ipsum characters ment for testing of programs and characters or displaying random informations",
-            "Time table details radom, Lorem ipsum characters ment for testing of programs and characters or displaying random informations",
-            "Time table details radom, Lorem ipsum characters ment for testing of programs and characters or displaying random informations",
-            "Time table details radom, Lorem ipsum characters ment for testing of programs and characters or displaying random informations",
-    };
-*/
 
 }

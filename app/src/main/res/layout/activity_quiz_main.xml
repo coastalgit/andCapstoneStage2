@@ -12,9 +12,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorGlobalBG"
         tools:context=".ui.activity.QuizMainActivity">
 
             <android.support.v7.widget.Toolbar
@@ -46,11 +46,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorGlobalBG"
-            android:padding="@dimen/appbar_padding_top"
+            android:paddingLeft="@dimen/card_margin"
+            android:paddingRight="@dimen/card_margin"
             android:layout_marginTop="25dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <!--android:padding="@dimen/appbar_padding_top"-->
 
         <TextView
             android:id="@+id/tv_skip"

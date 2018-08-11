@@ -4,17 +4,13 @@
     android:id="@+id/layout_quizcard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
-    android:padding="10dp"
+    android:padding="1dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="6dp"
     android:animateLayoutChanges="true"
     android:background="@color/colorWhite"
     card_view:cardElevation="@dimen/card_elevation"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
-
-
 
     <LinearLayout
             android:id="@+id/layout_vert_quizgroup"
@@ -32,10 +28,11 @@
 
                 <TextView
                     android:id="@+id/tv_quiz_question"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
-                    android:textSize="@dimen/text_size_card"
+                    android:textSize="@dimen/text_size_question"
+                    android:gravity="center"
                     android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/question" />
 
@@ -52,34 +49,41 @@
 
             </LinearLayout>
 
-<!--
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:orientation="horizontal">
+                android:padding="16dp"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_verbtense_you_pt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:textSize="@dimen/text_size_card"
-                    android:textColor="@color/colorVerbItem_pt"
-                    android:text="@string/pt_you"/>
+                <include android:id="@+id/answer_0" layout="@layout/layout_qcard_answeritem"/>
+                <include android:id="@+id/answer_1" layout="@layout/layout_qcard_answeritem"/>
+                <include android:id="@+id/answer_2" layout="@layout/layout_qcard_answeritem"/>
+                <include android:id="@+id/answer_3" layout="@layout/layout_qcard_answeritem"/>
 
-                <TextView
-                    android:id="@+id/tv_verbtense_you_en"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:textSize="@dimen/text_size_card"
-                    android:textColor="@color/colorVerbItem_en"
-                    android:text="@string/en_you" />
 
+                <!--
+                                <TextView
+                                    android:id="@+id/tv_verbtense_you_pt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/text_margin"
+                                    android:textSize="@dimen/text_size_card"
+                                    android:textColor="@color/colorVerbItem_pt"
+                                    android:text="@string/pt_you"/>
+
+                                <TextView
+                                    android:id="@+id/tv_verbtense_you_en"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/text_margin"
+                                    android:textSize="@dimen/text_size_card"
+                                    android:textColor="@color/colorVerbItem_en"
+                                    android:text="@string/en_you" />
+
+                            </LinearLayout>
+                -->
             </LinearLayout>
--->
-
 
         </LinearLayout>
 

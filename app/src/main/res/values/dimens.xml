@@ -4,13 +4,14 @@
     <dimen name="appbar_padding_top">12dp</dimen>
     <dimen name="global_elevation">12dp</dimen>
     <dimen name="card_elevation">4dp</dimen>
-    <dimen name="card_top_margin">4dp</dimen>
+    <dimen name="card_margin">4dp</dimen>
 
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="fab_margin_mini">30dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
 
     <dimen name="text_size_title">28sp</dimen>
+    <dimen name="text_size_question">24sp</dimen>
     <dimen name="text_size_mid">21sp</dimen>
     <dimen name="text_size_card">16sp</dimen>
 

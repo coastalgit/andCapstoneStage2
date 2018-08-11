@@ -31,4 +31,5 @@
     <string name="quiz">Quiz</string>
     <string name="question">Question</string>
     <string name="skip">Skip</string>
+    <string name="answer">Answer</string>
 </resources>
