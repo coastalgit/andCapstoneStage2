@@ -3,15 +3,11 @@ package com.bf.portugo.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.ListView;
 
-import com.bf.portugo.data.VerbDao;
-import com.bf.portugo.data.VerbDatabase;
-import com.bf.portugo.model.QuestionCard;
+import com.bf.portugo.model.QuestionCardData;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.repo.VerbRoomRepository;
 import com.bf.portugo.util.VerbHelper;
@@ -33,7 +29,7 @@ public class QuizMainViewModel extends AndroidViewModel {
     private VerbRoomRepository mRepo;
     private int mActiveCardIndex;
     private LiveData<List<Verb>> mVerbsAll;
-    private List<QuestionCard> mQuestionCards;
+    private List<QuestionCardData> mQuestionCards;
 
     public QuizMainViewModel(@NonNull Application application) {
         super(application);
@@ -51,11 +47,11 @@ public class QuizMainViewModel extends AndroidViewModel {
         return mVerbsAll;
     }
 
-    public List<QuestionCard> getQuestionCards() {
+    public List<QuestionCardData> getQuestionCards() {
         return mQuestionCards;
     }
 
-    public void buildQuizBase(){
+    public void buildQuizBase(Context context){
         Log.d(TAG, "buildQuizBase: ");
         List<Verb> qVerbs = VerbHelper.generateRandomVerbList(QUIZ_QUESTION_COUNT, mVerbsAll.getValue());
         Log.d(TAG, "buildQuizBase: Count:"+qVerbs==null?"Null":String.valueOf(qVerbs.size()));
@@ -63,12 +59,13 @@ public class QuizMainViewModel extends AndroidViewModel {
         mQuestionCards = new ArrayList<>();
         for (Verb v:qVerbs) {
             List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,qVerbs);
-            QuestionCard qc = new QuestionCard(v,wrongAnswers);
+            QuestionCardData qc = new QuestionCardData(v,wrongAnswers);
             mQuestionCards.add(qc);
         }
     }
 
     public int getActiveCardIndex() {
+        Log.d(TAG, "getActiveCardIndex: mActiveCardIndex="+String.valueOf(mActiveCardIndex));
         return mActiveCardIndex;
     }
 

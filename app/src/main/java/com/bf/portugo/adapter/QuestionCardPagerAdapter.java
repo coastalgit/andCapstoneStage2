@@ -2,8 +2,6 @@ package com.bf.portugo.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -13,11 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bf.portugo.R;
-import com.bf.portugo.model.QuestionCard;
+import com.bf.portugo.model.QuestionCardData;
 import com.bf.portugo.model.Verb;
 
-import org.w3c.dom.ls.LSException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,43 +32,52 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     //private List<CardView> mViews;
     Context mContext;
-    private List<QuestionCard> mCards;
+    private List<QuestionCardData> mQuestionCardData;
+    private List<CardView> mCards;
     //private float mBaseElevation;
 
     private IPagerAdapterAction mListener;
 
+    // TODO: 11/08/2018 remove
     public interface IPagerAdapterAction{
         void onQuestionCardChanged(int pos);
     }
-    //public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCard> mCards) {
-    //public QuestionCardPagerAdapter(Context context, List<QuestionCard> cards, IPagerAdapterAction listener) {
-    public QuestionCardPagerAdapter(Context context, List<QuestionCard> cards) {
+
+    //public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCardData> mCards) {
+    //public QuestionCardPagerAdapter(Context context, List<QuestionCardData> cards, IPagerAdapterAction listener) {
+    public QuestionCardPagerAdapter(Context context, List<QuestionCardData> cards) {
         this.mContext = context;
+        this.mCards = new ArrayList<>();
         //this.mListener = listener;
         //this.mViews = mViews;
-        this.mCards = cards;
-        if (mCards != null) {
-            for (QuestionCard qc :mCards) {
+        this.mQuestionCardData = cards;
+        if (mQuestionCardData != null) {
+            for (QuestionCardData qc :mQuestionCardData) {
                 String answers = "Answers:";
                 for (Verb answer: qc.getWrongAnswers()) {
                     answers = answers + " " +answer.getWord_pt();
                 }
                 Log.d(TAG, "QuestionCardPagerAdapter: Card:["+qc.getVerb().getWord_en()+"] "+answers);
+                mCards.add(null);
             }
 
         }
     }
 
-    public QuestionCard getQuestionCardAtPosition(int position){
-        if (mCards == null)
-            return null;
+    //public void addQuestionCard()
+
+/*
+    public CardView getCardAtPosition(int position){
+//        if (mCards == null)
+//            return null;
         return mCards.get(position);
     };
+*/
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-        //mViews.set(position, null);
+        mCards.set(position, null);
     }
 
     @Override
@@ -90,17 +96,23 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         Log.d(TAG, "instantiateItem: Pos="+String.valueOf(position));
 
-        QuestionCard qc = mCards.get(position);
         // TODO: 11/08/2018 Determine best means of generating a quiz type
 
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        //View view = LayoutInflater.from(container.getContext()).inflate(R.layout.adapter, container, false);
+        //LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(container.getContext());
 
         // TODO: 11/08/2018 support for landscape layout
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.layout_questioncard_type1, container, false);
+        View view = (View) inflater.inflate(R.layout.layout_qcard_type1, container, false);
+        container.addView(view);
 
+
+        // Bind content
+        QuestionCardData qc = mQuestionCardData.get(position);
         final TextView tvQuestion = view.findViewById(R.id.tv_quiz_question);
-
         tvQuestion.setText(qc.getVerb().getWord_en());
+
+        final CardView cardView = view.findViewById(R.id.layout_quizcard);
 
 //        Button button = view.findViewById(R.id.button);
 //        button.setText(mListData.get(position));
@@ -111,7 +123,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 //            }
 //        });
 
-        container.addView(view);
+        mCards.set(position,cardView);
         return view;
     }
 }

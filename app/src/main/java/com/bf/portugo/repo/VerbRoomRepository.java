@@ -6,18 +6,17 @@ import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.bf.portugo.common.Constants;
 import com.bf.portugo.data.FirebaseDataSource;
 import com.bf.portugo.data.IVerbDataSource;
 import com.bf.portugo.data.VerbDao;
 import com.bf.portugo.data.VerbDatabase;
 import com.bf.portugo.model.Verb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.bf.portugo.common.Constants.VERB_CLASSIFICATIONCEILING_ESSENTIAL;
 import static com.bf.portugo.common.Enums.*;
+import static com.bf.portugo.util.VerbHelper.getLiveListRecordCount;
 
 /*
  * @author frielb
@@ -51,11 +50,13 @@ public class VerbRoomRepository {
         //populateVerbsFromDB();
     }
 
-    private int getRecordCount(LiveData<List<Verb>> verbList){
+/*
+    private int getLiveListRecordCount(LiveData<List<Verb>> verbList){
         if ((verbList != null) && verbList.getValue() != null && (verbList.getValue().size() > 0))
             return verbList.getValue().size();
         return 0;
     }
+*/
 
     public void fillDBFromDataSource(IVerbDataSource dataSource){
         Log.d(TAG, "fillDBFromDataSource: ");
@@ -64,7 +65,7 @@ public class VerbRoomRepository {
                 @Override
                 public void onSuccess(List<Verb> verbs) {
                     if (verbs != null) {
-                        Log.d(TAG, "onSuccess: Verb count=" + String.valueOf(getRecordCount(mObservableVerbs)) + " DS COUNT=" + String.valueOf(verbs.size()));
+                        Log.d(TAG, "onSuccess: Verb count=" + String.valueOf(getLiveListRecordCount(mObservableVerbs)) + " DS COUNT=" + String.valueOf(verbs.size()));
                         //refresh local db
                         new deleteAllTask(mDao_Verb, () -> refreshLiveDataSets()).execute();
                         //new insertBatchTask(mDao_Verb, () -> refreshLiveDataSets()).execute(verbs);
@@ -81,7 +82,7 @@ public class VerbRoomRepository {
     }
 
     public void deleteAllRoomDbRecs(){
-        int recCount = getRecordCount(mObservableVerbs);
+        int recCount = getLiveListRecordCount(mObservableVerbs);
         Log.d(TAG, "deleteAllRoomDbRecs: COUNT="+String.valueOf(recCount));
         new deleteAllTask(mDao_Verb, () -> refreshLiveDataSets()).execute();
     }
@@ -114,9 +115,9 @@ public class VerbRoomRepository {
     }
 
     private void refreshLiveDataSets(){
-        int countAll = getRecordCount(getVerbs(true));
+        int countAll = getLiveListRecordCount(getVerbs(true));
         Log.d(TAG, "refreshLiveDataSets: Count (All)="+String.valueOf(countAll));
-        int countEss = getRecordCount(getVerbsEssential());
+        int countEss = getLiveListRecordCount(getVerbsEssential());
         Log.d(TAG, "refreshLiveDataSets: Count (Essential)="+String.valueOf(countEss));
     }
 
@@ -132,7 +133,7 @@ public class VerbRoomRepository {
      * @return
      */
     public LiveData<List<Verb>> getVerbs(boolean refreshFromRoom) {
-        if ((refreshFromRoom) || (getRecordCount(mObservableVerbs) == 0))
+        if ((refreshFromRoom) || (getLiveListRecordCount(mObservableVerbs) == 0))
             populateVerbsFromDB_All();
 
         return mObservableVerbs;

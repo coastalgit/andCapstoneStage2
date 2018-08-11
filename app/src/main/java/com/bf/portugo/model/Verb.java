@@ -1,6 +1,7 @@
 package com.bf.portugo.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -115,6 +116,7 @@ public class Verb implements Serializable {
      * @param sample_3_pt
      * @param sample_3_en
      */
+    @Ignore
     public Verb(@NonNull String word_en,
                 String word_pt,
                 boolean isIrregular,

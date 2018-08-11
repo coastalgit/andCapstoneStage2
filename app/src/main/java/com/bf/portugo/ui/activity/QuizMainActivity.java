@@ -6,9 +6,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.QuestionCardPagerAdapter;
@@ -19,6 +22,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.bf.portugo.util.VerbHelper.getListRecordCount;
+import static com.bf.portugo.util.VerbHelper.getLiveListRecordCount;
 
 public class QuizMainActivity extends BaseActivity{
 
@@ -79,7 +86,10 @@ public class QuizMainActivity extends BaseActivity{
                     if ((verbs != null) && (verbs.size() > 0)) {
                         Log.d(TAG, "onChanged(ALL): verbs="+String.valueOf(verbs.size()));
                         //mViewModel.buildNewQuiz();
-                        mViewModel.buildQuizBase();
+
+                        if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
+                            mViewModel.buildQuizBase(QuizMainActivity.this);
+
                         buildQuestionCardsViewPager();
                     }
                 }
@@ -109,14 +119,8 @@ public class QuizMainActivity extends BaseActivity{
     private void buildQuestionCardsViewPager(){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
-/*        mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards(), new QuestionCardPagerAdapter.IPagerAdapterAction() {
-            @Override
-            public void onQuestionCardChanged(int pos) {
-                mViewModel.setActiveCardIndex(pos);
-            }
-        });*/
-
         mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards());
+
 
         ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
@@ -137,6 +141,14 @@ public class QuizMainActivity extends BaseActivity{
         };
 
         mViewPager.addOnPageChangeListener(pageChangeListener);
+
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
+
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
 
@@ -167,6 +179,13 @@ public class QuizMainActivity extends BaseActivity{
         });
 */
     }
+
+
+    @OnClick(R.id.fab_quiznext)
+    public void btnQuizNext_onClick(FloatingActionButton fab){
+        mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
+    }
+
 
 //    private void showLearnVerbActivity(Verb verb){
 //        Intent verbIntent = new Intent(this, LearnVerbActivity.class);

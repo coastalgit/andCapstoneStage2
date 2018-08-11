@@ -1,12 +1,12 @@
 package com.bf.portugo.util;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
 
 import com.bf.portugo.R;
 import com.bf.portugo.common.Enums;
 import com.bf.portugo.model.Verb;
-import com.bf.portugo.ui.activity.QuizMainActivity;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -20,6 +20,18 @@ import java.util.Random;
 public class VerbHelper {
 
     private static String TAG = VerbHelper.class.getSimpleName();
+
+    public static <T extends Object> int getLiveListRecordCount(LiveData<List<T>> liveList){
+        if ((liveList != null) && liveList.getValue() != null && (liveList.getValue().size() > 0))
+            return liveList.getValue().size();
+        return 0;
+    }
+
+    public static <T extends Object> int getListRecordCount(List<T> list){
+        if ((list != null) && (list.size() > 0))
+            return list.size();
+        return 0;
+    }
 
     public static String buildEnglishString(Context context, Enums.VerbTense tense, Enums.VerbPrefix_EN prefix, Verb verb){
 
