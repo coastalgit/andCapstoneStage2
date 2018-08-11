@@ -9,10 +9,14 @@
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDGray">#47494D</color>
+    <color name="colorLGray">#b9d1b8</color>
     <color name="colorDGray_opac">#ad47494d</color>
 
     <color name="colorVerbItem_pt">#005005</color>
     <color name="colorVerbItem_en">#47494D</color>
 <!--    <color name="colorGlobalBG">#e4f4e3</color>-->
     <color name="colorGlobalBG">#FFFFFF</color>
+
+    <color name="colorAnswerOk">#63c960</color>
+    <color name="colorAnswerWrong">#f76063</color>
 </resources>

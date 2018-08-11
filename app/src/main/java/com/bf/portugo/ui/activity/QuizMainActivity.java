@@ -43,11 +43,16 @@ public class QuizMainActivity extends BaseActivity{
 
     //private FragmentManager mFragmentManager;
 
+    //QuestionCardPagerAdapter.IPagerAdapterAction mAdapterListener;
+
     @BindView(R.id.toolbar_quizmain)
     Toolbar mToolbar;
 
     @BindView(R.id.viewpager_quizmain)
     ViewPager mViewPager;
+
+    @BindView(R.id.fab_quiznext)
+    FloatingActionButton mFabQuizNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +124,12 @@ public class QuizMainActivity extends BaseActivity{
     private void buildQuestionCardsViewPager(){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
-        mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards());
-
+        mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards(), new QuestionCardPagerAdapter.IPagerAdapterAction() {
+            @Override
+            public void setFABEnabled(boolean enabled) {
+                mFabQuizNext.setEnabled(enabled);
+            }
+        });
 
         ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
@@ -142,12 +151,12 @@ public class QuizMainActivity extends BaseActivity{
 
         mViewPager.addOnPageChangeListener(pageChangeListener);
 
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
+//        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return true;
+//            }
+//        });
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
