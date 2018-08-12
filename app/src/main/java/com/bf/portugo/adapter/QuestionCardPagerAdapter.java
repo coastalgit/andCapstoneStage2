@@ -1,6 +1,7 @@
 package com.bf.portugo.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
@@ -14,11 +15,13 @@ import android.widget.TextView;
 import com.bf.portugo.R;
 import com.bf.portugo.model.QuestionCardData;
 import com.bf.portugo.model.Verb;
+import com.bf.portugo.ui.activity.QuizMainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 import static com.bf.portugo.common.Constants.WRONG_ANSWER_COUNT;
 
 
@@ -34,6 +37,8 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     private static int QUESTION_TYPE_2 = 2; // Listen to PT phrase and type in (TTS)
     private static int QUESTION_TYPE_3 = 3; // PT phrase with selectable EN answers
 
+    private Typeface mFont;
+
     Context mContext;
     private List<QuestionCardData> mQuestionCardData;
     private List<CardView> mCards;
@@ -44,12 +49,15 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     public interface IPagerAdapterAction{
         //void onQuestionCardChanged(int pos);
         void setFABEnabled(boolean enabled);
+        void setSkipEnabled(boolean enabled);
+        void adjustScore(boolean answeredCorrect);
     }
 
     //public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCardData> mCards) {
     public QuestionCardPagerAdapter(Context context, List<QuestionCardData> cards, IPagerAdapterAction listener) {
     //public QuestionCardPagerAdapter(Context context, List<QuestionCardData> cards) {
         this.mContext = context;
+        this.mFont = Typeface.createFromAsset(mContext.getAssets(), FONT_ITIM_REGULAR);
         this.mCards = new ArrayList<>();
         this.mListener = listener;
         this.mQuestionCardData = cards;
@@ -85,7 +93,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     }
 
     private int generateRandomAnswerIndex(){
-        int maxVal = WRONG_ANSWER_COUNT;
+        int maxVal = WRONG_ANSWER_COUNT-1;
         int minval = 0;
         return new Random().nextInt(maxVal-minval+1) + minval;
     }
@@ -96,8 +104,10 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
         // TODO: 11/08/2018 Determine best means of generating a quiz type
 
-        if (mListener != null)
-            mListener.setFABEnabled(false);
+//        if (mListener != null) {
+//            mListener.setFABEnabled(false);
+//            mListener.setSkipEnabled(true);
+//        }
         //View view = LayoutInflater.from(container.getContext()).inflate(R.layout.adapter, container, false);
         //LayoutInflater inflater = LayoutInflater.from(mContext);
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
@@ -110,21 +120,26 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         // Bind content
         QuestionCardData qc = mQuestionCardData.get(position);
         final TextView tvQuestion = view.findViewById(R.id.tv_quiz_question);
+        tvQuestion.setTypeface(mFont);
         tvQuestion.setText(qc.getVerb().getWord_en());
 
         final CardView cardView = view.findViewById(R.id.layout_quizcard);
 
         FrameLayout mFrameAnswer0 = (FrameLayout) cardView.findViewById(R.id.answer_0);
         TextView mTvAnswer0 = (TextView) mFrameAnswer0.findViewById(R.id.tv_quiz_answer);
+        mTvAnswer0.setTypeface(mFont);
 
         FrameLayout mFrameAnswer1 = (FrameLayout) cardView.findViewById(R.id.answer_1);
         TextView mTvAnswer1 = (TextView) mFrameAnswer1.findViewById(R.id.tv_quiz_answer);
+        mTvAnswer1.setTypeface(mFont);
 
         FrameLayout mFrameAnswer2 = (FrameLayout) cardView.findViewById(R.id.answer_2);
         TextView mTvAnswer2 = (TextView) mFrameAnswer2.findViewById(R.id.tv_quiz_answer);
+        mTvAnswer2.setTypeface(mFont);
 
         FrameLayout mFrameAnswer3 = (FrameLayout) cardView.findViewById(R.id.answer_3);
         TextView mTvAnswer3 = (TextView) mFrameAnswer3.findViewById(R.id.tv_quiz_answer);
+        mTvAnswer3.setTypeface(mFont);
 //
         int correctAnswerIndex = generateRandomAnswerIndex();
         Log.d(TAG, "instantiateItem: Correct answer at:"+String.valueOf(correctAnswerIndex));
@@ -204,8 +219,10 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 //        configureAnswerButtonAfterSelection(selectedIndex==2,isCorrect,refs.get(2).getCardFrame(),refs.get(2).getCardText());
 //        configureAnswerButtonAfterSelection(selectedIndex==3,isCorrect,refs.get(3).getCardFrame(),refs.get(3).getCardText());
 
-        if (mListener != null)
+        if (mListener != null) {
             mListener.setFABEnabled(true);
+            mListener.setSkipEnabled(false);
+        }
     }
 
     private void configureAnswerButtonAfterSelection(boolean wasSelected, boolean isCorrectAnswer, final FrameLayout answerFrame, final TextView answerTextView){
@@ -220,6 +237,8 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         }
         else{
             answerTextView.setTextColor(mContext.getResources().getColor(isCorrectAnswer?R.color.colorAnswerOk:R.color.colorLGray));
+            if (isCorrectAnswer)
+                answerTextView.setTypeface(answerTextView.getTypeface(), Typeface.BOLD);
             //card.setCardBackgroundColor(mContext.getResources().getColor(isCorrect?R.color.colorAnswerOk:R.color.colorAnswerWrong));
 //            if (isCorrect)
 //                card.setCardBackgroundColor(mContext.getResources().getColor(isCorrect?R.color.colorAnswerOk:R.color.colorAnswerWrong));
@@ -265,6 +284,10 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: "+(isCorrect?"CORRECT":"WRONG")+" answer selected for index "+ String.valueOf(answerIndex) + ":["+ finalAnswerTxt +"]");
                 //handleAnswerSelection(cardView, correctAnswerIndex, answerIndex, isCorrect);
+                if (mListener != null) {
+                    mListener.adjustScore(isCorrect);
+                }
+
                 handleAnswerSelection(cardView, correctAnswerIndex, answerIndex);
             }
         });

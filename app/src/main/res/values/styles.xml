@@ -10,10 +10,9 @@
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
-
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
     <!--<style name="AppTheme.AppBarOverlay" parent="AppTheme" />-->

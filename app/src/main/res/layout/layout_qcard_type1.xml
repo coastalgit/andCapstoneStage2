@@ -36,19 +36,7 @@
                     android:textColor="@color/colorVerbItem_pt"
                     android:text="@string/question" />
 
-<!--
-                <TextView
-                    android:id="@+id/tv_verbtense_i_en"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:textSize="@dimen/text_size_card"
-                    android:textColor="@color/colorVerbItem_en"
-                    android:text="@string/en_i" />
--->
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,28 +49,6 @@
                 <include android:id="@+id/answer_2" layout="@layout/layout_qcard_answeritem"/>
                 <include android:id="@+id/answer_3" layout="@layout/layout_qcard_answeritem"/>
 
-
-                <!--
-                                <TextView
-                                    android:id="@+id/tv_verbtense_you_pt"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/text_margin"
-                                    android:textSize="@dimen/text_size_card"
-                                    android:textColor="@color/colorVerbItem_pt"
-                                    android:text="@string/pt_you"/>
-
-                                <TextView
-                                    android:id="@+id/tv_verbtense_you_en"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/text_margin"
-                                    android:textSize="@dimen/text_size_card"
-                                    android:textColor="@color/colorVerbItem_en"
-                                    android:text="@string/en_you" />
-
-                            </LinearLayout>
-                -->
             </LinearLayout>
 
         </LinearLayout>

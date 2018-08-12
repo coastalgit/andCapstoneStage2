@@ -39,16 +39,29 @@
                 <!--android:layout_marginRight="?attr/actionBarSize"-->
             </android.support.v7.widget.Toolbar>
 
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar_quizmain"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_mid"
+            android:textColor="@color/colorDGray"
+            android:text="@string/score"/>
+
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager_quizmain"
-            android:layout_below="@id/toolbar_quizmain"
+            android:layout_below="@id/tv_score"
             android:layout_above="@id/tv_skip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorGlobalBG"
             android:paddingLeft="@dimen/card_margin"
             android:paddingRight="@dimen/card_margin"
-            android:layout_marginTop="25dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -60,9 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:layout_marginLeft="@dimen/fab_margin"
             android:layout_alignParentBottom="true"
-            android:gravity="left"
+            android:gravity="center"
             android:textSize="@dimen/text_size_mid"
             android:textColor="@color/colorDGray"
             android:text="@string/skip"/>

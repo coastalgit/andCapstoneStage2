@@ -39,9 +39,9 @@ public class LearnVerbActivity extends BaseActivity {
     private String TAG = LearnVerbActivity.class.getSimpleName();
 
     public final static String KEY_VERB = "key_verb";
-    private static int TAB_INDEX_PAST = 0;
+    //private static int TAB_INDEX_PAST = 0;
     private static int TAB_INDEX_PRESENT = 1;
-    private static int TAB_INDEX_FUTURE = 2;
+    //private static int TAB_INDEX_FUTURE = 2;
 
     private LearnVerbViewModel mViewModel;
 

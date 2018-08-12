@@ -29,6 +29,8 @@ public class QuizMainViewModel extends AndroidViewModel {
 
     private VerbRoomRepository mRepo;
     private int mActiveCardIndex;
+    private int mCurrentScore;
+    private boolean mLastPageReached;
     private LiveData<List<Verb>> mVerbsAll;
     private List<QuestionCardData> mQuestionCards;
 
@@ -41,6 +43,8 @@ public class QuizMainViewModel extends AndroidViewModel {
 
     public void buildNewQuiz(){
         mActiveCardIndex = 0;
+        mCurrentScore = 0;
+        mLastPageReached = false;
         mVerbsAll = mRepo.getVerbs(false);
     }
 
@@ -73,6 +77,22 @@ public class QuizMainViewModel extends AndroidViewModel {
     public void setActiveCardIndex(int mActiveCardIndex) {
         Log.d(TAG, "setActiveCardIndex: index="+String.valueOf(mActiveCardIndex));
         this.mActiveCardIndex = mActiveCardIndex;
+    }
+
+    public int getCurrentScore() {
+        return mCurrentScore;
+    }
+
+    public void setCurrentScore(int mCurrentScore) {
+        this.mCurrentScore = mCurrentScore;
+    }
+
+    public boolean getLastPageReached() {
+        return mLastPageReached;
+    }
+
+    public void setLastPageReached(boolean mLastPageReached) {
+        this.mLastPageReached = mLastPageReached;
     }
 
 }

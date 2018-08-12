@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.QuestionCardPagerAdapter;
@@ -24,26 +26,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bf.portugo.common.Constants.QUIZ_QUESTION_COUNT;
 import static com.bf.portugo.util.VerbHelper.getListRecordCount;
-import static com.bf.portugo.util.VerbHelper.getLiveListRecordCount;
 
 public class QuizMainActivity extends BaseActivity{
 
     private String TAG = QuizMainActivity.class.getSimpleName();
 
-/*
-    private static final String FRAGMENT_VERBS_ALL = "key_verbs_all";
-    private static final String FRAGMENT_VERBS_ALL_TAG = "key_verbs_all_tag";
-    private static final String FRAGMENT_VERBS_ESSENTIAL = "key_verbs_essen";
-    private static final String FRAGMENT_VERBS_ESSENTIAL_TAG = "key_verbs_essen_tag";
-*/
-
     private QuizMainViewModel mViewModel;
     private QuestionCardPagerAdapter mPagerAdapter;
-
-    //private FragmentManager mFragmentManager;
-
-    //QuestionCardPagerAdapter.IPagerAdapterAction mAdapterListener;
 
     @BindView(R.id.toolbar_quizmain)
     Toolbar mToolbar;
@@ -53,6 +44,11 @@ public class QuizMainActivity extends BaseActivity{
 
     @BindView(R.id.fab_quiznext)
     FloatingActionButton mFabQuizNext;
+
+    @BindView(R.id.tv_skip)
+    TextView mTvSkip;
+    @BindView(R.id.tv_score)
+    TextView mTvScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +74,6 @@ public class QuizMainActivity extends BaseActivity{
 //        else
 //            Log.d(TAG, "onCreate: VM has a quiz");
 
-//        populateVerbInfo(mViewModel.getVerb());
-//        mFragmentManager = getSupportFragmentManager();
 
     }
 
@@ -121,26 +115,68 @@ public class QuizMainActivity extends BaseActivity{
         return mViewModel;
     }
 
+    private void setFABAccess(boolean enabled) {
+        if (enabled)
+            mFabQuizNext.show();
+        else
+            mFabQuizNext.hide();
+    }
+
+    private void setSkip(boolean enabled) {
+        mTvSkip.setVisibility(enabled?View.VISIBLE:View.INVISIBLE);
+    }
+
     private void buildQuestionCardsViewPager(){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
+        setFABAccess(false);
+        setSkip(true);
+        updateScoreLabel(mViewModel.getCurrentScore());
+        
         mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards(), new QuestionCardPagerAdapter.IPagerAdapterAction() {
             @Override
             public void setFABEnabled(boolean enabled) {
-                mFabQuizNext.setEnabled(enabled);
+                setFABAccess(enabled);
+            }
+
+            @Override
+            public void setSkipEnabled(boolean enabled) {
+                setSkip(enabled);
+            }
+
+            @Override
+            public void adjustScore(boolean answeredCorrect) {
+                int score = mViewModel.getCurrentScore();
+                if (answeredCorrect) {
+                    score++;
+                    mViewModel.setCurrentScore(score);
+                }
+                updateScoreLabel(mViewModel.getCurrentScore());
             }
         });
 
         ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d(TAG, "onPageScrolled: Pos="+String.valueOf(position));
+                //Log.d(TAG, "onPageScrolled: Pos="+String.valueOf(position));
             }
 
             @Override
             public void onPageSelected(int position) {
                 Log.d(TAG, "onPageSelected: Pos="+String.valueOf(position));
                 mViewModel.setActiveCardIndex(position);
+                if (position == QUIZ_QUESTION_COUNT-1) {
+                    //Toast.makeText(QuizMainActivity.this, "LAST", Toast.LENGTH_SHORT).show();
+                    mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
+                    mViewModel.setLastPageReached(true);
+                    setFABAccess(false);
+                    setSkip(false);
+                }
+                else{
+                    setFABAccess(false);
+                    setSkip(true);
+                }
+
             }
 
             @Override
@@ -151,12 +187,13 @@ public class QuizMainActivity extends BaseActivity{
 
         mViewPager.addOnPageChangeListener(pageChangeListener);
 
-//        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                return true;
-//            }
-//        });
+        // No swiping
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
@@ -190,21 +227,23 @@ public class QuizMainActivity extends BaseActivity{
     }
 
 
-    @OnClick(R.id.fab_quiznext)
-    public void btnQuizNext_onClick(FloatingActionButton fab){
-        mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
+    private void updateScoreLabel(int score){
+        String scoreStr = String.valueOf(score) + " / " + String.valueOf(QUIZ_QUESTION_COUNT);
+        mTvScore.setText(scoreStr);
     }
 
+    @OnClick(R.id.fab_quiznext)
+    public void btnQuizNext_onClick(FloatingActionButton fab){
+        if (!mViewModel.getLastPageReached())
+            mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
+        else
+            Toast.makeText(this, "Do finalized shit", Toast.LENGTH_SHORT).show();
+    }
 
-//    private void showLearnVerbActivity(Verb verb){
-//        Intent verbIntent = new Intent(this, LearnVerbActivity.class);
-//        verbIntent.putExtra(LearnVerbActivity.KEY_VERB, verb);
-//        startActivity(verbIntent);
-//    }
+    @OnClick(R.id.tv_skip)
+    public void btnSkip_onClick(TextView tv){
+        mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
+        updateScoreLabel(mViewModel.getCurrentScore());
+    }
 
-//    @Override
-//    public void onVerbItemClick(Verb verbItem) {
-//        Log.d(TAG, "onVerbItemClick: verb["+verbItem.getWord_pt()+"]");
-//        showLearnVerbActivity(verbItem);
-//    }
 }
