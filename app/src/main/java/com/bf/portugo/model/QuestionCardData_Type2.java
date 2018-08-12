@@ -10,20 +10,20 @@ import java.util.List;
 public class QuestionCardData_Type2 extends QuestionCardData{
 
     private String mAnswerInput;
-    private boolean mChosenAnswerCorrect;
+    private boolean mAnswerAlreadyChecked;
 
     public QuestionCardData_Type2(Verb mVerb) {
         super(QuestionType.TYPE2, mVerb,null);
         mAnswerInput = "";
-        mChosenAnswerCorrect = false;
+        mAnswerAlreadyChecked = false;
     }
 
-    public boolean getChosenAnswerCorrect() {
-        return mChosenAnswerCorrect;
+    public boolean getAnswerAlreadyChecked() {
+        return mAnswerAlreadyChecked;
     }
 
-    public void setChosenAnswerCorrect(boolean mChosenAnswerCorrect) {
-        this.mChosenAnswerCorrect = mChosenAnswerCorrect;
+    public void setAnswerAlreadyChecked(boolean mAnswerAlreadyChecked) {
+        this.mAnswerAlreadyChecked = mAnswerAlreadyChecked;
     }
 
     public String getAnswerInput() {

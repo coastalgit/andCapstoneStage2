@@ -66,7 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //attachPresenterBase();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEditor = mPrefs.edit();
-
+        refreshPrefs();
         //if (!mViewModel.getHasCheckedForTTS())
             initTTSEngine();
     }
@@ -83,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //region PREFS
     private void refreshPrefs(){
-        mHasAudio = mPrefs.getBoolean(PREFKEY_HASAUDIO, false);
+        mHasAudio = mPrefs.getBoolean(PREFKEY_HASAUDIO, true);
         mHasTTSEngine = mPrefs.getBoolean(PREFKEY_HASTTS, false);
         mScoreBest = mPrefs.getInt(PREFKEY_SCOREBEST,0);
         mScorePrevious = mPrefs.getInt(PREFKEY_SCOREPREV,0);
@@ -97,6 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.mHasAudio = hasAudio;
         mPrefsEditor.putBoolean(PREFKEY_HASAUDIO,hasAudio);
         mPrefsEditor.commit();
+        refreshPrefs();
     }
 
     public boolean getHasTTSEngine() {
@@ -107,8 +108,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.mHasTTSEngine = hasTTSEngine;
         mPrefsEditor.putBoolean(PREFKEY_HASTTS,hasTTSEngine);
         mPrefsEditor.commit();
-        if (!hasTTSEngine)
-            setHasAudio(false);
+        refreshPrefs();
+        setHasAudio(hasTTSEngine);
         actionHasTTS(hasTTSEngine);
     }
 
@@ -120,6 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.mScorePrevious = scorePrevious;
         mPrefsEditor.putInt(PREFKEY_SCOREPREV,scorePrevious);
         mPrefsEditor.commit();
+        refreshPrefs();
     }
 
     protected int getScoreBest() {
@@ -130,6 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.mScoreBest = scoreBest;
         mPrefsEditor.putInt(PREFKEY_SCOREBEST,scoreBest);
         mPrefsEditor.commit();
+        refreshPrefs();
     }
     //endregion PREFS
 

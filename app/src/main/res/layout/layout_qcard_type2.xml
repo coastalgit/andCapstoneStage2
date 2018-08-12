@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
-                    android:textSize="@dimen/text_size_mid"
+                    android:textSize="@dimen/text_size_question"
                     android:gravity="center"
                     android:textColor="@color/colorVerbItem_pt"
                     android:text="What do you hear?" />
@@ -52,24 +52,65 @@
                 android:src="@drawable/outline_play_circle_filled_white_24"/>
 -->
 
-                <ImageView
-                    android:id="@+id/iv_listen"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_horizontal"
-                    android:scaleType="fitXY"
-                    android:padding="5dp"
-                    app:srcCompat="@drawable/ic_play_circle_filled_green_24dp"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
-                <EditText
-                    android:id="@+id/etAnswerInput"
+                    <ImageButton
+                        android:id="@+id/ib_listen"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:background="@color/colorWhite"
+                        android:padding="3dp"
+                        app:srcCompat="@drawable/ic_play_circle_filled_green_24dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_quiz_resultmsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/text_margin"
+                        android:textSize="@dimen/text_size_mid"
+                        android:textColor="@color/colorVerbItem_pt"
+                        android:visibility="invisible"
+                        android:text="Message" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:hint="Answer"
-                    android:text="" />
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/etAnswerInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="Answer"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/tv_quiz_correctanswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_card"
+                        android:textColor="@color/colorVerbItem_pt"
+                        android:visibility="invisible"
+                        android:text="Correct Answer" />
+
+
+                </FrameLayout>
+
 
                 <Button
                     android:id="@+id/btn_quiz_return"

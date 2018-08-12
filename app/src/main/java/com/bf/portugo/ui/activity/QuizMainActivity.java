@@ -89,7 +89,7 @@ public class QuizMainActivity extends BaseActivity{
                         //mViewModel.buildNewQuiz();
 
                         if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
-                            mViewModel.buildQuizBase(QuizMainActivity.this);
+                            mViewModel.buildQuizBase(getHasAudio());
 
                         buildQuestionCardsViewPager();
                     }
@@ -154,6 +154,16 @@ public class QuizMainActivity extends BaseActivity{
                     mViewModel.setCurrentScore(score);
                 }
                 updateScoreLabel(mViewModel.getCurrentScore());
+            }
+
+            @Override
+            public void speakWord(String wordText) {
+                doTTSSpeak(wordText);
+            }
+
+            @Override
+            public void displayMessage(String message) {
+                Toast.makeText(QuizMainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
 

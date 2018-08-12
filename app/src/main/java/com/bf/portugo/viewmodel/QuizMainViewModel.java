@@ -58,7 +58,7 @@ public class QuizMainViewModel extends AndroidViewModel {
         return mQuestionCards;
     }
 
-    public void buildQuizBase(Context context){
+    public void buildQuizBase(boolean hasAudio){
         Log.d(TAG, "buildQuizBase: ");
         List<Verb> qVerbs = VerbHelper.generateRandomVerbList(QUIZ_QUESTION_COUNT, mVerbsAll.getValue());
         Log.d(TAG, "buildQuizBase: Count:"+qVerbs==null?"Null":String.valueOf(qVerbs.size()));
@@ -68,13 +68,14 @@ public class QuizMainViewModel extends AndroidViewModel {
         for (Verb v:qVerbs) {
             // TODO: 12/08/2018 Generate different types, based on audio enabled 
 
-            if (count == 2){
-                QuestionCardData qc = new QuestionCardData_Type2(v);
+            QuestionCardData qc;
+            if (count == 2 && hasAudio){
+                qc = new QuestionCardData_Type2(v);
             }
             else{
                 List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,qVerbs);
                 //QuestionCardData qc = new QuestionCardData(v,wrongAnswers);
-                QuestionCardData qc = new QuestionCardData_Type1(v,wrongAnswers);
+                qc = new QuestionCardData_Type1(v,wrongAnswers);
 
             }
             mQuestionCards.add(qc);

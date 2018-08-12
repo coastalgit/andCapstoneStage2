@@ -106,6 +106,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void actionHasTTS(boolean hasTTS) {
         if (hasTTS) {
+            updateAudioButton(true,getHasAudio());
             Toast.makeText(this, ">>> Vamos", Toast.LENGTH_SHORT).show();
             if (getHasAudio()) {
                 if (!mViewModel.getHasAlreadySpokenWelcome()) {
