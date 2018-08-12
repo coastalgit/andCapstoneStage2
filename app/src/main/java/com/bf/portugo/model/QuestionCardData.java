@@ -17,7 +17,10 @@ public class QuestionCardData {
 
     private Verb mVerb;
     private List<Verb> mWrongAnswers;
+    private int mChosenAnswer;
+    private int mAnswerPosition;
 
+    private boolean mChosenAnswerCorrect;
 /*
     public QuestionCardData(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, Verb mVerb, List<Verb> mWrongAnswers) {
         super(context, attrs, defStyleAttr);
@@ -29,6 +32,9 @@ public class QuestionCardData {
     public QuestionCardData(Verb mVerb, List<Verb> mWrongAnswers) {
         this.mVerb = mVerb;
         this.mWrongAnswers = mWrongAnswers;
+        mChosenAnswer = -1;
+        mChosenAnswerCorrect = false;
+        mAnswerPosition = -1;
     }
 
 
@@ -46,6 +52,30 @@ public class QuestionCardData {
 
     public void setWrongAnswers(List<Verb> mWrongAnswers) {
         this.mWrongAnswers = mWrongAnswers;
+    }
+
+    public int getChosenAnswer() {
+        return mChosenAnswer;
+    }
+
+    public void setChosenAnswer(int mChosenAnswer) {
+        this.mChosenAnswer = mChosenAnswer;
+    }
+
+    public boolean getChosenAnswerCorrect() {
+        return mChosenAnswerCorrect;
+    }
+
+    public void setChosenAnswerCorrect(boolean mChosenAnswerCorrect) {
+        this.mChosenAnswerCorrect = mChosenAnswerCorrect;
+    }
+
+    public int getAnswerPosition() {
+        return mAnswerPosition;
+    }
+
+    public void setAnswerPosition(int mAnswerPosition) {
+        this.mAnswerPosition = mAnswerPosition;
     }
 
 }

@@ -55,6 +55,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     //public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCardData> mCards) {
     public QuestionCardPagerAdapter(Context context, List<QuestionCardData> cards, IPagerAdapterAction listener) {
+        Log.d(TAG, "QuestionCardPagerAdapter: ");
     //public QuestionCardPagerAdapter(Context context, List<QuestionCardData> cards) {
         this.mContext = context;
         this.mFont = Typeface.createFromAsset(mContext.getAssets(), FONT_ITIM_REGULAR);
@@ -119,6 +120,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
         // Bind content
         QuestionCardData qc = mQuestionCardData.get(position);
+        Log.d(TAG, "instantiateItem: CARD at pos="+String.valueOf(position)+" selectedIndex="+String.valueOf(qc.getChosenAnswer()+" correct="+String.valueOf(qc.getChosenAnswerCorrect())));
         final TextView tvQuestion = view.findViewById(R.id.tv_quiz_question);
         tvQuestion.setTypeface(mFont);
         tvQuestion.setText(qc.getVerb().getWord_en());
@@ -142,7 +144,14 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         mTvAnswer3.setTypeface(mFont);
 //
         int correctAnswerIndex = generateRandomAnswerIndex();
-        Log.d(TAG, "instantiateItem: Correct answer at:"+String.valueOf(correctAnswerIndex));
+        if (qc.getAnswerPosition() != -1) {
+            //existing
+            correctAnswerIndex = qc.getAnswerPosition();
+        }
+        Log.d(TAG, "instantiateItem: Correct answer at "+String.valueOf(correctAnswerIndex));
+
+        qc.setAnswerPosition(correctAnswerIndex);
+        mQuestionCardData.set(position,qc);
 
         //if (correctAnswerIndex == 0) {
 //        assignAnswerButton(cardView, correctAnswerIndex==0, qc, 0, mFrameAnswer0, mTvAnswer0);
@@ -174,6 +183,14 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
 */
 
+        // in case of rotation, reshow previous selection
+        if (qc.getChosenAnswer() != -1){
+            Log.d(TAG, "instantiateItem: reselecting="+String.valueOf(qc.getChosenAnswer() == 0));
+            if (qc.getChosenAnswer() == 0) mFrameAnswer0.performClick();
+            else if (qc.getChosenAnswer() == 1) mFrameAnswer1.performClick();
+            else if (qc.getChosenAnswer() == 2) mFrameAnswer2.performClick();
+            else if (qc.getChosenAnswer() == 3) mFrameAnswer3.performClick();
+        }
 
         mCards.set(position,cardView);
         return view;
@@ -181,6 +198,15 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     //private void handleAnswerSelection(CardView cardView, int correctAnswerIndex, int selectedIndex, boolean isCorrect){
     private void handleAnswerSelection(CardView cardView, int correctAnswerIndex, int selectedIndex){
+
+        int pos = ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex();
+        QuestionCardData qcd = mQuestionCardData.get(pos);
+        qcd.setChosenAnswer(selectedIndex);
+        boolean correct = correctAnswerIndex==selectedIndex;
+        qcd.setChosenAnswerCorrect(correct);
+        Log.d(TAG, "handleAnswerSelection: Pos="+String.valueOf(pos)+"("+qcd.getVerb().getWord_pt()+") Selected="+String.valueOf(selectedIndex)+" Correct="+String.valueOf(correct));
+        mQuestionCardData.set(pos,qcd);
+
 
         //0
         FrameLayout frameAnswer0 = cardView.findViewById(R.id.answer_0);
@@ -269,6 +295,13 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     private void assignAnswerButton(final CardView cardView, final int correctAnswerIndex, QuestionCardData qcd, int answerIndex, final FrameLayout answerFrame, final TextView answerTextView){
 
+        String answers = "Answers:";
+        for (Verb answer: qcd.getWrongAnswers()) {
+            answers = answers + " " +answer.getWord_pt();
+        }
+        Log.d(TAG, "assignAnswerButton: Card:["+qcd.getVerb().getWord_en()+"] "+answers);
+
+
         boolean isCorrect = (correctAnswerIndex == answerIndex);
         String answerTxt = qcd.getVerb().getWord_pt();
 
@@ -283,8 +316,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: "+(isCorrect?"CORRECT":"WRONG")+" answer selected for index "+ String.valueOf(answerIndex) + ":["+ finalAnswerTxt +"]");
-                //handleAnswerSelection(cardView, correctAnswerIndex, answerIndex, isCorrect);
-                if (mListener != null) {
+                if ((mListener != null) && qcd.getChosenAnswer()<0) {
                     mListener.adjustScore(isCorrect);
                 }
 
