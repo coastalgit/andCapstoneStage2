@@ -42,8 +42,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mPrefsEditor;
 
+    private boolean mHasAudio;
+    private static final String PREFKEY_HASAUDIO = "k_hasaudio";
+
     private boolean mHasTTSEngine;
-    private static final String PREFKEY_HASTTS = "k_hastts" ;
+    private static final String PREFKEY_HASTTS = "k_hastts";
 
     private int mScorePrevious, mScoreBest;
     private static final String PREFKEY_SCOREPREV = "k_scoreprev";
@@ -80,9 +83,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //region PREFS
     private void refreshPrefs(){
+        mHasAudio = mPrefs.getBoolean(PREFKEY_HASAUDIO, false);
         mHasTTSEngine = mPrefs.getBoolean(PREFKEY_HASTTS, false);
         mScoreBest = mPrefs.getInt(PREFKEY_SCOREBEST,0);
         mScorePrevious = mPrefs.getInt(PREFKEY_SCOREPREV,0);
+    }
+
+    public boolean getHasAudio() {
+        return mHasAudio;
+    }
+
+    protected void setHasAudio(boolean hasAudio) {
+        this.mHasAudio = hasAudio;
+        mPrefsEditor.putBoolean(PREFKEY_HASAUDIO,hasAudio);
+        mPrefsEditor.commit();
     }
 
     public boolean getHasTTSEngine() {
@@ -93,6 +107,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.mHasTTSEngine = hasTTSEngine;
         mPrefsEditor.putBoolean(PREFKEY_HASTTS,hasTTSEngine);
         mPrefsEditor.commit();
+        if (!hasTTSEngine)
+            setHasAudio(false);
         actionHasTTS(hasTTSEngine);
     }
 

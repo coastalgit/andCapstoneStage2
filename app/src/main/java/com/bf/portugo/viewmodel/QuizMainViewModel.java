@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bf.portugo.model.QuestionCardData;
+import com.bf.portugo.model.QuestionCardData_Type1;
+import com.bf.portugo.model.QuestionCardData_Type2;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.repo.VerbRoomRepository;
 import com.bf.portugo.util.VerbHelper;
@@ -62,10 +64,21 @@ public class QuizMainViewModel extends AndroidViewModel {
         Log.d(TAG, "buildQuizBase: Count:"+qVerbs==null?"Null":String.valueOf(qVerbs.size()));
 
         mQuestionCards = new ArrayList<>();
+        int count = 0;
         for (Verb v:qVerbs) {
-            List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,qVerbs);
-            QuestionCardData qc = new QuestionCardData(v,wrongAnswers);
+            // TODO: 12/08/2018 Generate different types, based on audio enabled 
+
+            if (count == 2){
+                QuestionCardData qc = new QuestionCardData_Type2(v);
+            }
+            else{
+                List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,qVerbs);
+                //QuestionCardData qc = new QuestionCardData(v,wrongAnswers);
+                QuestionCardData qc = new QuestionCardData_Type1(v,wrongAnswers);
+
+            }
             mQuestionCards.add(qc);
+            count++;
         }
     }
 

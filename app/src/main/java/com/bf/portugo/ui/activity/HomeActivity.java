@@ -57,6 +57,8 @@ public class HomeActivity extends BaseActivity {
     Button mBtnLearn;
     @BindView(R.id.btn_home_quiz)
     Button mBtnQuiz;
+    @BindView(R.id.btn_home_audiotoggle)
+    Button mBtnAudioToggle;
 
     @BindView(R.id.tv_home_loading)
     TextView mTvLoading;
@@ -71,6 +73,7 @@ public class HomeActivity extends BaseActivity {
 
         setControlsVisibility(false);
 
+        // TODO: 12/08/2018 Replace with image?
         mTitleFont = Typeface.createFromAsset(this.getAssets(), FONT_LOBSTER_REGULAR);
         mTvTitle.setTypeface(mTitleFont);
 
@@ -97,20 +100,29 @@ public class HomeActivity extends BaseActivity {
             mKbv.setImageDrawable(getDrawable(R.drawable.splashland));
         }
 
+        updateAudioButton(getHasTTSEngine(),getHasAudio());
     }
 
     @Override
     protected void actionHasTTS(boolean hasTTS) {
         if (hasTTS) {
             Toast.makeText(this, ">>> Vamos", Toast.LENGTH_SHORT).show();
-            if (!mViewModel.getHasAlreadySpokenWelcome()) {
-                doTTSSpeak(getString(R.string.bemvindo));
-                mViewModel.setHasAlreadySpokenWelcome(true);
+            if (getHasAudio()) {
+                if (!mViewModel.getHasAlreadySpokenWelcome()) {
+                    sayWelcomeMessage();
+                    mViewModel.setHasAlreadySpokenWelcome(true);
+                }
             }
             setControlsVisibility(true);
         }
-        else
+        else {
             Toast.makeText(this, ">>> TTS unavailable", Toast.LENGTH_SHORT).show();
+            updateAudioButton(false,false);
+        }
+    }
+
+    private void sayWelcomeMessage(){
+        doTTSSpeak(getString(R.string.bemvindo));
     }
 
     @Override
@@ -150,6 +162,18 @@ public class HomeActivity extends BaseActivity {
     public void btnHomeQuiz_onClick(Button btn){
         Intent intent = new Intent(this, QuizMainActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_home_audiotoggle)
+    public void btnAudioToggle_onClick(Button btn){
+        boolean currentState = getHasAudio();
+        setHasAudio(!currentState);
+        updateAudioButton(true,getHasAudio());
+    }
+
+    private void updateAudioButton(boolean isVisible, boolean hasAudio){
+        mBtnAudioToggle.setVisibility(isVisible?View.VISIBLE:View.INVISIBLE);
+        mBtnAudioToggle.setText(hasAudio?"DISABLE AUDIO":"ENABLE AUDIO");
     }
 
 }

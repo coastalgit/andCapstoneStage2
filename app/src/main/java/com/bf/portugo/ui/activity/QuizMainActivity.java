@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class QuizMainActivity extends BaseActivity{
 
     @BindView(R.id.fab_quiznext)
     FloatingActionButton mFabQuizNext;
+
 
     @BindView(R.id.tv_skip)
     TextView mTvSkip;
@@ -236,8 +238,9 @@ public class QuizMainActivity extends BaseActivity{
     public void btnQuizNext_onClick(FloatingActionButton fab){
         if (!mViewModel.getLastPageReached())
             mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
-        else
+        else {
             Toast.makeText(this, "Do finalized shit", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.tv_skip)
