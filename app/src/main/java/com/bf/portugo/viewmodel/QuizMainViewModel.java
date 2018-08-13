@@ -33,13 +33,13 @@ public class QuizMainViewModel extends AndroidViewModel {
     private int mActiveCardIndex;
     private int mCurrentScore;
     private boolean mLastPageReached;
+    private boolean mFinalCardShown;
     private LiveData<List<Verb>> mVerbsAll;
     private List<QuestionCardData> mQuestionCards;
 
     public QuizMainViewModel(@NonNull Application application) {
         super(application);
         mRepo = new VerbRoomRepository(application);
-        //mVerbsAll = new MutableLiveData<>();
         buildNewQuiz();
     }
 
@@ -47,6 +47,7 @@ public class QuizMainViewModel extends AndroidViewModel {
         mActiveCardIndex = 0;
         mCurrentScore = 0;
         mLastPageReached = false;
+        mFinalCardShown = false;
         mVerbsAll = mRepo.getVerbs(false);
     }
 
@@ -59,9 +60,8 @@ public class QuizMainViewModel extends AndroidViewModel {
     }
 
     public void buildQuizBase(boolean hasAudio){
-        Log.d(TAG, "buildQuizBase: ");
         List<Verb> qVerbs = VerbHelper.generateRandomVerbList(QUIZ_QUESTION_COUNT, mVerbsAll.getValue());
-        Log.d(TAG, "buildQuizBase: Count:"+qVerbs==null?"Null":String.valueOf(qVerbs.size()));
+        Log.d(TAG, "buildQuizBase: Count="+VerbHelper.getListRecordCount(qVerbs));
 
         mQuestionCards = new ArrayList<>();
         int count = 0;
@@ -107,6 +107,14 @@ public class QuizMainViewModel extends AndroidViewModel {
 
     public void setLastPageReached(boolean mLastPageReached) {
         this.mLastPageReached = mLastPageReached;
+    }
+
+    public boolean getFinalCardShown() {
+        return mFinalCardShown;
+    }
+
+    public void setFinalCardShown(boolean mFinalCardShown) {
+        this.mFinalCardShown = mFinalCardShown;
     }
 
 }

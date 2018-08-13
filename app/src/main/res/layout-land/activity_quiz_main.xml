@@ -65,7 +65,7 @@
                 android:layout_marginLeft="@dimen/fab_margin"
                 android:layout_marginRight="@dimen/fab_margin"
                 android:gravity="center"
-                android:textSize="@dimen/text_size_score"
+                android:textSize="@dimen/text_size_progress"
                 android:textColor="@color/colorDGray"
                 android:text="@string/score"/>
 

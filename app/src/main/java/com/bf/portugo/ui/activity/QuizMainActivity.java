@@ -87,16 +87,23 @@ public class QuizMainActivity extends BaseActivity{
                         if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
                             mViewModel.buildQuizBase(getHasAudio());
 
-                        setFABAccess(false);
                         if (!mViewModel.getLastPageReached()) {
-                            setSkip(true);
-                            buildQuestionCardsViewPager(mViewModel.getQuestionCards());
+                            loadQuestionCardPager();                        }
+                        else{
+                            if (mViewModel.getFinalCardShown())
+                                showFinalCard();
+                            else
+                                loadQuestionCardPager();
                         }
-                        else
-                            showFinalCard();
                     }
                 }
             });
+    }
+
+    private void loadQuestionCardPager(){
+        setFABAccess(false);
+        setSkip(true);
+        buildQuestionCardsViewPager(mViewModel.getQuestionCards());
     }
 
     @Override
@@ -127,7 +134,7 @@ public class QuizMainActivity extends BaseActivity{
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
         //updateScoreLabel(mViewModel.getCurrentScore());
-        updateProgessLabel(mViewModel.getActiveCardIndex()+1);
+        updateProgessLabel(mViewModel.getLastPageReached()?QUIZ_QUESTION_COUNT:mViewModel.getActiveCardIndex()+1);
         
         mPagerAdapter = new QuestionCardPagerAdapter(this, cardData, new QuestionCardPagerAdapter.IPagerAdapterAction() {
             @Override
@@ -182,6 +189,7 @@ public class QuizMainActivity extends BaseActivity{
                     setFABAccess(false);
                     if (position == QUIZ_QUESTION_COUNT - 1) {
                         mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
+                        Log.d(TAG, "onPageSelected: LAST PAGE");
                         mViewModel.setLastPageReached(true);
                         setSkip(false);
                     } else {
@@ -243,6 +251,7 @@ public class QuizMainActivity extends BaseActivity{
     }
 
     private void showFinalCard(){
+        mViewModel.setFinalCardShown(true);
         setFABAccess(false);
         setSkip(false);
         List<QuestionCardData> listCard = new ArrayList<>();
