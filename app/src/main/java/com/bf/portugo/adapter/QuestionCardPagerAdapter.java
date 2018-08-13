@@ -104,14 +104,11 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        Log.d(TAG, "instantiateItem: Pos="+String.valueOf(position));
-
-        // TODO: 11/08/2018 Determine best means of generating a quiz type
 
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
 
-        // Bind content
         QuestionCardData qc = mQuestionCardData.get(position);
+        Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
 
         int resourceId;
         switch (qc.getQuestionType()){
@@ -129,8 +126,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
         final CardView cardView = view.findViewById(R.id.layout_quizcard);
 
-//        // Bind content
-//        QuestionCardData qc = mQuestionCardData.get(position);
+        // Bind content
         if (qc.getQuestionType() == QuestionCardData.QuestionType.TYPE1) {
             //region TYPE 1
             Log.d(TAG, "instantiateItem: CARD TYPE 1 at pos=" + String.valueOf(position) + " selectedIndex=" + String.valueOf(((QuestionCardData_Type1)qc).getChosenAnswer() + " correct=" + String.valueOf(qc.getChosenAnswerCorrect())));
@@ -165,18 +161,33 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             ((QuestionCardData_Type1)qc).setAnswerPosition(correctAnswerIndex);
             mQuestionCardData.set(position, qc);
 
-            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 0, frameAnswer0, tvAnswer0);
-            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 1, frameAnswer1, tvAnswer1);
-            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 2, frameAnswer2, tvAnswer2);
-            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 3, frameAnswer3, tvAnswer3);
+            if (isCurrentCard(position)) {
+                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 0, frameAnswer0, tvAnswer0);
+                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 1, frameAnswer1, tvAnswer1);
+                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 2, frameAnswer2, tvAnswer2);
+                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 3, frameAnswer3, tvAnswer3);
 
-            // in case of rotation, reshow previous selection
-            if (((QuestionCardData_Type1)qc).getChosenAnswer() != -1) {
-                Log.d(TAG, "instantiateItem: Reselecting=" + String.valueOf(((QuestionCardData_Type1)qc).getChosenAnswer() == 0));
-                if (((QuestionCardData_Type1)qc).getChosenAnswer() == 0) frameAnswer0.performClick();
-                else if (((QuestionCardData_Type1)qc).getChosenAnswer() == 1) frameAnswer1.performClick();
-                else if (((QuestionCardData_Type1)qc).getChosenAnswer() == 2) frameAnswer2.performClick();
-                else if (((QuestionCardData_Type1)qc).getChosenAnswer() == 3) frameAnswer3.performClick();
+                //Log.d(TAG, "instantiateItem: POS="+String.valueOf(position)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
+                // in case of rotation, reshow previous selection
+                if (((QuestionCardData_Type1) qc).getChosenAnswer() != -1) {
+                    Log.d(TAG, "instantiateItem: Reselecting=" + String.valueOf(((QuestionCardData_Type1) qc).getChosenAnswer() == 0));
+                    if (((QuestionCardData_Type1) qc).getChosenAnswer() == 0)
+                        frameAnswer0.performClick();
+                    else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 1)
+                        frameAnswer1.performClick();
+                    else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 2)
+                        frameAnswer2.performClick();
+                    else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 3)
+                        frameAnswer3.performClick();
+                } else {
+                    //if (((QuizMainActivity)mContext).getViewModel().getActiveCardIndex() == position) {
+                    if (isCurrentCard(position)) {
+                        if (mListener != null) {
+                            mListener.setFABEnabled(false);
+                            mListener.setSkipEnabled(true);
+                        }
+                    }
+                }
             }
             //endregion TYPE 1
         }
@@ -218,7 +229,12 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
                             mListener.displayMessage("Answer required, or skip");
                     }
                     else {
+                        if ((mListener != null) && (!((QuestionCardData_Type2) qc).getAnswerAlreadyChecked())) {
+                            mListener.adjustScore(qc.getChosenAnswerCorrect());
+                        }
+
                         ((QuestionCardData_Type2) qc).setAnswerAlreadyChecked(true);
+
                         if (VerbHelper.isMatch(true, qc.getVerb().getWord_pt(), etAnswerInput.getText().toString().trim())) {
                             Log.d(TAG, "onClick: CORRECT");
                             qc.setChosenAnswerCorrect(true);
@@ -226,15 +242,16 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
                             Log.d(TAG, "onClick: INCORRECT");
                             qc.setChosenAnswerCorrect(false);
                         }
-                        if ((mListener != null) && (!((QuestionCardData_Type2) qc).getAnswerAlreadyChecked())) {
-                            mListener.adjustScore(qc.getChosenAnswerCorrect());
-                        }
                         handleType2Controls((QuestionCardData_Type2) qc, btnReturn, btnListen, etAnswerInput, tvResultMessage, tvCorrectAnswer);
                     }
                 }
             });
 
-            handleType2Controls((QuestionCardData_Type2) qc, btnReturn, btnListen, etAnswerInput, tvResultMessage, tvCorrectAnswer);
+            if (isCurrentCard(position)){
+                handleType2Controls((QuestionCardData_Type2) qc, btnReturn, btnListen, etAnswerInput, tvResultMessage, tvCorrectAnswer);
+            }
+
+
 /*
 
             if (((QuestionCardData_Type2)qc).getAnswerAlreadyChecked()){
@@ -267,6 +284,11 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
         mCards.set(position,cardView);
         return view;
+    }
+
+    private boolean isCurrentCard(int pos){
+        Log.d(TAG, "instantiateItem: POS="+String.valueOf(pos)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
+        return (pos == ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex());
     }
 
     private void handleType2Controls(QuestionCardData_Type2 qcd, Button btnReturn, ImageButton btnListen, EditText etAnswerText, TextView resultMessage, TextView correctAnswer){
@@ -302,6 +324,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             etAnswerText.requestFocus();
             correctAnswer.setVisibility(View.INVISIBLE);
             resultMessage.setVisibility(View.INVISIBLE);
+
             if (mListener != null) {
                 mListener.setFABEnabled(false);
                 mListener.setSkipEnabled(true);
