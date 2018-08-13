@@ -64,10 +64,10 @@
                         android:layout_gravity="center"
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
-                        android:background="@color/colorWhite"
                         android:padding="3dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_play_circle_filled_green_24dp"/>
-
+                        <!--android:background="@color/colorWhite"-->
                     <TextView
                         android:id="@+id/tv_quiz_resultmsg"
                         android:layout_width="wrap_content"

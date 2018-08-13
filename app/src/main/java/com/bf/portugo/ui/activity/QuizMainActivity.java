@@ -94,7 +94,13 @@ public class QuizMainActivity extends BaseActivity{
                         if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
                             mViewModel.buildQuizBase(getHasAudio());
 
-                        buildQuestionCardsViewPager(mViewModel.getQuestionCards());
+                        setFABAccess(false);
+                        if (!mViewModel.getLastPageReached()) {
+                            setSkip(true);
+                            buildQuestionCardsViewPager(mViewModel.getQuestionCards());
+                        }
+                        else
+                            showFinalCard();
                     }
                 }
             });
@@ -134,8 +140,6 @@ public class QuizMainActivity extends BaseActivity{
     private void buildQuestionCardsViewPager(List<QuestionCardData> cardData){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
-        setFABAccess(false);
-        setSkip(true);
         updateScoreLabel(mViewModel.getCurrentScore());
         
         mPagerAdapter = new QuestionCardPagerAdapter(this, cardData, new QuestionCardPagerAdapter.IPagerAdapterAction() {
@@ -184,19 +188,18 @@ public class QuizMainActivity extends BaseActivity{
             @Override
             public void onPageSelected(int position) {
                 Log.d(TAG, "onPageSelected: Pos="+String.valueOf(position));
-                mViewModel.setActiveCardIndex(position);
-                if (position == QUIZ_QUESTION_COUNT-1) {
-                    //Toast.makeText(QuizMainActivity.this, "LAST", Toast.LENGTH_SHORT).show();
-                    mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
-                    mViewModel.setLastPageReached(true);
+                if (!mViewModel.getLastPageReached()) {
+                    mViewModel.setActiveCardIndex(position);
                     setFABAccess(false);
-                    setSkip(false);
+                    if (position == QUIZ_QUESTION_COUNT - 1) {
+                        //Toast.makeText(QuizMainActivity.this, "LAST", Toast.LENGTH_SHORT).show();
+                        mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
+                        mViewModel.setLastPageReached(true);
+                        setSkip(false);
+                    } else {
+                        setSkip(true);
+                    }
                 }
-                else{
-                    setFABAccess(false);
-                    setSkip(true);
-                }
-
             }
 
             @Override
@@ -257,15 +260,19 @@ public class QuizMainActivity extends BaseActivity{
         if (!mViewModel.getLastPageReached())
             mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
         else {
-            setFABAccess(false);
-            setSkip(false);
-            Toast.makeText(this, "Do finalized shit", Toast.LENGTH_SHORT).show();
-            List<QuestionCardData> listCard = new ArrayList<>();
-            QuestionCardData_End endCard = new QuestionCardData_End(String.valueOf(mViewModel.getCurrentScore()),"Sweet");
-            listCard.add(endCard);
-            buildQuestionCardsViewPager(listCard);
-
+            mViewModel.setActiveCardIndex(0);
+            //Toast.makeText(this, "Do finalized shit", Toast.LENGTH_SHORT).show();
+            showFinalCard();
         }
+    }
+
+    private void showFinalCard(){
+        setFABAccess(false);
+        setSkip(false);
+        List<QuestionCardData> listCard = new ArrayList<>();
+        QuestionCardData_End endCard = new QuestionCardData_End(String.valueOf(mViewModel.getCurrentScore()),"Sweet");
+        listCard.add(endCard);
+        buildQuestionCardsViewPager(listCard);
     }
 
     @OnClick(R.id.tv_skip)

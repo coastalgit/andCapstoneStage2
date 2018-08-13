@@ -202,7 +202,7 @@ public class VerbHelper {
      * @return
      */
     public static boolean isMatch(Boolean ignoreAccents, String originalString, String userInput){
-
+        Log.d(TAG, "isMatch: Orig:["+originalString+"] Input:["+userInput+"]");
         final Collator instance = Collator.getInstance();
 
         instance.setStrength(ignoreAccents?Collator.NO_DECOMPOSITION:Collator.IDENTICAL);
