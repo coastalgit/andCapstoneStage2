@@ -108,7 +108,14 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
 
         QuestionCardData qc = mQuestionCardData.get(position);
-        Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
+
+        if (qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPE1))
+            Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString()+" with selectedindex="+String.valueOf(((QuestionCardData_Type1)qc).getChosenAnswer()));
+        else
+            Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
+
+        if (isDiscardedCard(position))
+            return null;
 
         int resourceId;
         switch (qc.getQuestionType()){
@@ -158,10 +165,12 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             }
             Log.d(TAG, "instantiateItem: Correct answer at " + String.valueOf(correctAnswerIndex));
 
-            ((QuestionCardData_Type1)qc).setAnswerPosition(correctAnswerIndex);
-            mQuestionCardData.set(position, qc);
-
             if (isCurrentCard(position)) {
+                ((QuestionCardData_Type1) qc).setAnswerPosition(correctAnswerIndex);
+                mQuestionCardData.set(position, qc);
+            }
+
+            //if (isCurrentCard(position)) {
                 assignType1AnswerButton(cardView, correctAnswerIndex, qc, 0, frameAnswer0, tvAnswer0);
                 assignType1AnswerButton(cardView, correctAnswerIndex, qc, 1, frameAnswer1, tvAnswer1);
                 assignType1AnswerButton(cardView, correctAnswerIndex, qc, 2, frameAnswer2, tvAnswer2);
@@ -188,7 +197,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
                         }
                     }
                 }
-            }
+            //}
             //endregion TYPE 1
         }
         else if (qc.getQuestionType() == QuestionCardData.QuestionType.TYPE2) {
@@ -287,8 +296,13 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     }
 
     private boolean isCurrentCard(int pos){
-        Log.d(TAG, "instantiateItem: POS="+String.valueOf(pos)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
+        Log.d(TAG, "isCurrentCard: POS="+String.valueOf(pos)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
         return (pos == ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex());
+    }
+
+    private boolean isDiscardedCard(int pos){
+        Log.d(TAG, "isDiscardedCard: POS="+String.valueOf(pos)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
+        return (pos < ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex());
     }
 
     private void handleType2Controls(QuestionCardData_Type2 qcd, Button btnReturn, ImageButton btnListen, EditText etAnswerText, TextView resultMessage, TextView correctAnswer){
