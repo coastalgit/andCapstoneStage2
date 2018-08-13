@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bf.portugo.R;
 import com.bf.portugo.model.QuestionCardData;
+import com.bf.portugo.model.QuestionCardData_End;
 import com.bf.portugo.model.QuestionCardData_Type1;
 import com.bf.portugo.model.QuestionCardData_Type2;
 import com.bf.portugo.model.Verb;
@@ -53,6 +54,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         void adjustScore(boolean answeredCorrect);
         void speakWord(String wordText);
         void displayMessage(String message);
+        void endQuiz();
     }
 
     //public QuestionCardPagerAdapter(List<CardView> mViews, List<QuestionCardData> mCards) {
@@ -114,7 +116,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         else
             Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
 
-        if (isDiscardedCard(position))
+        if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && isDiscardedCard(position) )
             return null;
 
         int resourceId;
@@ -260,34 +262,29 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
                 handleType2Controls((QuestionCardData_Type2) qc, btnReturn, btnListen, etAnswerInput, tvResultMessage, tvCorrectAnswer);
             }
 
-
-/*
-
-            if (((QuestionCardData_Type2)qc).getAnswerAlreadyChecked()){
-                // TODO: 12/08/2018 Indicator (Colouring)?
-                mBtnReturn.setEnabled(false);
-                mBtnListen.setEnabled(false);
-                mEtAnswerInput.setEnabled(false);
-                if (mListener != null) {
-                    mListener.setFABEnabled(true);
-                    mListener.setSkipEnabled(false);
-                }
-            }
-            else{
-                mBtnReturn.setEnabled(true);
-                mBtnListen.setEnabled(true);
-                mEtAnswerInput.setEnabled(true);
-                if (mListener != null) {
-                    mListener.setFABEnabled(false);
-                    mListener.setSkipEnabled(true);
-                }
-            }
-*/
-
             //endregion TYPE 2
 
         }
         else if (qc.getQuestionType() == QuestionCardData.QuestionType.TYPEEND) {
+            Log.d(TAG, "instantiateItem: CARD TYPE END at pos=" + String.valueOf(position));
+
+            TextView tvMessage = (TextView) cardView.findViewById(R.id.tv_quiz_question);
+            tvMessage.setTypeface(mFont);
+
+            // TODO: 13/08/2018  
+            String msg = ((QuestionCardData_End)qc).getLabelMessage();
+            String score = ((QuestionCardData_End)qc).getLabelScore();
+            tvMessage.setText(msg+ " "+score);
+
+            Button btnReturn = (Button) cardView.findViewById(R.id.btn_quiz_return);
+            btnReturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mListener != null){
+                        mListener.endQuiz();
+                    }
+                }
+            });
 
         }
 

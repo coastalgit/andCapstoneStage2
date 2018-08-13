@@ -18,9 +18,12 @@ import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.QuestionCardPagerAdapter;
+import com.bf.portugo.model.QuestionCardData;
+import com.bf.portugo.model.QuestionCardData_End;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.viewmodel.QuizMainViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -91,7 +94,7 @@ public class QuizMainActivity extends BaseActivity{
                         if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
                             mViewModel.buildQuizBase(getHasAudio());
 
-                        buildQuestionCardsViewPager();
+                        buildQuestionCardsViewPager(mViewModel.getQuestionCards());
                     }
                 }
             });
@@ -128,14 +131,14 @@ public class QuizMainActivity extends BaseActivity{
         mTvSkip.setVisibility(enabled?View.VISIBLE:View.INVISIBLE);
     }
 
-    private void buildQuestionCardsViewPager(){
+    private void buildQuestionCardsViewPager(List<QuestionCardData> cardData){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
         setFABAccess(false);
         setSkip(true);
         updateScoreLabel(mViewModel.getCurrentScore());
         
-        mPagerAdapter = new QuestionCardPagerAdapter(this, mViewModel.getQuestionCards(), new QuestionCardPagerAdapter.IPagerAdapterAction() {
+        mPagerAdapter = new QuestionCardPagerAdapter(this, cardData, new QuestionCardPagerAdapter.IPagerAdapterAction() {
             @Override
             public void setFABEnabled(boolean enabled) {
                 setFABAccess(enabled);
@@ -164,6 +167,11 @@ public class QuizMainActivity extends BaseActivity{
             @Override
             public void displayMessage(String message) {
                 Toast.makeText(QuizMainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void endQuiz() {
+                finish();
             }
         });
 
@@ -249,7 +257,14 @@ public class QuizMainActivity extends BaseActivity{
         if (!mViewModel.getLastPageReached())
             mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
         else {
+            setFABAccess(false);
+            setSkip(false);
             Toast.makeText(this, "Do finalized shit", Toast.LENGTH_SHORT).show();
+            List<QuestionCardData> listCard = new ArrayList<>();
+            QuestionCardData_End endCard = new QuestionCardData_End(String.valueOf(mViewModel.getCurrentScore()),"Sweet");
+            listCard.add(endCard);
+            buildQuestionCardsViewPager(listCard);
+
         }
     }
 

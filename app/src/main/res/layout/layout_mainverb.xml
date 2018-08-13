@@ -15,6 +15,8 @@
         card_view:cardCornerRadius="6dp"
         android:animateLayoutChanges="true"
         android:background="@color/colorGlobalBG"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
         card_view:cardElevation="@dimen/card_elevation">
         <!--card_view:elevation="@dimen/global_elevation"-->
 <!--

@@ -12,10 +12,10 @@ public class QuestionCardData_End extends QuestionCardData{
     private String mLabelScore;
     private String mLabelMessage;
 
-    public QuestionCardData_End() {
+    public QuestionCardData_End(String mLabelScore, String mLabelMessage) {
         super(QuestionType.TYPEEND,null,null);
-        mLabelScore = String.valueOf(0);
-        mLabelMessage = "";
+        this.mLabelScore = mLabelScore;
+        this.mLabelMessage = mLabelMessage;
     }
 
     public String getLabelScore() {
