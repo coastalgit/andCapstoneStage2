@@ -28,10 +28,8 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
     private final LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener mListener;
     private Typeface mFont;
 
-    //public LearnMainVerbsRecyclerViewAdapter(Context mContext, List<Verb> verbs, OnListFragmentInteractionListener listener) {
     public LearnMainVerbsRecyclerViewAdapter(Context mContext, LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener listener) {
         this.mContext = mContext;
-        //mVerbs = verbs;
         mListener = listener;
         mFont = Typeface.createFromAsset(mContext.getAssets(), FONT_ITIM_REGULAR);
     }
@@ -54,18 +52,6 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
         holder.mTvVerb_PT.setText(mVerbs.get(position).getWord_pt());
         holder.mTvVerb_EN.setText(mVerbs.get(position).getWord_en());
 
-/*
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: ");
-                if (mListener != null) {
-                    Log.d(TAG, "onClick: BANG");
-                    mListener.onVerbItemClick(holder.mVerb);
-                }
-            }
-        });
-*/
         //ripple support
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +63,6 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
                 }
             }
         });
-
     }
 
     @Override
@@ -103,18 +88,6 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
             mTvVerb_PT.setTypeface(mFont);
             mTvVerb_EN = (TextView) view.findViewById(R.id.tv_mainverb_en);
             mTvVerb_EN.setTypeface(mFont);
-
-//            itemView.setOnClickListener(view -> {
-//            int pos = getAdapterPosition();
-//            WordSet ws = mWordSetList.get(pos);
-//            mListener.onClick(ws);
-
-/*
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
-*/
         }
     }
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.bf.portugo.common.Constants.QUIZ_QUESTION_COUNT;
+import static com.bf.portugo.common.Constants.QUIZ_QUESTION_TYPE_DIVISOR;
 import static com.bf.portugo.common.Constants.WRONG_ANSWER_COUNT;
 
 
@@ -66,17 +67,16 @@ public class QuizMainViewModel extends AndroidViewModel {
         mQuestionCards = new ArrayList<>();
         int count = 0;
         for (Verb v:qVerbs) {
-            // TODO: 12/08/2018 Generate different types, based on audio enabled 
 
             QuestionCardData qc;
-            if (count == 2 && hasAudio){
+
+            // generate mixed questions
+            if (count!=0 && (count%QUIZ_QUESTION_TYPE_DIVISOR==0) && hasAudio){
                 qc = new QuestionCardData_Type2(v);
             }
             else{
                 List<Verb> wrongAnswers = VerbHelper.generateQuizAnswersForVerb(v,WRONG_ANSWER_COUNT,qVerbs);
-                //QuestionCardData qc = new QuestionCardData(v,wrongAnswers);
                 qc = new QuestionCardData_Type1(v,wrongAnswers);
-
             }
             mQuestionCards.add(qc);
             count++;

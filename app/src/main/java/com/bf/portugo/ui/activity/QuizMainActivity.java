@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bf.portugo.common.Constants.QUIZ_INTERSTITIAL_AD_INDEX;
 import static com.bf.portugo.common.Constants.QUIZ_QUESTION_COUNT;
 import static com.bf.portugo.util.VerbHelper.getListRecordCount;
 
@@ -102,7 +102,7 @@ public class QuizMainActivity extends BaseActivity{
 
     private void loadQuestionCardPager(){
         setFABAccess(false);
-        setSkip(true);
+        setSkipAccess(true);
         buildQuestionCardsViewPager(mViewModel.getQuestionCards());
     }
 
@@ -126,7 +126,7 @@ public class QuizMainActivity extends BaseActivity{
             mFabQuizNext.hide();
     }
 
-    private void setSkip(boolean enabled) {
+    private void setSkipAccess(boolean enabled) {
         mTvSkip.setVisibility(enabled?View.VISIBLE:View.INVISIBLE);
     }
 
@@ -144,7 +144,7 @@ public class QuizMainActivity extends BaseActivity{
 
             @Override
             public void setSkipEnabled(boolean enabled) {
-                setSkip(enabled);
+                setSkipAccess(enabled);
             }
 
             @Override
@@ -177,7 +177,7 @@ public class QuizMainActivity extends BaseActivity{
         ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Log.d(TAG, "onPageScrolled: Pos="+String.valueOf(position));
+                //
             }
 
             @Override
@@ -187,20 +187,26 @@ public class QuizMainActivity extends BaseActivity{
                     mViewModel.setActiveCardIndex(position);
                     updateProgessLabel(position+1);
                     setFABAccess(false);
-                    if (position == QUIZ_QUESTION_COUNT - 1) {
-                        mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
-                        Log.d(TAG, "onPageSelected: LAST PAGE");
-                        mViewModel.setLastPageReached(true);
-                        setSkip(false);
-                    } else {
-                        setSkip(true);
+
+                    if (mViewModel.getActiveCardIndex() == QUIZ_INTERSTITIAL_AD_INDEX){
+                        Toast.makeText(QuizMainActivity.this, "SHOW AD", Toast.LENGTH_SHORT).show();
                     }
+                    //else {
+                        if (position == QUIZ_QUESTION_COUNT - 1) {
+                            mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
+                            Log.d(TAG, "onPageSelected: LAST PAGE");
+                            mViewModel.setLastPageReached(true);
+                            setSkipAccess(false);
+                        } else {
+                            setSkipAccess(true);
+                        }
+                    //}
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                //
             }
         };
 
@@ -216,8 +222,6 @@ public class QuizMainActivity extends BaseActivity{
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
-
-
     }
 
 
@@ -253,7 +257,7 @@ public class QuizMainActivity extends BaseActivity{
     private void showFinalCard(){
         mViewModel.setFinalCardShown(true);
         setFABAccess(false);
-        setSkip(false);
+        setSkipAccess(false);
         List<QuestionCardData> listCard = new ArrayList<>();
         QuestionCardData_End endCard = new QuestionCardData_End(String.valueOf(mViewModel.getCurrentScore()), VerbHelper.buildEndCardMessage(this, mViewModel.getCurrentScore(), getScorePrevious(), getScoreBest()));
         listCard.add(endCard);

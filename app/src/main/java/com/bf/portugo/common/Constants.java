@@ -10,6 +10,8 @@ public class Constants {
 
     public static int QUIZ_QUESTION_COUNT = 5;
     public static int WRONG_ANSWER_COUNT = 4;
+    public static int QUIZ_QUESTION_TYPE_DIVISOR = 3;
+    public static int QUIZ_INTERSTITIAL_AD_INDEX = 2;
 
     public class Fonts {
         public static final String FONT_ITIM_REGULAR = "Itim-Regular.ttf";
