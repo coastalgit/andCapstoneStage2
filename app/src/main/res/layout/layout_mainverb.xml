@@ -15,9 +15,10 @@
         card_view:cardCornerRadius="6dp"
         android:animateLayoutChanges="true"
         android:background="@color/colorGlobalBG"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
         card_view:cardElevation="@dimen/card_elevation">
+        <!--android:clickable="true"-->
+        <!--android:background="@color/colorGlobalBG"-->
+        <!--android:foreground="?android:attr/selectableItemBackground"-->
         <!--card_view:elevation="@dimen/global_elevation"-->
 <!--
         android:layout_marginTop="-4dp"
@@ -25,9 +26,12 @@
 -->
 
         <LinearLayout
+            android:id="@+id/layout_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <TextView

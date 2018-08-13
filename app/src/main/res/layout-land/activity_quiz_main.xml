@@ -59,7 +59,7 @@
             android:layout_alignParentBottom="true">
 
             <TextView
-                android:id="@+id/tv_score"
+                android:id="@+id/tv_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/fab_margin"
@@ -131,6 +131,7 @@
         app:layout_anchor="@id/viewpager_quizmain"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_navigate_next_white_24dp"
+        android:visibility="invisible"
         android:layout_marginRight="@dimen/fab_margin" />
 
 </android.support.design.widget.CoordinatorLayout>

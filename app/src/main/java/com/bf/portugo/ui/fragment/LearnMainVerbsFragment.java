@@ -28,13 +28,9 @@ public class LearnMainVerbsFragment extends Fragment{
 
     private static final String TAG = LearnMainVerbsFragment.class.getSimpleName();
 
-
-    // TODO: Customize parameter argument names
-    //private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String KEY_VERBFILTER = "key_verbfilter";
-    //private int mColumnCount = 1;
-    private VerbFilter mVerbFilter = VerbFilter.ALL;
 
+    private VerbFilter mVerbFilter = VerbFilter.ALL;
     private OnLearnMainVerbFragmentInteractionListener mListener;
     private LearnMainVerbsRecyclerViewAdapter mVerbsAdapter;
 
@@ -46,20 +42,8 @@ public class LearnMainVerbsFragment extends Fragment{
     }
 
     public LearnMainVerbsFragment() {
-    // Mandatory empty public constructor
+        //Mandatory empty public constructor
     }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-/*
-    public static LearnMainVerbsFragment newInstance(int columnCount) {
-        LearnMainVerbsFragment fragment = new LearnMainVerbsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-*/
 
     public static LearnMainVerbsFragment newInstance(VerbFilter verbFilter) {
         LearnMainVerbsFragment fragment = new LearnMainVerbsFragment();
@@ -92,19 +76,7 @@ public class LearnMainVerbsFragment extends Fragment{
         mVerbsAdapter = new LearnMainVerbsRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerViewVerbs.setAdapter(mVerbsAdapter);
         subscribeUI();
-/*
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new LearnMainVerbsRecyclerViewAdapter(getActivity(), DummyContent.ITEMS, mListener));
-        }
-*/
+
         return rootView;
     }
 

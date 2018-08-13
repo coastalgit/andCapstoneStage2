@@ -38,6 +38,8 @@ public class VerbWidgetProvider extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setOnClickPendingIntent(R.id.layout_widget_verb, pendingIntent);
         }
+        else
+            Log.d(TAG, "updateAppWidget: Verb null");
 
         views.setTextViewText(R.id.tv_widget_en, en_txt);
         views.setTextViewText(R.id.tv_widget_pt, pt_txt);

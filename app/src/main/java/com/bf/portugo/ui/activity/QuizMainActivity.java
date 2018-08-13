@@ -21,6 +21,7 @@ import com.bf.portugo.adapter.QuestionCardPagerAdapter;
 import com.bf.portugo.model.QuestionCardData;
 import com.bf.portugo.model.QuestionCardData_End;
 import com.bf.portugo.model.Verb;
+import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.QuizMainViewModel;
 
 import java.util.ArrayList;
@@ -52,8 +53,8 @@ public class QuizMainActivity extends BaseActivity{
 
     @BindView(R.id.tv_skip)
     TextView mTvSkip;
-    @BindView(R.id.tv_score)
-    TextView mTvScore;
+    @BindView(R.id.tv_progress)
+    TextView mTvProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +74,6 @@ public class QuizMainActivity extends BaseActivity{
         mViewModel = ViewModelProviders.of(this).get(QuizMainViewModel.class);
         subscribeUI();
 
-//        if (mViewModel.getVerbsAll().getValue() == null){
-//            mViewModel.buildNewQuiz();
-//        }
-//        else
-//            Log.d(TAG, "onCreate: VM has a quiz");
-
-
     }
 
     private void subscribeUI(){
@@ -89,7 +83,6 @@ public class QuizMainActivity extends BaseActivity{
                     Log.d(TAG, "onChanged(ALL):");
                     if ((verbs != null) && (verbs.size() > 0)) {
                         Log.d(TAG, "onChanged(ALL): verbs="+String.valueOf(verbs.size()));
-                        //mViewModel.buildNewQuiz();
 
                         if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
                             mViewModel.buildQuizBase(getHasAudio());
@@ -104,22 +97,11 @@ public class QuizMainActivity extends BaseActivity{
                     }
                 }
             });
-//        mViewModel.getQuestionCards().observe(this, new Observer<List<Verb>>() {
-//            @Override
-//            public void onChanged(@Nullable List<Verb> qCards) {
-//                Log.d(TAG, "onChanged(QUIZ):");
-//                if ((qCards != null) && (qCards.size() > 0)) {
-//                    Log.d(TAG, "onChanged(QUIZ): verbs="+String.valueOf(qCards.size()));
-//                    mViewModel.buildNewQuiz();
-//                }
-//                mPagerAdapter.reloadAdapter(verbs);
-//            }
-//        });
     }
 
     @Override
     protected void actionHasTTS(boolean hasTTS) {
-
+        //
     }
 
     public QuizMainViewModel getViewModel() {
@@ -127,8 +109,12 @@ public class QuizMainActivity extends BaseActivity{
     }
 
     private void setFABAccess(boolean enabled) {
-        if (enabled)
+        if (enabled){
+            if (mFabQuizNext.getVisibility() == View.INVISIBLE)
+                mFabQuizNext.setVisibility(View.VISIBLE);
+
             mFabQuizNext.show();
+        }
         else
             mFabQuizNext.hide();
     }
@@ -140,7 +126,8 @@ public class QuizMainActivity extends BaseActivity{
     private void buildQuestionCardsViewPager(List<QuestionCardData> cardData){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
-        updateScoreLabel(mViewModel.getCurrentScore());
+        //updateScoreLabel(mViewModel.getCurrentScore());
+        updateProgessLabel(mViewModel.getActiveCardIndex()+1);
         
         mPagerAdapter = new QuestionCardPagerAdapter(this, cardData, new QuestionCardPagerAdapter.IPagerAdapterAction() {
             @Override
@@ -160,7 +147,8 @@ public class QuizMainActivity extends BaseActivity{
                     score++;
                     mViewModel.setCurrentScore(score);
                 }
-                updateScoreLabel(mViewModel.getCurrentScore());
+                // TODO: 13/08/2018  
+                //updateScoreLabel(mViewModel.getCurrentScore());
             }
 
             @Override
@@ -190,9 +178,9 @@ public class QuizMainActivity extends BaseActivity{
                 Log.d(TAG, "onPageSelected: Pos="+String.valueOf(position));
                 if (!mViewModel.getLastPageReached()) {
                     mViewModel.setActiveCardIndex(position);
+                    updateProgessLabel(position+1);
                     setFABAccess(false);
                     if (position == QUIZ_QUESTION_COUNT - 1) {
-                        //Toast.makeText(QuizMainActivity.this, "LAST", Toast.LENGTH_SHORT).show();
                         mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
                         mViewModel.setLastPageReached(true);
                         setSkip(false);
@@ -222,37 +210,18 @@ public class QuizMainActivity extends BaseActivity{
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
 
 
-/*
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-*/
-
-/*
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-                //animatePosterVisibility();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-*/
     }
 
 
+/*
     private void updateScoreLabel(int score){
         String scoreStr = String.valueOf(score) + " / " + String.valueOf(QUIZ_QUESTION_COUNT);
         mTvScore.setText(scoreStr);
+    }
+*/
+    private void updateProgessLabel(int pos){
+        String scoreStr = String.valueOf(pos) + " / " + String.valueOf(QUIZ_QUESTION_COUNT);
+        mTvProgress.setText(scoreStr);
     }
 
     @OnClick(R.id.fab_quiznext)
@@ -261,24 +230,33 @@ public class QuizMainActivity extends BaseActivity{
             mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
         else {
             mViewModel.setActiveCardIndex(0);
-            //Toast.makeText(this, "Do finalized shit", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Do finalised stuff", Toast.LENGTH_SHORT).show();
+            updateProgessLabel(QUIZ_QUESTION_COUNT);
             showFinalCard();
         }
+    }
+
+    private void updateSavedScores(int recentScore){
+        setScorePrevious(recentScore);
+        if (getScoreBest()<=recentScore)
+            setScoreBest(recentScore);
     }
 
     private void showFinalCard(){
         setFABAccess(false);
         setSkip(false);
         List<QuestionCardData> listCard = new ArrayList<>();
-        QuestionCardData_End endCard = new QuestionCardData_End(String.valueOf(mViewModel.getCurrentScore()),"Sweet");
+        QuestionCardData_End endCard = new QuestionCardData_End(String.valueOf(mViewModel.getCurrentScore()), VerbHelper.buildEndCardMessage(this, mViewModel.getCurrentScore(), getScorePrevious(), getScoreBest()));
         listCard.add(endCard);
         buildQuestionCardsViewPager(listCard);
+        updateSavedScores(mViewModel.getCurrentScore());
     }
 
     @OnClick(R.id.tv_skip)
     public void btnSkip_onClick(TextView tv){
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
-        updateScoreLabel(mViewModel.getCurrentScore());
+        //updateScoreLabel(mViewModel.getCurrentScore());
+        updateProgessLabel(mViewModel.getActiveCardIndex()+1);
     }
 
 }

@@ -3,9 +3,11 @@ package com.bf.portugo.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.portugo.R;
@@ -18,6 +20,8 @@ import java.util.List;
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 
 public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<LearnMainVerbsRecyclerViewAdapter.VerbViewHolder> {
+
+    private static final String TAG = LearnMainVerbsRecyclerViewAdapter.class.getSimpleName();
 
     private final Context mContext;
     private List<Verb> mVerbs;
@@ -50,14 +54,30 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
         holder.mTvVerb_PT.setText(mVerbs.get(position).getWord_pt());
         holder.mTvVerb_EN.setText(mVerbs.get(position).getWord_en());
 
+/*
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: ");
                 if (mListener != null) {
+                    Log.d(TAG, "onClick: BANG");
                     mListener.onVerbItemClick(holder.mVerb);
                 }
             }
         });
+*/
+        //ripple support
+        holder.mContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ");
+                if (mListener != null) {
+                    Log.d(TAG, "onClick: BANG");
+                    mListener.onVerbItemClick(holder.mVerb);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -71,12 +91,14 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
         public final View mView;
         public final TextView mTvVerb_EN;
         public final TextView mTvVerb_PT;
-        //public final TextView mContentView;
+        public final LinearLayout mContainer;//for ripple click events
+
         public Verb mVerb;
 
         public VerbViewHolder(View view) {
             super(view);
             mView = view;
+            mContainer = (LinearLayout) view.findViewById(R.id.layout_card_container);
             mTvVerb_PT = (TextView) view.findViewById(R.id.tv_mainverb_pt);
             mTvVerb_PT.setTypeface(mFont);
             mTvVerb_EN = (TextView) view.findViewById(R.id.tv_mainverb_en);

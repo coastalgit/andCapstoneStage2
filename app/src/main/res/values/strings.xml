@@ -34,4 +34,7 @@
     <string name="answer">Answer</string>
     <string name="score">Score</string>
     <string name="noverbsavail">No verbs available</string>
+    <string name="close_quiz">Close Quiz</string>
+    <string name="your_score">Your score was</string>
+    <string name="oncompletemsg_exclam">Parabens!</string>
 </resources>

@@ -211,4 +211,18 @@ public class VerbHelper {
         return (comp==0);
     }
 
+    public static String buildEndCardMessage(Context context, int newScore, int previousScore, int bestScore) {
+        Log.d(TAG, "buildEndCardMessage: N="+String.valueOf(newScore)+" P="+String.valueOf(previousScore)+" B="+String.valueOf(bestScore));
+        // TODO: 13/08/2018 Strings 
+        if (newScore>bestScore)
+            return "You have a new BEST score. \nExcellent work!";
+
+        if (newScore>previousScore)
+            return "That was an improvement on last time.\nMuito bem!";
+
+        if (newScore == 0)
+            return "Looks like you need more study my friend.";
+
+        return "Great work";
+    }
 }

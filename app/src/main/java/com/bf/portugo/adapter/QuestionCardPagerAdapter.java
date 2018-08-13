@@ -267,18 +267,25 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             }
 
             //endregion TYPE 2
-
         }
         else if (qc.getQuestionType() == QuestionCardData.QuestionType.TYPEEND) {
             Log.d(TAG, "instantiateItem: CARD TYPE END at pos=" + String.valueOf(position));
 
-            TextView tvMessage = (TextView) cardView.findViewById(R.id.tv_quiz_question);
+            TextView tvTitle = (TextView) cardView.findViewById(R.id.tv_quiz_title);
+            tvTitle.setTypeface(mFont);
+
+            TextView tvScore = (TextView) cardView.findViewById(R.id.tv_quiz_score);
+            tvScore.setTypeface(mFont);
+            TextView tvMessage = (TextView) cardView.findViewById(R.id.tv_quiz_message);
             tvMessage.setTypeface(mFont);
 
             // TODO: 13/08/2018  
-            String msg = ((QuestionCardData_End)qc).getLabelMessage();
-            String score = ((QuestionCardData_End)qc).getLabelScore();
-            tvMessage.setText(msg+ " "+score);
+//            String score = ((QuestionCardData_End)qc).getLabelScore();
+//            String msg = ((QuestionCardData_End)qc).getLabelMessage();
+
+            tvScore.setText(((QuestionCardData_End)qc).getLabelScore());
+            //tvMessage.setText(msg+ " "+score);
+            tvMessage.setText(((QuestionCardData_End)qc).getLabelMessage());
 
             Button btnReturn = (Button) cardView.findViewById(R.id.btn_quiz_return);
             btnReturn.setOnClickListener(new View.OnClickListener() {
