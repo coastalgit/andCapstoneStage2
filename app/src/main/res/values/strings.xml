@@ -33,4 +33,5 @@
     <string name="skip">Skip</string>
     <string name="answer">Answer</string>
     <string name="score">Score</string>
+    <string name="noverbsavail">No verbs available</string>
 </resources>

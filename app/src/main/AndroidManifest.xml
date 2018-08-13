@@ -27,9 +27,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.HomeActivity" />
         </activity>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".ui.activity.LearnVerbActivity"
-            android:launchMode="singleTask">
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.LearnMainActivity" />
@@ -53,6 +54,8 @@
         <!--todo remove-->
         <activity android:name=".datacreation.DBFuncsActivity"></activity>
 
+        <service android:name=".widget.VerbUpdateService" />
+
         <receiver android:name=".widget.VerbWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -62,6 +65,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/verb_widget_info" />
         </receiver>
+
 
 
     </application>

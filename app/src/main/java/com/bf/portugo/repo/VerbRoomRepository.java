@@ -12,6 +12,7 @@ import com.bf.portugo.data.VerbDao;
 import com.bf.portugo.data.VerbDatabase;
 import com.bf.portugo.model.Verb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bf.portugo.common.Constants.VERB_CLASSIFICATIONCEILING_ESSENTIAL;
@@ -139,6 +140,10 @@ public class VerbRoomRepository {
         return mObservableVerbs;
     }
 
+    public List<Verb> getVerbsSynchronously() {
+        return fetchVerbsFromDB_Sync();
+    }
+
     public LiveData<List<Verb>> getVerbsEssential() {
         populateVerbsFromDB_Essential();
         return mObservableVerbsEssential;
@@ -168,6 +173,14 @@ public class VerbRoomRepository {
 //                Log.d(TAG, "populateVerbsFromDB_All: Room Verb count=NULL");
         }
 
+    }
+
+    private List<Verb> fetchVerbsFromDB_Sync(){
+        List<Verb> verbList = new ArrayList<>();
+        if (mDao_Verb != null){
+            verbList = mDao_Verb.getListVerbItemsSync();
+        }
+        return verbList;
     }
 
     private void populateVerbsFromDB_Essential(){

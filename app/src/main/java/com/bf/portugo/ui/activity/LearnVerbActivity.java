@@ -100,8 +100,9 @@ public class LearnVerbActivity extends BaseActivity {
 
         if (mViewModel.getVerb() == null){
             if (getIntent().hasExtra(KEY_VERB)) {
-                mViewModel.setVerb((Verb) getIntent().getSerializableExtra(KEY_VERB));
-                Log.d(TAG, "onCreate: Has INTENT. Verb is "+mViewModel.getVerb()==null?"NULL":"NOT NULL");
+                Verb intentVerb = (Verb) getIntent().getSerializableExtra(KEY_VERB);
+                mViewModel.setVerb(intentVerb);
+                Log.d(TAG, "onCreate: Has INTENT. Verb is "+mViewModel.getVerb()==null?"NULL":mViewModel.getVerb().getWord_pt());
             }
             mViewModel.setTabPosition(TAB_INDEX_PRESENT);
         }
