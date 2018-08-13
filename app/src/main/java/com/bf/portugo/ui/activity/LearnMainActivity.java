@@ -26,6 +26,7 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
 
     private String TAG = LearnMainActivity.class.getSimpleName();
 
+
 /*
     private static final String FRAGMENT_VERBS_ALL = "key_verbs_all";
     private static final String FRAGMENT_VERBS_ALL_TAG = "key_verbs_all_tag";

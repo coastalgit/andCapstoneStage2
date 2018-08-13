@@ -116,6 +116,15 @@ public class LearnVerbActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.hasExtra(KEY_VERB)) {
+            Verb v = (Verb) intent.getSerializableExtra(KEY_VERB);
+            Log.d(TAG, "onNewIntent: WIDGET VERB:["+v.getWord_pt()+"");
+        }
+    }
+
+    @Override
     protected void actionHasTTS(boolean hasTTS) {
         //Toast.makeText(this, "BANG - "+String.valueOf(hasTTS), Toast.LENGTH_SHORT).show();
         // TODO: 08/08/2018 Handle display of Audio available etc

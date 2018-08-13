@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/verb_widget_provider"
+    android:initialLayout="@layout/verb_widget_provider"
+    android:minHeight="110dp"
+    android:minWidth="110dp"
+    android:previewImage="@mipmap/ic_launcher"
+    android:resizeMode="vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen">
+
+</appwidget-provider>
+
+<!--
+    android:updatePeriodMillis="1800000"
+    android:updatePeriodMillis="3600000"
+-->
