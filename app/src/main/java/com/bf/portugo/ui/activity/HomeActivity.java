@@ -156,28 +156,42 @@ public class HomeActivity extends BaseActivity {
     @OnClick(R.id.btn_home_learn)
     public void btnHomeLearn_onClick(Button btn){
         Intent intent = new Intent(this, LearnMainActivity.class);
-        launchActivity(intent, false);
+        determineProgress(intent, false);
     }
 
     @OnClick(R.id.btn_home_quiz)
     public void btnHomeQuiz_onClick(Button btn){
         Intent intent = new Intent(this, QuizMainActivity.class);
-        launchActivity(intent, true);
+        determineProgress(intent, true);
     }
 
-    private void launchActivity(Intent intent, boolean isQuiz){
-        if (getNetworkUtils().isConnected(this)) {
-            if (isQuiz && !hasVerbsInRoom())
-                showDialogLearningRequired();
-            else
-                startActivity(intent);
-        }
-        else{
-            if (!hasVerbsInRoom()){
-                // no offline capability
-                showDialogNoOfflineAbility();
+    private void launchNextActivity(Intent intent){
+        startActivity(intent);
+    };
+
+    private void determineProgress(Intent intent, boolean isQuiz){
+        hasVerbsInRoom(new IBaseActivityRoomFunc() {
+            @Override
+            public void hasRoomVerbRecords(boolean hasVerbs) {
+                if (getNetworkUtils().isConnected(HomeActivity.this)){
+                    if (hasVerbs)
+                        launchNextActivity(intent);
+                    else{
+                        if (isQuiz)
+                            // populates Room DB from Firebase
+                            showDialogLearningRequired();
+                        else
+                            launchNextActivity(intent);
+                    }
+                }
+                else{
+                    if (hasVerbs)
+                        launchNextActivity(intent);
+                    else
+                        showDialogNoOfflineAbility();
+                }
             }
-        }
+        });
     }
 
     @OnClick(R.id.btn_home_audiotoggle)

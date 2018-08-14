@@ -68,6 +68,7 @@ public class VerbUpdateService extends IntentService {
         }
     }
 
+/*
     private void performGetVerb() {
         VerbRoomRepository mRepo = new VerbRoomRepository(getApplication());
         List<Verb> verbList = mRepo.getVerbsSynchronously();
@@ -78,6 +79,24 @@ public class VerbUpdateService extends IntentService {
             Log.d(TAG, "performGetVerb: Random verb:["+randomVerb.getWord_pt()+"]");
             startActionUpdateVerbWidgets(this, randomVerb);
         }
+    }
+*/
+
+    private void performGetVerb() {
+        VerbRoomRepository mRepo = new VerbRoomRepository(getApplication());
+        mRepo.fetchVerbsFromRoomDB(new VerbRoomRepository.IRoomQueryTaskComplete() {
+            @Override
+            public void onVerbListFromRoom(List<Verb> verbs) {
+                int verbcount = VerbHelper.getListRecordCount(verbs);
+                Log.d(TAG, "performGetVerb: count="+String.valueOf(verbcount));
+                if (verbcount > 0) {
+                    Verb randomVerb = VerbHelper.getRandomVerb(verbs);
+                    Log.d(TAG, "performGetVerb: Random verb:["+randomVerb.getWord_pt()+"]");
+                    //startActionUpdateVerbWidgets(this, randomVerb);
+                    startActionUpdateVerbWidgets(VerbUpdateService.this, randomVerb);
+                }
+            }
+        });
     }
 
     private void performVerbWidgetUpdate(Verb newVerb) {

@@ -34,8 +34,12 @@ public class VerbRoomRepository {
     }
 */
 
-    interface IAsyncTaskComplete{
+    private interface IAsyncTaskComplete{
         void doRefresh();
+    }
+
+    public interface IRoomQueryTaskComplete{
+        void onVerbListFromRoom(List<Verb> verbs);
     }
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -140,9 +144,11 @@ public class VerbRoomRepository {
         return mObservableVerbs;
     }
 
+/*
     public List<Verb> getVerbsSynchronously() {
-        return fetchVerbsFromDB_Sync();
+        return fetchVerbsFromDB_SyncCall();
     }
+*/
 
     public LiveData<List<Verb>> getVerbsEssential() {
         populateVerbsFromDB_Essential();
@@ -175,13 +181,15 @@ public class VerbRoomRepository {
 
     }
 
-    private List<Verb> fetchVerbsFromDB_Sync(){
+/*
+    private List<Verb> fetchVerbsFromDB_SyncCall(){
         List<Verb> verbList = new ArrayList<>();
         if (mDao_Verb != null){
             verbList = mDao_Verb.getListVerbItemsSync();
         }
         return verbList;
     }
+*/
 
     private void populateVerbsFromDB_Essential(){
         if (mDao_Verb != null){
@@ -238,7 +246,42 @@ public class VerbRoomRepository {
 */
 
 
+    //Unobserved (non LiveData) call
+    public void fetchVerbsFromRoomDB(IRoomQueryTaskComplete listener){
+        new selectAllTask(mDao_Verb, listener).execute();
+/*
+        List<Verb> verbList = new ArrayList<>();
+        if (mDao_Verb != null){
+            verbList = mDao_Verb.getListVerbItemsSync();
+        }
+        return verbList;
+*/
+    }
+
     //region TASKS (STATIC INNER CLASSES)
+
+    private static class selectAllTask extends AsyncTask<Void, Void, List<Verb>> {
+
+        private final VerbDao mTaskDao;
+        private final IRoomQueryTaskComplete mListener;
+
+        selectAllTask(VerbDao dao, IRoomQueryTaskComplete listener) {
+            mTaskDao = dao;
+            mListener = listener;
+        }
+
+        @Override
+        protected List<Verb> doInBackground(Void... voids) {
+            return mTaskDao.getListVerbItemsSync();
+        }
+
+        @Override
+        protected void onPostExecute(List<Verb> roomVerbs) {
+            super.onPostExecute(roomVerbs);
+            if (mListener != null)
+                mListener.onVerbListFromRoom(roomVerbs);
+        }
+    }
 
     private static class insertTask extends AsyncTask<Verb, Void, Void> {
 

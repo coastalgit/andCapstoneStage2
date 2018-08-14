@@ -18,9 +18,13 @@ import android.widget.Toast;
 
 import com.bf.portugo.R;
 
+import com.bf.portugo.model.Verb;
+import com.bf.portugo.repo.VerbRoomRepository;
 import com.bf.portugo.util.NetworkUtils;
+import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.BaseViewModel;
 
+import java.util.List;
 import java.util.Locale;
 
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
@@ -56,6 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String PREFKEY_SCOREBEST = "k_scorebest";
     private static final String UTTERANCE_ID = "utteranceid";
 
+    public interface IBaseActivityRoomFunc {
+        void hasRoomVerbRecords(boolean hasVerbs);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,18 +87,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: (BASE)");
-        if (mTTS != null){
+        if (mTTS != null) {
             mTTS.stop();
             mTTS.shutdown();
         }
     }
 
     //region PREFS
-    private void refreshPrefs(){
+    private void refreshPrefs() {
         mHasAudio = mPrefs.getBoolean(PREFKEY_HASAUDIO, true);
         mHasTTSEngine = mPrefs.getBoolean(PREFKEY_HASTTS, false);
-        mScoreBest = mPrefs.getInt(PREFKEY_SCOREBEST,0);
-        mScorePrevious = mPrefs.getInt(PREFKEY_SCOREPREV,0);
+        mScoreBest = mPrefs.getInt(PREFKEY_SCOREBEST, 0);
+        mScorePrevious = mPrefs.getInt(PREFKEY_SCOREPREV, 0);
     }
 
     public boolean getHasAudio() {
@@ -99,7 +107,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setHasAudio(boolean hasAudio) {
         this.mHasAudio = hasAudio;
-        mPrefsEditor.putBoolean(PREFKEY_HASAUDIO,hasAudio);
+        mPrefsEditor.putBoolean(PREFKEY_HASAUDIO, hasAudio);
         mPrefsEditor.commit();
         refreshPrefs();
     }
@@ -110,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setHasTTSEngine(boolean hasTTSEngine) {
         this.mHasTTSEngine = hasTTSEngine;
-        mPrefsEditor.putBoolean(PREFKEY_HASTTS,hasTTSEngine);
+        mPrefsEditor.putBoolean(PREFKEY_HASTTS, hasTTSEngine);
         mPrefsEditor.commit();
         refreshPrefs();
         actionHasTTS(hasTTSEngine);
@@ -122,7 +130,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setScorePrevious(int scorePrevious) {
         this.mScorePrevious = scorePrevious;
-        mPrefsEditor.putInt(PREFKEY_SCOREPREV,scorePrevious);
+        mPrefsEditor.putInt(PREFKEY_SCOREPREV, scorePrevious);
         mPrefsEditor.commit();
         refreshPrefs();
     }
@@ -133,14 +141,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setScoreBest(int scoreBest) {
         this.mScoreBest = scoreBest;
-        mPrefsEditor.putInt(PREFKEY_SCOREBEST,scoreBest);
+        mPrefsEditor.putInt(PREFKEY_SCOREBEST, scoreBest);
         mPrefsEditor.commit();
         refreshPrefs();
     }
     //endregion PREFS
 
+/*
     public boolean hasVerbsInRoom(){
         return mViewModel.hasVerbRecordsInRoom();
+    }
+*/
+
+
+    public void hasVerbsInRoom(IBaseActivityRoomFunc listener) {
+        mViewModel.hasVerbRecordsInRoom(verbs -> {
+            if (listener != null){
+                listener.hasRoomVerbRecords(VerbHelper.getListRecordCount(verbs) > 0);
+            }
+        });
     }
 
     private void initTTSEngine(){
@@ -201,6 +220,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             else{
                 setHasTTSEngine(false);
                 setHasAudio(false);
+                // TODO: 14/08/2018  
                 Toast.makeText(this, "Fucked", Toast.LENGTH_SHORT).show();
             }
         }
@@ -214,7 +234,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Audio Feedback")
                 // TODO: 08/08/2018 lang
-                .setMessage("This app requires Text-To-Speech (TTS) functionality for the full user experience. /r/nPlease select the option below to install the Android TTS Portuguese Engine.")
+                .setMessage("This app requires Text-To-Speech (TTS) functionality for the full user experience.\n\nPlease select the option below to install the Android TTS Portuguese Engine.")
                 .setPositiveButton(R.string.install_tts, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -230,7 +250,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Connectivity")
                 // TODO: 08/08/2018 lang
-                .setMessage("An internet connection is required at this time./r/nPlease enable and retry.")
+                .setMessage("An internet connection is required at this time.\n\nPlease enable and retry.")
                 .setNegativeButton(R.string.ok, null)
                 .create();
         dialog.show();

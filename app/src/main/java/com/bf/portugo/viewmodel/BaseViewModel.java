@@ -26,6 +26,7 @@ public class BaseViewModel extends AndroidViewModel {
     private boolean mHasAlreadySpokenWelcome;
     private VerbRoomRepository mRepo;
 
+
     public BaseViewModel(Application application) {
         super(application);
         mRepo = new VerbRoomRepository(application);
@@ -34,10 +35,11 @@ public class BaseViewModel extends AndroidViewModel {
         mHasAlreadySpokenWelcome = false;
     }
 
-    public boolean hasVerbRecordsInRoom(){
-        List<Verb> verbList = mRepo.getVerbsSynchronously();
-        Log.d(TAG, "hasVerbRecordsInRoom: "+String.valueOf(VerbHelper.getListRecordCount(verbList)));
-        return (VerbHelper.getListRecordCount(verbList) > 0);
+    public void hasVerbRecordsInRoom(VerbRoomRepository.IRoomQueryTaskComplete listener){
+        mRepo.fetchVerbsFromRoomDB(listener);
+//        List<Verb> verbList = mRepo.getVerbsSynchronously();
+//        Log.d(TAG, "hasVerbRecordsInRoom: "+String.valueOf(VerbHelper.getListRecordCount(verbList)));
+//        return (VerbHelper.getListRecordCount(verbList) > 0);
     }
 
     public boolean getHasCheckedForTTS() {
