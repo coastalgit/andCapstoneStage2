@@ -1,5 +1,6 @@
 package com.bf.portugo.ui.activity;
 
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.bf.portugo.R;
 
+import com.bf.portugo.util.NetworkUtils;
 import com.bf.portugo.viewmodel.BaseViewModel;
 
 import java.util.Locale;
@@ -37,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextToSpeech mTTS;
     protected Typeface mFont;
 
+    NetworkUtils mNetworkUtils;
     private int mTTSResult;
 
     private SharedPreferences mPrefs;
@@ -51,12 +54,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     private int mScorePrevious, mScoreBest;
     private static final String PREFKEY_SCOREPREV = "k_scoreprev";
     private static final String PREFKEY_SCOREBEST = "k_scorebest";
+    private static final String UTTERANCE_ID = "utteranceid";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate (BASE)");
 
+        mNetworkUtils = new NetworkUtils();
         mFont = Typeface.createFromAsset(this.getAssets(), FONT_ITIM_REGULAR);
 
         mViewModel = ViewModelProviders.of(this).get(BaseViewModel.class);
@@ -67,8 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEditor = mPrefs.edit();
         refreshPrefs();
-        //if (!mViewModel.getHasCheckedForTTS())
-            initTTSEngine();
+        initTTSEngine();
     }
 
     @Override
@@ -109,7 +113,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mPrefsEditor.putBoolean(PREFKEY_HASTTS,hasTTSEngine);
         mPrefsEditor.commit();
         refreshPrefs();
-        setHasAudio(hasTTSEngine);
         actionHasTTS(hasTTSEngine);
     }
 
@@ -136,6 +139,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     //endregion PREFS
 
+    public boolean hasVerbsInRoom(){
+        return mViewModel.hasVerbRecordsInRoom();
+    }
+
     private void initTTSEngine(){
         mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -156,6 +163,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
                 else{
                     setHasTTSEngine(false);
+                    setHasAudio(false);
                     //Toast.makeText(BaseActivity.this, "TTS unavailable", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -172,12 +180,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void doTTSSpeak(String ttsText){
         if (mTTS != null){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mTTS.speak(ttsText, TextToSpeech.QUEUE_FLUSH, null, "utteranceId");
-
+                mTTS.speak(ttsText, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
             }
             else{
                 // TODO: 03/08/2018
-                Toast.makeText(this, "Old phone dude?", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Old phone dude?", Toast.LENGTH_SHORT).show();
+                mTTS.speak(ttsText, TextToSpeech.QUEUE_FLUSH,null);
             }
         }
     }
@@ -192,6 +200,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             else{
                 setHasTTSEngine(false);
+                setHasAudio(false);
                 Toast.makeText(this, "Fucked", Toast.LENGTH_SHORT).show();
             }
         }
@@ -201,7 +210,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        }
     }
 
-    private void showDialogTTSAction() {
+    public void showDialogTTSAction() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Audio Feedback")
                 // TODO: 08/08/2018 lang
@@ -215,6 +224,30 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancel, null)
                 .create();
         dialog.show();
+    }
+
+    public void showDialogNoOfflineAbility() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Connectivity")
+                // TODO: 08/08/2018 lang
+                .setMessage("An internet connection is required at this time./r/nPlease enable and retry.")
+                .setNegativeButton(R.string.ok, null)
+                .create();
+        dialog.show();
+    }
+
+    public void showDialogLearningRequired() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Learning")
+                // TODO: 08/08/2018 lang
+                .setMessage("Perhaps you should do some learning first my friend.")
+                .setNegativeButton(R.string.ok, null)
+                .create();
+        dialog.show();
+    }
+
+    public NetworkUtils getNetworkUtils() {
+        return mNetworkUtils;
     }
 
     protected abstract void actionHasTTS(boolean hasTTS);

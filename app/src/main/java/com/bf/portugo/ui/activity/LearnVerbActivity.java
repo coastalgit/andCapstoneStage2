@@ -147,12 +147,12 @@ public class LearnVerbActivity extends BaseActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                //
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                //
             }
         });
         mViewPager.setCurrentItem(mViewModel.getTabPosition());
@@ -160,17 +160,12 @@ public class LearnVerbActivity extends BaseActivity {
 
     private void populateVerbInfo(Verb verb){
 
-        //mCollapsingToolbar.setCollapsedTitleTypeface(mFont);
         mCollapsingToolbar.setExpandedTitleTypeface(mFont);
         mCollapsingToolbar.setTitleEnabled(true);
         mCollapsingToolbar.setTitle(mViewModel.getVerb().getWord_pt());
 
         mTvVerb_phonetic.setTypeface(mFontPhonetic);
         mTvVerb_phonetic.setText(verb.getPhonetic_pt());
-
-
-//        mTvVerb_word_pt.setTypeface(mFont);
-//        mTvVerb_word_pt.setText(verb.getWord_pt());
 
         mTvVerb_word_en.setTypeface(mFont);
         mTvVerb_word_en.setText(verb.getWord_en());
@@ -188,12 +183,10 @@ public class LearnVerbActivity extends BaseActivity {
 
     public void handleTTSRequest(String ttsText){
         Log.d(TAG, "handleTTSRequest: TTS Text["+ttsText+"]");
-        if (getHasTTSEngine()){
+        if (getHasTTSEngine() && getHasAudio())
             doTTSSpeak(ttsText);
-        }
-        else{
-            Toast.makeText(this, "TODO - Handle TTS", Toast.LENGTH_SHORT).show();
-        }
+        else
+            Toast.makeText(this, R.string.audio_unavail, Toast.LENGTH_SHORT).show();
     }
 
     public LearnVerbViewModel getViewModel() {
@@ -210,20 +203,10 @@ public class LearnVerbActivity extends BaseActivity {
         startActivity(verbIntent);
     }
 
-
     @OnClick(R.id.layout_toucharea)
     public void layout_touchArea_onClick(LinearLayout area){
         handleTTSRequest(mViewModel.getVerb().getWord_pt());
     }
-
-
-/*
-    @OnClick(R.id.fab_verb_play)
-    public void fab_verb_play(FloatingActionButton fab){
-        handleTTSRequest(mViewModel.getVerb().getWord_pt());
-    }
-*/
-
 
     @OnClick(R.id.tv_learnverb_prespart_pt)
     public void tv_presentParticiple_onClick(TextView tv){
@@ -239,6 +222,5 @@ public class LearnVerbActivity extends BaseActivity {
     public void btnLearnSamples_onClick(FloatingActionButton fab){
         showLearnSamplesActivity(getViewModel().getVerb());
     }
-
 
 }

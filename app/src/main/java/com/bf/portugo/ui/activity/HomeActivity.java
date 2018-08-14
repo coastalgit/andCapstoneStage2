@@ -156,13 +156,28 @@ public class HomeActivity extends BaseActivity {
     @OnClick(R.id.btn_home_learn)
     public void btnHomeLearn_onClick(Button btn){
         Intent intent = new Intent(this, LearnMainActivity.class);
-        startActivity(intent);
+        launchActivity(intent, false);
     }
 
     @OnClick(R.id.btn_home_quiz)
     public void btnHomeQuiz_onClick(Button btn){
         Intent intent = new Intent(this, QuizMainActivity.class);
-        startActivity(intent);
+        launchActivity(intent, true);
+    }
+
+    private void launchActivity(Intent intent, boolean isQuiz){
+        if (getNetworkUtils().isConnected(this)) {
+            if (isQuiz && !hasVerbsInRoom())
+                showDialogLearningRequired();
+            else
+                startActivity(intent);
+        }
+        else{
+            if (!hasVerbsInRoom()){
+                // no offline capability
+                showDialogNoOfflineAbility();
+            }
+        }
     }
 
     @OnClick(R.id.btn_home_audiotoggle)
