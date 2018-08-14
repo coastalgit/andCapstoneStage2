@@ -22,14 +22,19 @@ import com.bf.portugo.model.QuestionCardData_End;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.QuizMainViewModel;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BuildConfig;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bf.portugo.BuildConfig.BUILD_FREE;
 import static com.bf.portugo.common.Constants.QUIZ_INTERSTITIAL_AD_INDEX;
 import static com.bf.portugo.common.Constants.QUIZ_QUESTION_COUNT;
 import static com.bf.portugo.util.VerbHelper.getListRecordCount;
@@ -56,6 +61,8 @@ public class QuizMainActivity extends BaseActivity{
     @BindView(R.id.tv_progress)
     TextView mTvProgress;
 
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +80,26 @@ public class QuizMainActivity extends BaseActivity{
         Log.d(TAG, "onCreate: Current saved best score="+String.valueOf(getScoreBest()));
 
         mViewModel = ViewModelProviders.of(this).get(QuizMainViewModel.class);
+
+        if (BUILD_FREE)
+            createInterstitialAd();
+
         subscribeUI();
 
+    }
+
+    private void createInterstitialAd() {
+        mInterstitialAd = new InterstitialAd(getApplicationContext());
+        mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_unit_test));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                    //
+                super.onAdClosed();
+            }
+        });
     }
 
     private void subscribeUI(){
@@ -189,19 +214,20 @@ public class QuizMainActivity extends BaseActivity{
                     updateProgessLabel(position+1);
                     setFABAccess(false);
 
-                    if (mViewModel.getActiveCardIndex() == QUIZ_INTERSTITIAL_AD_INDEX){
-                        Toast.makeText(QuizMainActivity.this, "SHOW AD", Toast.LENGTH_SHORT).show();
+                    // Load interstitial ad
+                    if ((mViewModel.getActiveCardIndex() == QUIZ_INTERSTITIAL_AD_INDEX) && BUILD_FREE){
+                        mInterstitialAd.show();
                     }
-                    //else {
-                        if (position == QUIZ_QUESTION_COUNT - 1) {
-                            mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
-                            Log.d(TAG, "onPageSelected: LAST PAGE");
-                            mViewModel.setLastPageReached(true);
-                            setSkipAccess(false);
-                        } else {
-                            setSkipAccess(true);
-                        }
-                    //}
+
+                    if (position == QUIZ_QUESTION_COUNT - 1) {
+                        mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
+                        Log.d(TAG, "onPageSelected: LAST PAGE");
+                        mViewModel.setLastPageReached(true);
+                        setSkipAccess(false);
+                    } else {
+                        setSkipAccess(true);
+                    }
+
                 }
             }
 

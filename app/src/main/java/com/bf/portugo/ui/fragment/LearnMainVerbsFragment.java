@@ -13,10 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bf.portugo.BuildConfig;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
@@ -43,8 +39,6 @@ public class LearnMainVerbsFragment extends Fragment{
 
     @BindView(R.id.recyclerview_learnmain)
     RecyclerView mRecyclerViewVerbs;
-
-    private AdView mAdView;
 
     public interface OnLearnMainVerbFragmentInteractionListener {
         void onVerbItemClick(Verb verbItem);
@@ -83,16 +77,6 @@ public class LearnMainVerbsFragment extends Fragment{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerViewVerbs.setLayoutManager(linearLayoutManager);
         mRecyclerViewVerbs.setHasFixedSize(true);
-
-        mAdView = (AdView) rootView.findViewById(R.id.adView);
-        if (BuildConfig.BUILD_FREE) {
-            MobileAds.initialize(getActivity(), getString(R.string.admob_appid));
-            mAdView.setAdSize(AdSize.BANNER);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
-        else
-            mAdView.setVisibility(View.GONE);
 
         mVerbsAdapter = new LearnMainVerbsRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerViewVerbs.setAdapter(mVerbsAdapter);

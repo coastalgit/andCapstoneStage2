@@ -17,11 +17,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.bf.portugo.BuildConfig;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
+import com.google.android.gms.ads.MobileAds;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +53,8 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
     @BindView(R.id.layout_learnmain_root)
     CoordinatorLayout mLayoutRoot;
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +76,32 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
             mViewModel.setHasAlreadyPolledDataSource(true);
         }
 
+        createAdView();
+
         mFragmentManager = getSupportFragmentManager();
         buildTabViewPager();
         mViewModel.subscribeToChildUpdates();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     public LearnVerbsMainViewModel getViewModel() {
         return mViewModel;
+    }
+
+    private void createAdView(){
+        mAdView = (AdView) findViewById(R.id.adView);
+        if (BuildConfig.BUILD_FREE) {
+            MobileAds.initialize(this, getString(R.string.admob_appid));
+            //mAdView.setAdSize(AdSize.BANNER);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+        else
+            mAdView.setVisibility(View.GONE);
     }
 
     private void buildTabViewPager(){

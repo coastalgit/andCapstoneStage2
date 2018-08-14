@@ -75,8 +75,6 @@ public class LearnVerbActivity extends BaseActivity {
     @BindView(R.id.tv_learnverb_pastpart_en)
     TextView mTvVerb_pastpart_en;
 
-    private AdView mAdView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,16 +106,6 @@ public class LearnVerbActivity extends BaseActivity {
         }
         else
             Log.d(TAG, "onCreate: VM has verb");
-
-        mAdView = (AdView) findViewById(R.id.adView);
-        if (BuildConfig.BUILD_FREE) {
-            MobileAds.initialize(this, getString(R.string.admob_appid));
-            mAdView.setAdSize(AdSize.BANNER);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
-        else
-            mAdView.setVisibility(View.GONE);
 
         populateVerbInfo(mViewModel.getVerb());
 

@@ -99,7 +99,7 @@
         android:elevation="@dimen/fab_elevation"
         app:fabSize="normal"
         app:borderWidth="0dp"
-        app:backgroundTint="?attr/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/outline_visibility_white_24"
         android:layout_marginRight="@dimen/fab_margin" />
 

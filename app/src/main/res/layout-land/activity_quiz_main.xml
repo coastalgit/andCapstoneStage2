@@ -127,7 +127,7 @@
         android:elevation="@dimen/fab_elevation"
         app:fabSize="normal"
         app:borderWidth="0dp"
-        app:backgroundTint="?attr/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/viewpager_quizmain"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_navigate_next_white_24dp"
