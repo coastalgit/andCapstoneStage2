@@ -23,16 +23,13 @@ public class BaseViewModel extends AndroidViewModel {
     private String TAG = BaseViewModel.class.getSimpleName();
 
     private boolean mHasCheckedForTTS;
-    private boolean mHasAlreadySpokenWelcome;
     private VerbRoomRepository mRepo;
-
 
     public BaseViewModel(Application application) {
         super(application);
         mRepo = new VerbRoomRepository(application);
         Log.d(TAG, "BaseViewModel: CREATED");
         mHasCheckedForTTS = false;
-        mHasAlreadySpokenWelcome = false;
     }
 
     public void hasVerbRecordsInRoom(VerbRoomRepository.IRoomQueryTaskComplete listener){
@@ -50,13 +47,6 @@ public class BaseViewModel extends AndroidViewModel {
         this.mHasCheckedForTTS = mHasCheckedForTTS;
     }
 
-    public boolean getHasAlreadySpokenWelcome() {
-        return mHasAlreadySpokenWelcome;
-    }
-
-    public void setHasAlreadySpokenWelcome(boolean mHasAlreadySpokenWelcome) {
-        this.mHasAlreadySpokenWelcome = mHasAlreadySpokenWelcome;
-    }
 
 
 }

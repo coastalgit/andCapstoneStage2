@@ -15,10 +15,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bf.portugo.BuildConfig;
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
 import com.bf.portugo.adapter.LearnVerbPagerAdapter;
@@ -27,6 +29,10 @@ import com.bf.portugo.model.Verb;
 import com.bf.portugo.viewmodel.LearnSamplesViewModel;
 import com.bf.portugo.viewmodel.LearnVerbViewModel;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,15 +45,10 @@ public class LearnVerbActivity extends BaseActivity {
     private String TAG = LearnVerbActivity.class.getSimpleName();
 
     public final static String KEY_VERB = "key_verb";
-    //private static int TAB_INDEX_PAST = 0;
     private static int TAB_INDEX_PRESENT = 1;
-    //private static int TAB_INDEX_FUTURE = 2;
 
     private LearnVerbViewModel mViewModel;
-
     private FragmentManager mFragmentManager;
-
-
     private Typeface mFontPhonetic;
 
     @BindView(R.id.toolbar_collap_learnverb)
@@ -61,13 +62,10 @@ public class LearnVerbActivity extends BaseActivity {
     @BindView(R.id.tabs_learnverb)
     TabLayout mTabLayout;
 
-//    @BindView(R.id.tv_learnverb_verb_pt)
-//    TextView mTvVerb_word_pt;
     @BindView(R.id.tv_learnverb_verb_phonetic)
     TextView mTvVerb_phonetic;
     @BindView(R.id.tv_learnverb_verb_en)
     TextView mTvVerb_word_en;
-
     @BindView(R.id.tv_learnverb_prespart_pt)
     TextView mTvVerb_prespart_pt;
     @BindView(R.id.tv_learnverb_prespart_en)
@@ -76,6 +74,8 @@ public class LearnVerbActivity extends BaseActivity {
     TextView mTvVerb_pastpart_pt;
     @BindView(R.id.tv_learnverb_pastpart_en)
     TextView mTvVerb_pastpart_en;
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,16 @@ public class LearnVerbActivity extends BaseActivity {
         else
             Log.d(TAG, "onCreate: VM has verb");
 
+        mAdView = (AdView) findViewById(R.id.adView);
+        if (BuildConfig.BUILD_FREE) {
+            MobileAds.initialize(this, getString(R.string.admob_appid));
+            mAdView.setAdSize(AdSize.BANNER);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+        else
+            mAdView.setVisibility(View.GONE);
+
         populateVerbInfo(mViewModel.getVerb());
 
 
@@ -127,12 +137,10 @@ public class LearnVerbActivity extends BaseActivity {
 
     @Override
     protected void actionHasTTS(boolean hasTTS) {
-        //Toast.makeText(this, "BANG - "+String.valueOf(hasTTS), Toast.LENGTH_SHORT).show();
-        // TODO: 08/08/2018 Handle display of Audio available etc
+        //
     }
 
     private void buildTabViewPager(int tabPosition){
-        //mDetailsSectionsPagerAdapter = new DetailSectionsPagerAdapter(getSupportFragmentManager(), Details2Activity.this);
         LearnVerbPagerAdapter mPagerAdapter = new LearnVerbPagerAdapter(mFragmentManager);
 
         mViewPager.setAdapter(mPagerAdapter);

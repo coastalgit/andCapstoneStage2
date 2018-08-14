@@ -29,6 +29,32 @@ android {
         sourceCompatibility 1.8
     }
 
+    flavorDimensions "default"
+    productFlavors {
+
+        free {
+            applicationId "com.bf.portugo"
+
+            copy {
+                from 'src/main/'
+                include '*.json'
+                into '.'
+            }
+
+            buildConfigField 'boolean', 'BUILD_FREE', 'true'
+        }
+        paid {
+            applicationId "com.bf.portugo.paid"
+
+            copy {
+                from 'src/main/'
+                include '*.json'
+                into '.'
+            }
+
+            buildConfigField 'boolean', 'BUILD_FREE', 'false'
+        }
+    }
 }
 
 dependencies {
@@ -46,8 +72,9 @@ dependencies {
     implementation "com.flaviofaria:kenburnsview:$rootProject.ext.kenburnsview_version"
 
     //Firebase
+    implementation "com.google.firebase:firebase-core:$rootProject.ext.firebase_ads_version"
     implementation "com.google.firebase:firebase-database:$rootProject.ext.firebase_db_version"
-//    implementation "com.google.firebase:firebase-ads:$rootProject.ext.firebase_ads_version"
+    implementation "com.google.firebase:firebase-ads:$rootProject.ext.firebase_ads_version"
 
     //Lifecycle
     implementation "android.arch.lifecycle:extensions:$rootProject.ext.lifecycle_version"
@@ -58,12 +85,15 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.ext.room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.ext.room_version"
 
+    //Ads
+    //freeImplementation "com.google.android.gms:play-services-ads:$rootProject.ext.ads_version"
+
     //Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // For Mockito unit tests
-    testCompile "org.mockito:mockito-core:$rootProject.ext.room_version"
+    testCompile "org.mockito:mockito-core:$rootProject.ext.mockito_version"
 
 }
 

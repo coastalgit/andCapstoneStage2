@@ -23,8 +23,6 @@ public class LearnVerbsMainViewModel extends AndroidViewModel {
     private String TAG = LearnVerbsMainViewModel.class.getSimpleName();
 
     private VerbRoomRepository mRepo;
-    //private LiveData<List<Verb>> mObservableVerbs_Essential;
-    //private LiveData<List<Verb>> mObservableVerbs_All;
     private FirebaseDataSource mDataSource;
     private boolean mHasAlreadyPolledDataSource;
 
@@ -32,22 +30,9 @@ public class LearnVerbsMainViewModel extends AndroidViewModel {
         super(application);
 
         mRepo = new VerbRoomRepository(application);
-
-//        mObservableVerbs_Essential = new MutableLiveData<>();
-//        mObservableVerbs_All = new MutableLiveData<>();
-
         mHasAlreadyPolledDataSource = false;
-/*
-        LiveData<List<ProductEntity>> products = ((BasicApp) application).getRepository()
-                .getProducts();
-
-        // observe the changes of the products from the database and forward them
-        mObservableProducts.addSource(products, mObservableProducts::setValue);
-*/
-
         mDataSource = new FirebaseDataSource();
         refreshRoomFromDataSource();
-
     }
 
     public LiveData<List<Verb>> getObservableVerbsAll() {
@@ -67,16 +52,16 @@ public class LearnVerbsMainViewModel extends AndroidViewModel {
         mRepo.fillDBFromDataSource(mDataSource);
     }
 
-    public void deleteAllWordSetsFromRoomDb(){
-        mRepo.deleteAllRoomDbRecs();
-    }
-
     public void subscribeToChildUpdates(){
         mRepo.subscribeToChildUpdates(mDataSource);
     }
 
-    public void unsubscribeFromChildUpdates(){
-        mRepo.unsubscribeFromChildUpdates(mDataSource);
+    public boolean getHasAlreadyPolledDataSource() {
+        return mHasAlreadyPolledDataSource;
+    }
+
+    public void setHasAlreadyPolledDataSource(boolean mHasAlreadyPolledDataSource) {
+        this.mHasAlreadyPolledDataSource = mHasAlreadyPolledDataSource;
     }
 
 }

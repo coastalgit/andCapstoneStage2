@@ -12,7 +12,6 @@ import com.bf.portugo.data.VerbDao;
 import com.bf.portugo.data.VerbDatabase;
 import com.bf.portugo.model.Verb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.bf.portugo.common.Constants.VERB_CLASSIFICATIONCEILING_ESSENTIAL;
@@ -66,7 +65,7 @@ public class VerbRoomRepository {
     public void fillDBFromDataSource(IVerbDataSource dataSource){
         Log.d(TAG, "fillDBFromDataSource: ");
         if (dataSource != null) {
-            dataSource.fetchVerbItems(new IVerbDataSource.verbDataSourceListener() {
+            dataSource.fetchVerbItems(new IVerbDataSource.VerbDataSourceListener() {
                 @Override
                 public void onSuccess(List<Verb> verbs) {
                     if (verbs != null) {

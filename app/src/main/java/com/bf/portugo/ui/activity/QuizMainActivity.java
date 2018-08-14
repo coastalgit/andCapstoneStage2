@@ -70,6 +70,7 @@ public class QuizMainActivity extends BaseActivity{
             mToolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
 
+        Log.d(TAG, "onCreate: Current saved best score="+String.valueOf(getScoreBest()));
 
         mViewModel = ViewModelProviders.of(this).get(QuizMainViewModel.class);
         subscribeUI();

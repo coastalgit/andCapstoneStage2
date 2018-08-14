@@ -32,4 +32,11 @@ public class DBFuncsActivity extends AppCompatActivity {
     public void btnAddStockData_Category2_onClick(Button btn){
         mViewModel.populateFbWithStockData_NextItem();
     }
+
+    @OnClick(R.id.btn_deleteall_fbrecs)
+    public void btnDelFbRecs_onClick(Button btn){
+        mViewModel.deleteAllWordSetsFromRoomDb();
+    }
+
+
 }

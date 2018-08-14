@@ -39,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static final int CODE_TTS_CHECK = 100;
 
-    protected BaseViewModel mViewModel;
+    protected BaseViewModel mViewModelBase;
     protected TextToSpeech mTTS;
     protected Typeface mFont;
 
@@ -72,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mNetworkUtils = new NetworkUtils();
         mFont = Typeface.createFromAsset(this.getAssets(), FONT_ITIM_REGULAR);
 
-        mViewModel = ViewModelProviders.of(this).get(BaseViewModel.class);
+        mViewModelBase = ViewModelProviders.of(this).get(BaseViewModel.class);
 
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //mPalette = ColourPaletteFactory.createPalette(getResources());
@@ -155,7 +155,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     public void hasVerbsInRoom(IBaseActivityRoomFunc listener) {
-        mViewModel.hasVerbRecordsInRoom(verbs -> {
+        mViewModelBase.hasVerbRecordsInRoom(verbs -> {
             if (listener != null){
                 listener.hasRoomVerbRecords(VerbHelper.getListRecordCount(verbs) > 0);
             }
@@ -187,7 +187,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             }
         });
-        mViewModel.setHasCheckedForTTS(true);
+        mViewModelBase.setHasCheckedForTTS(true);
     }
 
     private void launchSystemTTSActivity(){

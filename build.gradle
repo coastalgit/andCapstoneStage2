@@ -11,8 +11,8 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        //classpath 'com.google.gms:google-services:3.1.1'
-        classpath 'com.google.gms:google-services:3.1.1'
+
+        classpath 'com.google.gms:google-services:4.0.1'
     }
 }
 
@@ -23,11 +23,12 @@ ext{
     butterknife_version = "8.8.1"
     lifecycle_version = "1.1.1"
     room_version = "1.1.1"
+    firebase_core_version = "11.8.0"
     firebase_db_version = "11.8.0"
     firebase_ads_version = "11.8.0"
-    playServices_version = '15.0.1'
+    playServices_version = "15.0.1"
     kenburnsview_version ="1.0.7"
-
+    ads_version ="15.0.1"
     mockito_version ="2.7.22"
 }
 

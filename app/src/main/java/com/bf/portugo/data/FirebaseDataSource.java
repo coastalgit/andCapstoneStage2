@@ -34,7 +34,7 @@ public class FirebaseDataSource implements IVerbDataSource {
     private DatabaseReference mFDbRef_Verbs;
     private ValueEventListener mFDbValueEventListener;
     private ChildEventListener mFDbChildEventListener;
-    private verbDataSourceListener mVerbDataSourceListener;
+    private VerbDataSourceListener mVerbDataSourceListener;
     private IVerbChildEvent mVerbChildEventListener;
 
     public FirebaseDataSource() {
@@ -64,6 +64,7 @@ public class FirebaseDataSource implements IVerbDataSource {
 
     }
 
+    //region Firebase testing
     /**
      * For Firebase testing only. Used from a developer dedicated admin view to insert data to Firebase.
      * @param verbs
@@ -81,6 +82,12 @@ public class FirebaseDataSource implements IVerbDataSource {
         Log.d(TAG, "addStockData (ITEM): ID=["+id+"]");
         mFDbRef_Verbs.child(id).setValue(verb);
     }
+
+    public void deleteAllFbRecs(){
+        mFDbRef_Verbs.removeValue();
+    }
+
+    //endregion Firebase testing
 
     public void attachChildListener(IVerbChildEvent childEventListener){
         Log.d(TAG, "attachFbDbChildListener: ");
@@ -137,13 +144,13 @@ public class FirebaseDataSource implements IVerbDataSource {
     }
 
     @Override
-    public void fetchVerbItems(verbDataSourceListener listener) {
+    public void fetchVerbItems(VerbDataSourceListener listener) {
         this.mVerbDataSourceListener = listener;
         mFDbRef_Verbs.addListenerForSingleValueEvent(mFDbValueEventListener);
     }
 
     @Override
-    public void fetchVerbItemsByType(VerbStockData.VerbType verbType, verbDataSourceListener listener) {
+    public void fetchVerbItemsByType(VerbStockData.VerbType verbType, VerbDataSourceListener listener) {
         if (verbType == VerbStockData.VerbType.ANY){
             fetchVerbItems(listener);
             return;

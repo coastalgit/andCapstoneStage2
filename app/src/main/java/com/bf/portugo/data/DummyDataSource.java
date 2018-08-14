@@ -12,7 +12,7 @@ import java.util.List;
 public class DummyDataSource implements IVerbDataSource {
 
     @Override
-    public void fetchVerbItems(verbDataSourceListener listener) {
+    public void fetchVerbItems(VerbDataSourceListener listener) {
         if (listener != null){
             VerbStockData verbData = new VerbStockData(VerbStockData.VerbType.ANY);
             List<Verb> verbs = new ArrayList<>(verbData.VERB_MAP.values());
@@ -21,7 +21,7 @@ public class DummyDataSource implements IVerbDataSource {
     }
 
     @Override
-    public void fetchVerbItemsByType(VerbStockData.VerbType verbType, verbDataSourceListener listener) {
+    public void fetchVerbItemsByType(VerbStockData.VerbType verbType, VerbDataSourceListener listener) {
         if (listener != null){
             VerbStockData verbData = new VerbStockData(verbType);
             List<Verb> verbs = new ArrayList<>(verbData.VERB_MAP.values());

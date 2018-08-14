@@ -17,6 +17,7 @@ package com.bf.portugo.ui.activity;
         limitations under the License.
 */
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.datacreation.DBFuncsActivity;
+import com.bf.portugo.viewmodel.HomeViewModel;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
 import butterknife.BindView;
@@ -44,7 +46,7 @@ import static com.bf.portugo.common.Constants.Fonts.FONT_LOBSTER_REGULAR;
 public class HomeActivity extends BaseActivity {
 
     private String TAG = HomeActivity.class.getSimpleName();
-    private static final int CODE_TTS_CHECK = 100;
+    private HomeViewModel mViewModel;
 
     private Typeface mTitleFont;
 
@@ -71,30 +73,14 @@ public class HomeActivity extends BaseActivity {
         Log.d(TAG, "onCreate: (HOME)");
         ButterKnife.bind(this);
 
+        mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+
         setControlsVisibility(false);
 
-        // TODO: 12/08/2018 Replace with image?
         mTitleFont = Typeface.createFromAsset(this.getAssets(), FONT_LOBSTER_REGULAR);
         mTvTitle.setTypeface(mTitleFont);
 
         mKbv = (KenBurnsView) findViewById(R.id.iv_home);
-//        mKbv.setTransitionListener(new KenBurnsView.TransitionListener() {
-//            @Override
-//            public void onTransitionStart(Transition transition) {
-//
-//            }
-//            @Override
-//            public void onTransitionEnd(Transition transition) {
-//
-//            }
-//        });
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mKbv.resume();
-//            }
-//        }, 1000);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mKbv.setImageDrawable(getDrawable(R.drawable.splashland));

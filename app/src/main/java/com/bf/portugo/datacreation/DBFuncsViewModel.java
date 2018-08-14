@@ -55,4 +55,7 @@ public class DBFuncsViewModel extends AndroidViewModel {
         }
     }
 
+    public void deleteAllWordSetsFromRoomDb() {
+        mFbWriteFuncs.deleteAllFbRecs();
+    }
 }

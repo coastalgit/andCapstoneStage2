@@ -1,17 +1,21 @@
 package com.bf.portugo.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
@@ -26,21 +30,9 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
 
     private String TAG = LearnMainActivity.class.getSimpleName();
 
-
-/*
-    private static final String FRAGMENT_VERBS_ALL = "key_verbs_all";
-    private static final String FRAGMENT_VERBS_ALL_TAG = "key_verbs_all_tag";
-    private static final String FRAGMENT_VERBS_ESSENTIAL = "key_verbs_essen";
-    private static final String FRAGMENT_VERBS_ESSENTIAL_TAG = "key_verbs_essen_tag";
-*/
-
     private LearnVerbsMainViewModel mViewModel;
-
     private FragmentManager mFragmentManager;
-/*
-    private Fragment mFragmentVerbs_All;
-    private Fragment mFragmentVerbs_Essential;
-*/
+    private Snackbar mSnackbar;
 
     @BindView(R.id.toolbar_learnmain)
     Toolbar mToolbar;
@@ -51,6 +43,8 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
     @BindView(R.id.tabs_learnmain)
     TabLayout mTabLayout;
 
+    @BindView(R.id.layout_learnmain_root)
+    CoordinatorLayout mLayoutRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,87 +60,47 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
             mToolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
 
-
         mViewModel = ViewModelProviders.of(this).get(LearnVerbsMainViewModel.class);
+
+        if (!mViewModel.getHasAlreadyPolledDataSource()) {
+            snackBarShow(getString(R.string.pleasewait), false);
+            mViewModel.setHasAlreadyPolledDataSource(true);
+        }
+
         mFragmentManager = getSupportFragmentManager();
         buildTabViewPager();
-
-        // TODO: 08/08/2018 Check connectivity and Room content (for offline)
         mViewModel.subscribeToChildUpdates();
-
-//        if (savedInstanceState == null) {
-//            Log.d(TAG, "onCreate: NO INSTANCE");
-//            applyFragment(mFragmentVerbs_All, R.id.layout_main_steps, FRAGMENT_STEPS_TAG);
-//
-//            mFragmentInstructions = RecipeInstructionFragment.newInstance(mViewModel.getRecipe());
-//            if (mIsTwoPane) {
-//                applyFragment(mFragmentInstructions, R.id.layout_main_instructions, FRAGMENT_INSTRUCTION_TAG);
-//            }
-//        }
-//        else{
-//            Log.d(TAG, "onCreate: HAVE INSTANCE");
-//            mFragmentSteps = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STEPS);
-//            mFragmentInstructions = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_INSTRUCTION);
-//        }
-
     }
-
-/*
-    private void applyFragment(Fragment frag, int layoutId, String fragTag){
-        if (frag != null)
-            mFragmentManager.beginTransaction().replace(layoutId, frag, fragTag).commit();
-        else{
-            switch (fragTag){
-                case FRAGMENT_VERBS_ESSENTIAL:
-                    frag = mFragmentVerbs_Essential = LearnMainVerbsFragment.newInstance();
-                    break;
-                case FRAGMENT_VERBS_ALL:
-                    frag = mFragmentVerbs_All = LearnMainVerbsFragment.newInstance();
-                    break;
-            }
-            mFragmentManager.beginTransaction()
-                    .add(layoutId, frag, fragTag)
-                    .commit();
-        }
-    }
-*/
 
     public LearnVerbsMainViewModel getViewModel() {
         return mViewModel;
     }
 
     private void buildTabViewPager(){
-        //mDetailsSectionsPagerAdapter = new DetailSectionsPagerAdapter(getSupportFragmentManager(), Details2Activity.this);
         LearnMainVerbsPagerAdapter mPagerAdapter = new LearnMainVerbsPagerAdapter(mFragmentManager);
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-/*
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-                //animatePosterVisibility();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-*/
     }
 
     private void showLearnVerbActivity(Verb verb){
         Intent verbIntent = new Intent(this, LearnVerbActivity.class);
         verbIntent.putExtra(LearnVerbActivity.KEY_VERB, verb);
         startActivity(verbIntent);
+    }
+
+    private void snackBarShow(String message, boolean asIndefinite){
+        Log.d(TAG, "snackBarShow: ");
+        mSnackbar = Snackbar.make(mLayoutRoot,message, asIndefinite?Snackbar.LENGTH_INDEFINITE:Snackbar.LENGTH_SHORT);
+        mSnackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        mSnackbar.setActionTextColor(Color.WHITE);
+        mSnackbar.show();
+    }
+
+    private void snackBarDismiass(){
+        if (mSnackbar != null && mSnackbar.isShown())
+            mSnackbar.dismiss();
     }
 
     @Override

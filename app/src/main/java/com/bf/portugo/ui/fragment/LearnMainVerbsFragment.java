@@ -12,11 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bf.portugo.BuildConfig;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.activity.LearnMainActivity;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
+import com.google.android.gms.ads.MobileAds;
 
 import static com.bf.portugo.common.Enums.*;
 import java.util.List;
@@ -37,6 +44,8 @@ public class LearnMainVerbsFragment extends Fragment{
     @BindView(R.id.recyclerview_learnmain)
     RecyclerView mRecyclerViewVerbs;
 
+    private AdView mAdView;
+
     public interface OnLearnMainVerbFragmentInteractionListener {
         void onVerbItemClick(Verb verbItem);
     }
@@ -53,6 +62,9 @@ public class LearnMainVerbsFragment extends Fragment{
         return fragment;
     }
 
+    private void addAdMob(){
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +84,15 @@ public class LearnMainVerbsFragment extends Fragment{
         mRecyclerViewVerbs.setLayoutManager(linearLayoutManager);
         mRecyclerViewVerbs.setHasFixedSize(true);
 
+        mAdView = (AdView) rootView.findViewById(R.id.adView);
+        if (BuildConfig.BUILD_FREE) {
+            MobileAds.initialize(getActivity(), getString(R.string.admob_appid));
+            mAdView.setAdSize(AdSize.BANNER);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+        else
+            mAdView.setVisibility(View.GONE);
 
         mVerbsAdapter = new LearnMainVerbsRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerViewVerbs.setAdapter(mVerbsAdapter);
