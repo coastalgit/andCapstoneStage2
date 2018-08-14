@@ -26,13 +26,6 @@ import static com.bf.portugo.util.VerbHelper.getLiveListRecordCount;
 public class VerbRoomRepository {
     private static final String TAG = VerbRoomRepository.class.getSimpleName();
 
-/*
-    public static enum VerbFilter{
-        ALL,
-        ESSENTIAL
-    }
-*/
-
     private interface IAsyncTaskComplete{
         void doRefresh();
     }
@@ -44,23 +37,13 @@ public class VerbRoomRepository {
     @SuppressWarnings("FieldCanBeLocal")
     private final VerbDatabase mDb_Verb;
     private final VerbDao mDao_Verb;
-    //private List<Verb> mObservableVerbsSync;
     private LiveData<List<Verb>> mObservableVerbs;
     private LiveData<List<Verb>> mObservableVerbsEssential;
 
     public VerbRoomRepository(Application application) {
         mDb_Verb = VerbDatabase.getDatabaseInstance(application);
         mDao_Verb = mDb_Verb.verbDao();
-        //populateVerbsFromDB();
     }
-
-/*
-    private int getLiveListRecordCount(LiveData<List<Verb>> verbList){
-        if ((verbList != null) && verbList.getValue() != null && (verbList.getValue().size() > 0))
-            return verbList.getValue().size();
-        return 0;
-    }
-*/
 
     public void fillDBFromDataSource(IVerbDataSource dataSource){
         Log.d(TAG, "fillDBFromDataSource: ");
@@ -72,14 +55,13 @@ public class VerbRoomRepository {
                         Log.d(TAG, "onSuccess: Verb count=" + String.valueOf(getLiveListRecordCount(mObservableVerbs)) + " DS COUNT=" + String.valueOf(verbs.size()));
                         //refresh local db
                         new deleteAllTask(mDao_Verb, () -> refreshLiveDataSets()).execute();
-                        //new insertBatchTask(mDao_Verb, () -> refreshLiveDataSets()).execute(verbs);
                         new insertBatchTask(mDao_Verb, verbs, () -> refreshLiveDataSets()).execute();
                     }
                 }
 
                 @Override
                 public void onError(ErrorCode errorCode, String errorMsg) {
-                    // TODO: 03/08/2018
+                    //
                 }
             });
         }
@@ -125,11 +107,6 @@ public class VerbRoomRepository {
         Log.d(TAG, "refreshLiveDataSets: Count (Essential)="+String.valueOf(countEss));
     }
 
-//    public List<Verb> getVerbsSync() {
-//        populateVerbsFromDB_All_Sync();
-//        return mObservableVerbsSync;
-//    }
-
     /**
      * Method allowing a refresh from Room or just returning the existing list if already populated
      *
@@ -143,26 +120,10 @@ public class VerbRoomRepository {
         return mObservableVerbs;
     }
 
-/*
-    public List<Verb> getVerbsSynchronously() {
-        return fetchVerbsFromDB_SyncCall();
-    }
-*/
-
     public LiveData<List<Verb>> getVerbsEssential() {
         populateVerbsFromDB_Essential();
         return mObservableVerbsEssential;
     }
-
-//    private void populateVerbsFromDB_All_Sync(){
-//        if (mDao_Verb != null){
-//            if (mObservableVerbsSync == null)
-//                mObservableVerbsSync = new ArrayList<>();
-//
-//            mObservableVerbsSync = mDao_Verb.getListVerbItemsSync();
-//        }
-//
-//    }
 
     private void populateVerbsFromDB_All(){
         if (mDao_Verb != null){
@@ -170,25 +131,8 @@ public class VerbRoomRepository {
                 mObservableVerbs = new MutableLiveData<>();
 
             mObservableVerbs = mDao_Verb.getListVerbItems();
-
-            //if ((mObservableVerbs != null) && (mObservableVerbs.getValue() != null))
-//            if (mObservableVerbs.getValue() != null)
-//                Log.d(TAG, "populateVerbsFromDB_All: Room Verb count="+String.valueOf(mObservableVerbs.getValue().size()));
-//            else
-//                Log.d(TAG, "populateVerbsFromDB_All: Room Verb count=NULL");
         }
-
     }
-
-/*
-    private List<Verb> fetchVerbsFromDB_SyncCall(){
-        List<Verb> verbList = new ArrayList<>();
-        if (mDao_Verb != null){
-            verbList = mDao_Verb.getListVerbItemsSync();
-        }
-        return verbList;
-    }
-*/
 
     private void populateVerbsFromDB_Essential(){
         if (mDao_Verb != null){
@@ -196,65 +140,12 @@ public class VerbRoomRepository {
                 mObservableVerbsEssential = new MutableLiveData<>();
 
             mObservableVerbsEssential = mDao_Verb.getListVerbItemsEssential(VERB_CLASSIFICATIONCEILING_ESSENTIAL);
-
-            //if ((mObservableVerbsEssential != null) && (mObservableVerbsEssential.getValue() != null))
-//            if (mObservableVerbsEssential.getValue() != null)
-//                Log.d(TAG, "populateVerbsFromDB_Essential: Room Verb count="+String.valueOf(mObservableVerbsEssential.getValue().size()));
-//            else
-//                Log.d(TAG, "populateVerbsFromDB_Essential: Room Verb count=NULL");
         }
-
     }
-
-/*
-
-    public LiveData<List<Verb>> getVerbs() {
-        if (mObservableVerbs == null)
-            mObservableVerbs = new MutableLiveData<>();
-
-        mObservableVerbs = populateVerbsFromDB(mObservableVerbs, VerbFilter.ALL);
-        return mObservableVerbs;
-    }
-
-    public LiveData<List<Verb>> getVerbsEssential() {
-        if (mObservableVerbsEssential == null)
-            mObservableVerbsEssential = new MutableLiveData<>();
-
-        mObservableVerbsEssential = populateVerbsFromDB(mObservableVerbsEssential, VerbFilter.ESSENTIAL);
-        return mObservableVerbsEssential;
-    }
-
-    private LiveData<List<Verb>> populateVerbsFromDB(LiveData<List<Verb>> verbList, VerbFilter filter){
-//        if (verbList == null)
-//            verbList = new MutableLiveData<>();
-
-        if (mDao_Verb != null){
-            if (filter == VerbFilter.ESSENTIAL)
-                verbList = mDao_Verb.getListVerbItemsEssential(Constants.VERB_CLASSIFICATIONCEILING_ESSENTIAL);
-            else
-                verbList = mDao_Verb.getListVerbItems();
-
-            if ((verbList != null) && (verbList.getValue() != null))
-                Log.d(TAG, "populateVerbsFromDB: Room Verb count="+String.valueOf(verbList.getValue().size()));
-            else
-                Log.d(TAG, "populateVerbsFromDB: Room Verb count=NULL");
-        }
-
-        return verbList;
-    }
-*/
-
 
     //Unobserved (non LiveData) call
     public void fetchVerbsFromRoomDB(IRoomQueryTaskComplete listener){
         new selectAllTask(mDao_Verb, listener).execute();
-/*
-        List<Verb> verbList = new ArrayList<>();
-        if (mDao_Verb != null){
-            verbList = mDao_Verb.getListVerbItemsSync();
-        }
-        return verbList;
-*/
     }
 
     //region TASKS (STATIC INNER CLASSES)
@@ -295,7 +186,6 @@ public class VerbRoomRepository {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            //refreshLiveDataSets();
             if (mListener != null)
                 mListener.doRefresh();
         }
@@ -308,7 +198,6 @@ public class VerbRoomRepository {
     }
 
     //Unchecked generics array warning
-    //private static class insertBatchTask extends AsyncTask<List<Verb>, Void, Void> {
     private static class insertBatchTask extends AsyncTask<Void, Void, Void> {
 
         private final VerbDao mTaskDao;
@@ -326,7 +215,6 @@ public class VerbRoomRepository {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Log.d(TAG, "onPostExecute: Inserted count=" + String.valueOf(mCounter));
-            //refreshLiveDataSets();        }
             if (mListener != null)
                 mListener.doRefresh();
         }
@@ -335,76 +223,15 @@ public class VerbRoomRepository {
         @Override
         protected final Void doInBackground(Void... voids) {
             mCounter = 0;
-/*
-            List<Verb> vList = (List<Verb>) lists[0];
-            for (Verb v : vList) {
-                mTaskDao.insertVerbItem(v);
-                mCounter++;
-            }
-*/
             if (mVerbList != null){
                 for (Verb v : mVerbList) {
                     mTaskDao.insertVerbItem(v);
                     mCounter++;
                 }
             }
-
             return null;
         }
     }
-
-/*
-    //Unchecked generics array warning
-    //private static class insertBatchTask extends AsyncTask<List<Verb>, Void, Void> {
-    private static class insertBatchTask extends AsyncTask<Object, Void, Void> {
-
-        private final VerbDao mTaskDao;
-        private int mCounter;
-        private final IAsyncTaskComplete mListener;
-
-        insertBatchTask(VerbDao dao, IAsyncTaskComplete listener) {
-            mTaskDao = dao;
-            mListener = listener;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Log.d(TAG, "onPostExecute: Inserted count=" + String.valueOf(mCounter));
-            //refreshLiveDataSets();        }
-            if (mListener != null)
-                mListener.doRefresh();
-        }
-
-        @SafeVarargs
-        @Override
-        //protected final Void doInBackground(List<Verb>... lists) {
-        protected final Void doInBackground(Object... lists) {
-            mCounter = 0;
-*/
-/*
-            List<Verb> vList = (List<Verb>) lists[0];
-            for (Verb v : vList) {
-                mTaskDao.insertVerbItem(v);
-                mCounter++;
-            }
-*//*
-
-
-            for (Object obj : lists){
-                if (obj instanceof List){
-                    List<Verb> vList = (List<Verb>) obj;
-                    for (Verb v : vList) {
-                        mTaskDao.insertVerbItem(v);
-                        mCounter++;
-                    }
-                }
-            }
-
-            return null;
-        }
-    }
-*/
 
     private static class deleteAllTask extends AsyncTask<Void, Void, Void> {
 

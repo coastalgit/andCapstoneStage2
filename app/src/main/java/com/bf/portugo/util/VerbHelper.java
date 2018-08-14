@@ -213,16 +213,16 @@ public class VerbHelper {
 
     public static String buildEndCardMessage(Context context, int newScore, int previousScore, int bestScore) {
         Log.d(TAG, "buildEndCardMessage: N="+String.valueOf(newScore)+" P="+String.valueOf(previousScore)+" B="+String.valueOf(bestScore));
-        // TODO: 13/08/2018 Strings 
+
         if (newScore>bestScore)
-            return "You have a new BEST score. \nExcellent work!";
+            return context.getString(R.string.quizresult_bestscore);
 
         if (newScore>previousScore)
-            return "That was an improvement on last time.\nMuito bem!";
+            return context.getString(R.string.quizresult_improved);
 
         if (newScore == 0)
-            return "Looks like you need more study my friend.";
+            return context.getString(R.string.quizresult_zero);
 
-        return "Great work";
+        return context.getString(R.string.quizresult_gwork);
     }
 }

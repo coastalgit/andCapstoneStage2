@@ -31,7 +31,6 @@ import java.util.Random;
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 import static com.bf.portugo.common.Constants.WRONG_ANSWER_COUNT;
 
-
 /*
  * @author frielb
  * Created on 10/08/2018
@@ -44,10 +43,8 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     Context mContext;
     private List<QuestionCardData> mQuestionCardData;
     private List<CardView> mCards;
-
     private IPagerAdapterAction mListener;
 
-    // TODO: 11/08/2018 remove
     public interface IPagerAdapterAction{
         void setFABEnabled(boolean enabled);
         void setSkipEnabled(boolean enabled);
@@ -116,7 +113,6 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         else
             Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
 
-        //if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getLastPageReached()) && isDiscardedCard(position) )
         if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getLastPageReached())){
             // Ignore previously instantiated cards as we do not allow backward option
             if (isDiscardedCard(position))
@@ -147,8 +143,6 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             tvQuestion.setTypeface(mFont);
             tvQuestion.setText(qc.getVerb().getWord_en());
 
-            //final CardView cardView = view.findViewById(R.id.layout_quizcard);
-
             FrameLayout frameAnswer0 = (FrameLayout) cardView.findViewById(R.id.answer_0);
             TextView tvAnswer0 = (TextView) frameAnswer0.findViewById(R.id.tv_quiz_answer);
             tvAnswer0.setTypeface(mFont);
@@ -176,34 +170,34 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
                 mQuestionCardData.set(position, qc);
             }
 
-            //if (isCurrentCard(position)) {
-                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 0, frameAnswer0, tvAnswer0);
-                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 1, frameAnswer1, tvAnswer1);
-                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 2, frameAnswer2, tvAnswer2);
-                assignType1AnswerButton(cardView, correctAnswerIndex, qc, 3, frameAnswer3, tvAnswer3);
 
-                //Log.d(TAG, "instantiateItem: POS="+String.valueOf(position)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
-                // in case of rotation, reshow previous selection
-                if (((QuestionCardData_Type1) qc).getChosenAnswer() != -1) {
-                    Log.d(TAG, "instantiateItem: Reselecting=" + String.valueOf(((QuestionCardData_Type1) qc).getChosenAnswer() == 0));
-                    if (((QuestionCardData_Type1) qc).getChosenAnswer() == 0)
-                        frameAnswer0.performClick();
-                    else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 1)
-                        frameAnswer1.performClick();
-                    else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 2)
-                        frameAnswer2.performClick();
-                    else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 3)
-                        frameAnswer3.performClick();
-                } else {
-                    //if (((QuizMainActivity)mContext).getViewModel().getActiveCardIndex() == position) {
-                    if (isCurrentCard(position)) {
-                        if (mListener != null) {
-                            mListener.setFABEnabled(false);
-                            mListener.setSkipEnabled(true);
-                        }
+            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 0, frameAnswer0, tvAnswer0);
+            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 1, frameAnswer1, tvAnswer1);
+            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 2, frameAnswer2, tvAnswer2);
+            assignType1AnswerButton(cardView, correctAnswerIndex, qc, 3, frameAnswer3, tvAnswer3);
+
+            //Log.d(TAG, "instantiateItem: POS="+String.valueOf(position)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
+            // in case of rotation, reshow previous selection
+            if (((QuestionCardData_Type1) qc).getChosenAnswer() != -1) {
+                Log.d(TAG, "instantiateItem: Reselecting=" + String.valueOf(((QuestionCardData_Type1) qc).getChosenAnswer() == 0));
+                if (((QuestionCardData_Type1) qc).getChosenAnswer() == 0)
+                    frameAnswer0.performClick();
+                else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 1)
+                    frameAnswer1.performClick();
+                else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 2)
+                    frameAnswer2.performClick();
+                else if (((QuestionCardData_Type1) qc).getChosenAnswer() == 3)
+                    frameAnswer3.performClick();
+            } else {
+                //if (((QuizMainActivity)mContext).getViewModel().getActiveCardIndex() == position) {
+                if (isCurrentCard(position)) {
+                    if (mListener != null) {
+                        mListener.setFABEnabled(false);
+                        mListener.setSkipEnabled(true);
                     }
                 }
-            //}
+            }
+
             //endregion TYPE 1
         }
         else if (qc.getQuestionType() == QuestionCardData.QuestionType.TYPE2) {
@@ -279,12 +273,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             TextView tvMessage = (TextView) cardView.findViewById(R.id.tv_quiz_message);
             tvMessage.setTypeface(mFont);
 
-            // TODO: 13/08/2018  
-//            String score = ((QuestionCardData_End)qc).getLabelScore();
-//            String msg = ((QuestionCardData_End)qc).getLabelMessage();
-
             tvScore.setText(((QuestionCardData_End)qc).getLabelScore());
-            //tvMessage.setText(msg+ " "+score);
             tvMessage.setText(((QuestionCardData_End)qc).getLabelMessage());
 
             Button btnReturn = (Button) cardView.findViewById(R.id.btn_quiz_return);
@@ -407,7 +396,6 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             answers = answers + " " +answer.getWord_pt();
         }
         Log.d(TAG, "assignType1AnswerButton: Card:["+qcd.getVerb().getWord_en()+"] "+answers);
-
 
         boolean isCorrect = (correctAnswerIndex == answerIndex);
         String answerTxt = qcd.getVerb().getWord_pt();

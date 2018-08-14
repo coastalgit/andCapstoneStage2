@@ -28,11 +28,6 @@ public interface VerbDao {
     @Query("SELECT * FROM Verb WHERE classification <= :classificationCeiling")
     LiveData<List<Verb>> getListVerbItemsEssential(int classificationCeiling);
 
-//    @Query("SELECT * FROM WordSet WHERE itemId=:itemId")
-//    LiveData<List<WordSet>> getListWordSetItemsById(String itemId);
-
-    //LiveData<List<WordSet>> getListWordSetItemsByCategory(String itemId);
-
     @Insert(onConflict = REPLACE)
     void insertVerbItem(Verb verb);
 

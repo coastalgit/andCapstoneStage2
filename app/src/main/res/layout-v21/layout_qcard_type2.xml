@@ -16,14 +16,14 @@
             android:id="@+id/layout_vert_quizgroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp"
+            android:padding="5dp"
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
+                android:padding="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -45,13 +45,6 @@
                 android:padding="18dp"
                 android:orientation="vertical">
 
-<!--
-                android:layout_gravity="center_vertical"
-                android:scaleType="center"
-                android:layout_weight="1"
-                android:src="@drawable/outline_play_circle_filled_white_24"/>
--->
-
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,8 +57,8 @@
                         android:layout_gravity="center"
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
-                        android:background="@color/colorWhite"
                         android:padding="3dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_play_circle_filled_green_24dp"/>
                         <!--android:background="@color/colorWhite"-->
                     <TextView
@@ -83,13 +76,19 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/frame_answertext"
-                    android:layout_toLeftOf="@id/btn_quiz_return"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="15dp"
                     android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/etAnswerInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="Answer"
+                        android:text="" />
 
                     <TextView
                         android:id="@+id/tv_quiz_correctanswer"
@@ -102,35 +101,20 @@
                         android:visibility="invisible"
                         android:text="Correct Answer" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/etAnswerInput"
-                            android:layout_toLeftOf="@id/btn_quiz_return"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="text"
-                            android:hint="Answer"
-                            android:text="" />
-
-                        <Button
-                            android:id="@+id/btn_quiz_return"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:layout_gravity="center_horizontal"
-                            android:background="@drawable/button_rounded_inverted"
-                            android:padding="15dp"
-                            android:text="Check"
-                            android:layout_alignParentRight="true"
-                            android:textColor="@color/colorWhite" />
-
-                    </RelativeLayout>
 
                 </FrameLayout>
+
+
+                <Button
+                    android:id="@+id/btn_quiz_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_rounded_inverted"
+                    android:padding="15dp"
+                    android:text="Check"
+                    android:textColor="@color/colorWhite" />
 
             </LinearLayout>
 

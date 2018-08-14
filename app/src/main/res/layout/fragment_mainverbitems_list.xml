@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/card_margin"
     android:background="@color/colorGlobalBG">
-    <!--tools:context=".MainActivity$PlaceholderFragment"-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_learnmain"
@@ -17,20 +15,3 @@
         android:paddingBottom="8dp"/>
 
 </FrameLayout>
-
-
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.bf.portugo.ui.LearnEssentialVerbItemsFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-
-    tools:context=".ui.fragment.LearnMainVerbsFragment"
-    tools:listitem="@layout/fragment_mainverbitem" />
-    &lt;!&ndash;app:layoutManager="LinearLayoutManager"&ndash;&gt;-->

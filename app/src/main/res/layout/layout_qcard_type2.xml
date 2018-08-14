@@ -45,13 +45,6 @@
                 android:padding="18dp"
                 android:orientation="vertical">
 
-<!--
-                android:layout_gravity="center_vertical"
-                android:scaleType="center"
-                android:layout_weight="1"
-                android:src="@drawable/outline_play_circle_filled_white_24"/>
--->
-
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +58,7 @@
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
                         android:padding="3dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@color/colorWhite"
                         app:srcCompat="@drawable/ic_play_circle_filled_green_24dp"/>
                         <!--android:background="@color/colorWhite"-->
                     <TextView

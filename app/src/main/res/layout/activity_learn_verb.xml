@@ -152,7 +152,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_learnverb"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:gravity="center_vertical"
                 app:layout_collapseMode="pin"
                 android:elevation="@dimen/global_elevation"

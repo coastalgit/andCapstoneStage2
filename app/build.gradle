@@ -85,9 +85,6 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.ext.room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.ext.room_version"
 
-    //Ads
-    //freeImplementation "com.google.android.gms:play-services-ads:$rootProject.ext.ads_version"
-
     //Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -96,7 +93,5 @@ dependencies {
     //testCompile "org.mockito:mockito-core:$rootProject.ext.mockito_version"
 
 }
-
-//apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.gms.google-services'

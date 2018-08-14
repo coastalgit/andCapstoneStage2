@@ -68,20 +68,6 @@ public class VerbUpdateService extends IntentService {
         }
     }
 
-/*
-    private void performGetVerb() {
-        VerbRoomRepository mRepo = new VerbRoomRepository(getApplication());
-        List<Verb> verbList = mRepo.getVerbsSynchronously();
-        int verbcount = VerbHelper.getListRecordCount(verbList);
-        Log.d(TAG, "performVerbUpdate: count="+String.valueOf(verbcount));
-        if (verbcount > 0) {
-            Verb randomVerb = VerbHelper.getRandomVerb(verbList);
-            Log.d(TAG, "performGetVerb: Random verb:["+randomVerb.getWord_pt()+"]");
-            startActionUpdateVerbWidgets(this, randomVerb);
-        }
-    }
-*/
-
     private void performGetVerb() {
         VerbRoomRepository mRepo = new VerbRoomRepository(getApplication());
         mRepo.fetchVerbsFromRoomDB(new VerbRoomRepository.IRoomQueryTaskComplete() {
@@ -92,7 +78,6 @@ public class VerbUpdateService extends IntentService {
                 if (verbcount > 0) {
                     Verb randomVerb = VerbHelper.getRandomVerb(verbs);
                     Log.d(TAG, "performGetVerb: Random verb:["+randomVerb.getWord_pt()+"]");
-                    //startActionUpdateVerbWidgets(this, randomVerb);
                     startActionUpdateVerbWidgets(VerbUpdateService.this, randomVerb);
                 }
             }
@@ -103,8 +88,6 @@ public class VerbUpdateService extends IntentService {
         Log.d(TAG, "performVerbWidgetUpdate: ");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, VerbWidgetProvider.class));
-        //appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.layout_widget_verb);
-
         VerbWidgetProvider.updateVerbWidgets(this,appWidgetManager, newVerb, appWidgetIds);
     }
 }

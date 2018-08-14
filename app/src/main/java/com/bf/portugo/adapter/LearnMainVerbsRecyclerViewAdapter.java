@@ -56,9 +56,7 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: ");
                 if (mListener != null) {
-                    Log.d(TAG, "onClick: BANG");
                     mListener.onVerbItemClick(holder.mVerb);
                 }
             }

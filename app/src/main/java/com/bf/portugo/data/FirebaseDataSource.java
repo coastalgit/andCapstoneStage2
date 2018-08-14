@@ -57,7 +57,6 @@ public class FirebaseDataSource implements IVerbDataSource {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // TODO: 30/07/2018
                 Log.d(TAG, "onCancelled: Read failed");
             }
         };

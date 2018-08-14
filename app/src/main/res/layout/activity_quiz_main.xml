@@ -21,7 +21,7 @@
                 android:id="@+id/toolbar_quizmain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
+                android:background="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -78,9 +78,6 @@
             android:textColor="@color/colorDGray"
             android:text="@string/skip"/>
 
-
-        <!--android:layout_gravity="center_vertical|end"-->
-
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -91,7 +88,7 @@
         android:elevation="@dimen/fab_elevation"
         app:fabSize="normal"
         app:borderWidth="0dp"
-        app:backgroundTint="?attr/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/viewpager_quizmain"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_navigate_next_white_24dp"

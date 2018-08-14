@@ -15,7 +15,6 @@
         android:animateLayoutChanges="true"
         android:background="@color/colorPrimary"
         card_view:cardElevation="@dimen/card_elevation">
-        <!--card_view:elevation="@dimen/global_elevation"-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +39,7 @@
                     android:scaleType="center"
                     app:fabSize="mini"
                     app:borderWidth="0dp"
-                    app:backgroundTint="?attr/colorAccent"
+                    app:backgroundTint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_play_circle_outline_white_24dp" />
 
                 <TextView

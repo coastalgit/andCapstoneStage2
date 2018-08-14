@@ -269,7 +269,6 @@ public class QuizMainActivity extends BaseActivity{
             mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
         else {
             mViewModel.setActiveCardIndex(0);
-            //Toast.makeText(this, "Do finalised stuff", Toast.LENGTH_SHORT).show();
             updateProgessLabel(QUIZ_QUESTION_COUNT);
             showFinalCard();
         }

@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_learnsamples"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             android:elevation="@dimen/global_elevation"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 

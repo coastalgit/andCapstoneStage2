@@ -29,7 +29,6 @@ import java.util.Locale;
 
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 
-
 /*
  * @author frielb
  * Created on 02/02/2018
@@ -74,9 +73,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mViewModelBase = ViewModelProviders.of(this).get(BaseViewModel.class);
 
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //mPalette = ColourPaletteFactory.createPalette(getResources());
-        //attachPresenterBase();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEditor = mPrefs.edit();
         refreshPrefs();
@@ -147,13 +143,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     //endregion PREFS
 
-/*
-    public boolean hasVerbsInRoom(){
-        return mViewModel.hasVerbRecordsInRoom();
-    }
-*/
-
-
     public void hasVerbsInRoom(IBaseActivityRoomFunc listener) {
         mViewModelBase.hasVerbRecordsInRoom(verbs -> {
             if (listener != null){
@@ -170,20 +159,17 @@ public abstract class BaseActivity extends AppCompatActivity {
                     mTTSResult = mTTS.setLanguage(new Locale("pt_PT"));
                     //mTTSResult = mTTS.setLanguage(Locale.ENGLISH);
                     if (mTTSResult == TextToSpeech.LANG_MISSING_DATA || mTTSResult == TextToSpeech.LANG_NOT_SUPPORTED){
-                        Toast.makeText(BaseActivity.this, "Lang not available (show dlg)", Toast.LENGTH_SHORT).show();
-                        //mBtnLoadLang.setVisibility(View.VISIBLE);
-                        //doTTSSpeak(getString(R.string.bemvindo));
+                        // TODO: 14/08/2018
+                        // Toast.makeText(BaseActivity.this, "Lang not available (show dlg)", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         setHasTTSEngine(true);
-                        //Toast.makeText(BaseActivity.this, "Vamos", Toast.LENGTH_SHORT).show();
                         mTTS.setPitch((float) 1.0);
                     }
                 }
                 else{
                     setHasTTSEngine(false);
                     setHasAudio(false);
-                    //Toast.makeText(BaseActivity.this, "TTS unavailable", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -198,14 +184,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void doTTSSpeak(String ttsText){
         if (mTTS != null){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 mTTS.speak(ttsText, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
-            }
-            else{
-                // TODO: 03/08/2018
-                //Toast.makeText(this, "Old phone dude?", Toast.LENGTH_SHORT).show();
+            else
                 mTTS.speak(ttsText, TextToSpeech.QUEUE_FLUSH,null);
-            }
         }
     }
 
@@ -214,27 +196,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.d(TAG, "onActivityResult: (BASE)");
         if (requestCode== CODE_TTS_CHECK) {
             if(resultCode== TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
-                // if TTS resources are available you instanciate your TextToSpeech object
+                // if TTS resources are available, then init
                 initTTSEngine();
             }
             else{
                 setHasTTSEngine(false);
                 setHasAudio(false);
-                // TODO: 14/08/2018  
-                Toast.makeText(this, "Fucked", Toast.LENGTH_SHORT).show();
             }
         }
-//        else if (requestCode == CODE_FILLDB){
-//            Log.d(TAG, "onActivityResult: REFRESH ADAPTER");
-//            mAdapter.notifyDataSetChanged();
-//        }
     }
 
     public void showDialogTTSAction() {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Audio Feedback")
-                // TODO: 08/08/2018 lang
-                .setMessage("This app requires Text-To-Speech (TTS) functionality for the full user experience.\n\nPlease select the option below to install the Android TTS Portuguese Engine.")
+                .setTitle(R.string.audio)
+                .setMessage(R.string.app_needs_tts)
                 .setPositiveButton(R.string.install_tts, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -248,9 +223,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showDialogNoOfflineAbility() {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Connectivity")
-                // TODO: 08/08/2018 lang
-                .setMessage("An internet connection is required at this time.\n\nPlease enable and retry.")
+                .setTitle(R.string.connectivity)
+                .setMessage(R.string.connection_friendly_msg)
                 .setNegativeButton(R.string.ok, null)
                 .create();
         dialog.show();
@@ -258,9 +232,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showDialogLearningRequired() {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Learning")
-                // TODO: 08/08/2018 lang
-                .setMessage("Perhaps you should do some learning first my friend.")
+                .setTitle(R.string.learning)
+                .setMessage(R.string.quiz_learn_friendly_msg)
                 .setNegativeButton(R.string.ok, null)
                 .create();
         dialog.show();

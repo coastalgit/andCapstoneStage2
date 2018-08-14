@@ -93,7 +93,7 @@ public class HomeActivity extends BaseActivity {
     protected void actionHasTTS(boolean hasTTS) {
         if (hasTTS) {
             updateAudioButton(true,getHasAudio());
-            Toast.makeText(this, ">>> Vamos", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "<<< Vamos >>>", Toast.LENGTH_SHORT).show();
             if (getHasAudio()) {
                 if (!mViewModel.getHasAlreadySpokenWelcome()) {
                     sayWelcomeMessage();
@@ -103,7 +103,7 @@ public class HomeActivity extends BaseActivity {
             setControlsVisibility(true);
         }
         else {
-            Toast.makeText(this, ">>> TTS unavailable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.audio_unavail), Toast.LENGTH_SHORT).show();
             updateAudioButton(false,false);
         }
     }
@@ -130,8 +130,6 @@ public class HomeActivity extends BaseActivity {
         mBtnLearn.setVisibility(visible?View.VISIBLE:View.INVISIBLE);
         mBtnQuiz.setVisibility(visible?View.VISIBLE:View.INVISIBLE);
     }
-
-    //private void checkSetup
 
     @OnClick(R.id.btn_populatedb_fb)
     public void btnPopulateDb_onClick(Button btn){

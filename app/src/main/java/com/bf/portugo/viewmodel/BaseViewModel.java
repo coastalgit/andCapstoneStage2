@@ -34,9 +34,6 @@ public class BaseViewModel extends AndroidViewModel {
 
     public void hasVerbRecordsInRoom(VerbRoomRepository.IRoomQueryTaskComplete listener){
         mRepo.fetchVerbsFromRoomDB(listener);
-//        List<Verb> verbList = mRepo.getVerbsSynchronously();
-//        Log.d(TAG, "hasVerbRecordsInRoom: "+String.valueOf(VerbHelper.getListRecordCount(verbList)));
-//        return (VerbHelper.getListRecordCount(verbList) > 0);
     }
 
     public boolean getHasCheckedForTTS() {

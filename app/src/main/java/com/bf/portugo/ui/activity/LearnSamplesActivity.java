@@ -152,7 +152,7 @@ public class LearnSamplesActivity extends BaseActivity{
 
     @Override
     protected void actionHasTTS(boolean hasTTS) {
-        // TODO: 08/08/2018 screen indication?
+        //
     }
 
     public void handleTTSRequest(String ttsText){
@@ -161,6 +161,7 @@ public class LearnSamplesActivity extends BaseActivity{
             doTTSSpeak(ttsText);
         }
         else{
+            // TODO: 14/08/2018
             Toast.makeText(this, "TODO - Handle TTS", Toast.LENGTH_SHORT).show();
         }
     }

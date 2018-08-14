@@ -64,7 +64,7 @@
                         android:layout_gravity="center"
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
-                        android:background="@color/colorWhite"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:padding="3dp"
                         app:srcCompat="@drawable/ic_play_circle_filled_green_24dp"/>
                         <!--android:background="@color/colorWhite"-->

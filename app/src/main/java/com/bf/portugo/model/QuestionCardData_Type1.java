@@ -6,7 +6,6 @@ import java.util.List;
  * @author frielb
  * Created on 10/08/2018
  */
-//public class QuestionCardData extends CardView {
 public class QuestionCardData_Type1 extends QuestionCardData{
 
     private int mChosenAnswer;
@@ -25,16 +24,6 @@ public class QuestionCardData_Type1 extends QuestionCardData{
     public void setChosenAnswer(int mChosenAnswer) {
         this.mChosenAnswer = mChosenAnswer;
     }
-
-/*
-    public boolean getChosenAnswerCorrect() {
-        return mChosenAnswerCorrect;
-    }
-
-    public void setChosenAnswerCorrect(boolean mChosenAnswerCorrect) {
-        this.mChosenAnswerCorrect = mChosenAnswerCorrect;
-    }
-*/
 
     public int getAnswerPosition() {
         return mAnswerPosition;

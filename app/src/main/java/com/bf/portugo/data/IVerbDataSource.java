@@ -13,11 +13,9 @@ import java.util.List;
 public interface IVerbDataSource {
     void fetchVerbItems(VerbDataSourceListener listener);
     void fetchVerbItemsByType(VerbStockData.VerbType verbType, VerbDataSourceListener listener);
-    //void fetchVerbItemsByCategory(String category, VerbDataSourceListener listener);
 
     public interface VerbDataSourceListener {
         void onSuccess(List<Verb> verbs);
         void onError(Enums.ErrorCode errorCode, String errorMsg);
     }
-
 }
