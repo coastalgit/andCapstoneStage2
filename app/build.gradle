@@ -12,19 +12,32 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
+    signingConfigs {
+        releaseConfig {
+            keyAlias 'Coastala'
+            keyPassword 'portugoudacity2018K'
+            storeFile file("$rootDir/udac_keystore.jks")
+            storePassword 'portugoudacity2018A'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+
+            signingConfig getSigningConfig()
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def formattedDate = new Date().format('yyyyMMdd');
+                    outputFileName = "${variant.name}-${variant.versionName}-${formattedDate}.apk"
+                }
+            }
         }
-/*
-        debug {
-            signingConfig signingConfigs.debugConfig
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-*/
     }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -32,35 +45,31 @@ android {
 
     flavorDimensions "default"
     productFlavors {
-
         free {
             applicationId "com.bf.portugo"
-
             copy {
                 from 'src/main/'
                 include '*.json'
                 into '.'
             }
-
             buildConfigField 'boolean', 'BUILD_FREE', 'true'
+            signingConfig signingConfigs.releaseConfig
         }
         paid {
             applicationId "com.bf.portugo.paid"
-
             copy {
                 from 'src/main/'
                 include '*.json'
                 into '.'
             }
-
             buildConfigField 'boolean', 'BUILD_FREE', 'false'
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$rootProject.ext.support_version"
     implementation "com.android.support:design:$rootProject.ext.support_version"
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.support_version"
@@ -73,10 +82,13 @@ dependencies {
     implementation "com.flaviofaria:kenburnsview:$rootProject.ext.kenburnsview_version"
 
     //Firebase
+
     //noinspection GradleDependency,GradleDependency
-    implementation "com.google.firebase:firebase-core:$rootProject.ext.firebase_ads_version"
+    implementation "com.google.firebase:firebase-core:$rootProject.ext.firebase_core_version"
+
     //noinspection GradleDependency
     implementation "com.google.firebase:firebase-database:$rootProject.ext.firebase_db_version"
+
     //noinspection GradleDependency
     implementation "com.google.firebase:firebase-ads:$rootProject.ext.firebase_ads_version"
 
@@ -96,7 +108,6 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.ext.espresso_version"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$rootProject.ext.espresso_version"
     implementation "com.android.support.test.espresso:espresso-idling-resource:$rootProject.ext.espresso_version"
-
 }
 
 apply plugin: 'com.google.gms.google-services'
