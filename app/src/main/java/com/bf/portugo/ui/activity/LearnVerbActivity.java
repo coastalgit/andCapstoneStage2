@@ -19,7 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnVerbPagerAdapter;

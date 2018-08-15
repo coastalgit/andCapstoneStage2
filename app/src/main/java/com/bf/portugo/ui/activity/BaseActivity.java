@@ -9,10 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,7 +18,6 @@ import android.widget.Toast;
 import com.bf.portugo.R;
 
 import com.bf.portugo.util.NetworkUtils;
-import com.bf.portugo.util.SimpleIdlingResource;
 import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.BaseViewModel;
 
@@ -178,8 +174,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                     mTTSResult = mTTS.setLanguage(new Locale("pt_PT"));
                     //mTTSResult = mTTS.setLanguage(Locale.ENGLISH);
                     if (mTTSResult == TextToSpeech.LANG_MISSING_DATA || mTTSResult == TextToSpeech.LANG_NOT_SUPPORTED){
-                        // TODO: 14/08/2018
-                        // Toast.makeText(BaseActivity.this, "Lang not available (show dlg)", Toast.LENGTH_SHORT).show();
+                        setHasTTSEngine(false);
+                        setHasAudio(false);
                     }
                     else{
                         setHasTTSEngine(true);
@@ -233,7 +229,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: 15/08/2018  
+    @SuppressWarnings("unused")
     public void showDialogTTSAction() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.audio)

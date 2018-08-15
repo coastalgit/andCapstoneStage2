@@ -5,6 +5,7 @@ package com.bf.portugo.model;
  * Created on 10/08/2018
  */
 
+@SuppressWarnings("unused")
 public class QuestionCardData_End extends QuestionCardData{
 
     private String mLabelScore;

@@ -41,8 +41,6 @@ import com.bf.portugo.util.SimpleIdlingResource;
 import com.bf.portugo.viewmodel.HomeViewModel;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
-import java.time.temporal.Temporal;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

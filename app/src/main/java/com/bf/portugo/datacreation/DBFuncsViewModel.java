@@ -16,7 +16,7 @@ import java.util.List;
  * @author frielb
  * Created on 07/08/2018
  */
-@SuppressWarnings("CanBeFinal")
+@SuppressWarnings({"CanBeFinal", "WeakerAccess"})
 public class DBFuncsViewModel extends AndroidViewModel {
 
     private final String TAG = DBFuncsViewModel.class.getSimpleName();

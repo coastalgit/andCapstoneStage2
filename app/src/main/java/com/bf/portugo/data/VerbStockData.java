@@ -10,7 +10,7 @@ import java.util.HashMap;
  * @author frielb
  * Created on 31/07/2018
  */
-@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "CanBeFinal"})
+@SuppressWarnings("ALL")
 public class VerbStockData {
 
     private String TAG = VerbStockData.class.getSimpleName();

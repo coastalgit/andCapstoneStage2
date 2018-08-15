@@ -7,7 +7,7 @@ import android.widget.TextView;
  * @author frielb
  * Created on 10/08/2018
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("ALL")
 public class QuestionCardAnswerRef {
 
     public FrameLayout getCardFrame() {

@@ -96,8 +96,6 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.ext.espresso_version"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$rootProject.ext.espresso_version"
     implementation "com.android.support.test.espresso:espresso-idling-resource:$rootProject.ext.espresso_version"
-    //androidTestImplementation 'com.vanniktech:espresso-core-utils:0.3.0-SNAPSHOT'
-    androidTestImplementation 'com.vanniktech:espresso-core-utils:0.2.0'
 
 }
 

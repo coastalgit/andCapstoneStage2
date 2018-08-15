@@ -43,7 +43,7 @@
     <string name="audio">Audio</string>
     <string name="app_needs_tts">This app requires Text-To-Speech (TTS) functionality for the full user experience.  \n\nPlease select the option below to install the Android TTS Portuguese Engine.</string>
     <string name="connectivity">Connectivity</string>
-    <string name="learning">Learning</string>
+    <string name="learning" tools:keep="@string/learning">Learning</string>
     <string name="connection_friendly_msg">An internet connection is required at this time.  \n\nPlease enable and retry.</string>
     <string name="quiz_learn_friendly_msg">Perhaps you should do some learning first my friend.</string>
 

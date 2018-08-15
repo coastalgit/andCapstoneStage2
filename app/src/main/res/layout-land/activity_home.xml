@@ -129,6 +129,7 @@
         android:scaleType="center"
         app:srcCompat="@drawable/ic_audio_off_white_24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="ContentDescription" />
 
 </android.support.constraint.ConstraintLayout>

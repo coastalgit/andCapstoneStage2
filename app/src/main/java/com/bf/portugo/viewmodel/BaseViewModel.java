@@ -11,7 +11,7 @@ import com.bf.portugo.repo.VerbRoomRepository;
  * @author frielb
  * Created on 02/08/2018
  */
-@SuppressWarnings({"FieldCanBeLocal", "CanBeFinal"})
+@SuppressWarnings({"FieldCanBeLocal", "CanBeFinal", "unused"})
 public class BaseViewModel extends AndroidViewModel {
 
     private final String TAG = BaseViewModel.class.getSimpleName();

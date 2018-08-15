@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bf.portugo.R;
-import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
 import com.bf.portugo.common.Enums;
 import com.bf.portugo.common.Enums.VerbTense;
 import com.bf.portugo.util.VerbHelper;
@@ -30,9 +29,6 @@ public class LearnVerbFragment extends Fragment{
 
     private static final String KEY_VERBTENSE = "key_verbtense";
     private VerbTense mVerbTense;
-
-    //private OnLearnVerbFragmentInteractionListener mListener;
-    private LearnMainVerbsRecyclerViewAdapter mVerbsAdapter;
 
     @BindView(R.id.layout_card_verbtensegroup)
     CardView mCardTenseGroup;

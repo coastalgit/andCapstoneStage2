@@ -1,8 +1,5 @@
 package com.bf.portugo.manager;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 /*
  * Singleton to hold run time variables
  * @author frielb

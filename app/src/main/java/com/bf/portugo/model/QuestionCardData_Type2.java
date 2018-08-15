@@ -4,6 +4,7 @@ package com.bf.portugo.model;
  * @author frielb
  * Created on 10/08/2018
  */
+@SuppressWarnings("unused")
 public class QuestionCardData_Type2 extends QuestionCardData{
 
     private String mAnswerInput;

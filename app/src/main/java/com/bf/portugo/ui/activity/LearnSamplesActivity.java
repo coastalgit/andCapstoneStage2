@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.model.Verb;
@@ -20,7 +18,7 @@ import com.bf.portugo.viewmodel.LearnSamplesViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess"})
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "unused"})
 public class LearnSamplesActivity extends BaseActivity{
 
     private final String TAG = LearnSamplesActivity.class.getSimpleName();

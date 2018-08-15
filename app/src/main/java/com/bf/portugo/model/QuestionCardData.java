@@ -6,7 +6,7 @@ import java.util.List;
  * @author frielb
  * Created on 10/08/2018
  */
-@SuppressWarnings({"WeakerAccess", "CanBeFinal"})
+@SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
 public abstract class QuestionCardData {
 
     public enum QuestionType{

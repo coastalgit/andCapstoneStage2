@@ -1,13 +1,13 @@
 package com.bf.portugo.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 
 /*
  * @author frielb
  * Created on 05/08/2018
  */
+@SuppressWarnings("unused")
 public class HomeViewModel extends ViewModel {
 
     private String TAG = HomeViewModel.class.getSimpleName();
