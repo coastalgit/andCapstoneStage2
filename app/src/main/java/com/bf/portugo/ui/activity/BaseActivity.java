@@ -226,7 +226,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showDialogLearningRequired() {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.learning)
+                .setTitle(R.string.study)
                 .setMessage(R.string.quiz_learn_friendly_msg)
                 .setNegativeButton(R.string.ok, null)
                 .create();

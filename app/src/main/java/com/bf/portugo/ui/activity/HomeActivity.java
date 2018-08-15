@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ import com.bf.portugo.R;
 import com.bf.portugo.datacreation.DBFuncsActivity;
 import com.bf.portugo.viewmodel.HomeViewModel;
 import com.flaviofaria.kenburnsview.KenBurnsView;
+
+import java.time.temporal.Temporal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,8 +62,8 @@ public class HomeActivity extends BaseActivity {
     Button mBtnLearn;
     @BindView(R.id.btn_home_quiz)
     Button mBtnQuiz;
-    @BindView(R.id.btn_home_audiotoggle)
-    Button mBtnAudioToggle;
+    @BindView(R.id.iv_home_audiotoggle)
+    ImageView mIvAudioToggle;
 
     @BindView(R.id.tv_home_loading)
     TextView mTvLoading;
@@ -87,13 +90,25 @@ public class HomeActivity extends BaseActivity {
             mKbv.setImageDrawable(getDrawable(R.drawable.splashland));
         }
 
-        updateAudioButton(getHasTTSEngine(),getHasAudio());
+        updateAudioButton(getHasTTSEngine() && getHasAudio());
+        //updateAudioButton(getHasTTSEngine(),getHasAudio());
+    }
+
+    private void setAudioButtonState(){
+        if (!getHasTTSEngine()) {
+            updateAudioButton(false);
+            setHasAudio(false);
+            return;
+        }
+
+        updateAudioButton(getHasAudio());
     }
 
     @Override
     protected void actionHasTTS(boolean hasTTS) {
         if (hasTTS) {
-            updateAudioButton(true,getHasAudio());
+            //updateAudioButton(true,getHasAudio());
+            //setAudioButtonState();
             //Toast.makeText(this, "<<< Vamos >>>", Toast.LENGTH_SHORT).show();
             if (getHasAudio()) {
                 if (!mViewModel.getHasAlreadySpokenWelcome()) {
@@ -105,8 +120,9 @@ public class HomeActivity extends BaseActivity {
         }
         else {
             Toast.makeText(this, getString(R.string.audio_unavail), Toast.LENGTH_SHORT).show();
-            updateAudioButton(false,false);
+            //updateAudioButton(false,false);
         }
+        setAudioButtonState();
     }
 
     private void sayWelcomeMessage(){
@@ -176,16 +192,33 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
+/*
     @OnClick(R.id.btn_home_audiotoggle)
     public void btnAudioToggle_onClick(Button btn){
-        boolean currentState = getHasAudio();
-        setHasAudio(!currentState);
-        updateAudioButton(true,getHasAudio());
+        toggleAudio();
+    }
+*/
+
+    @OnClick(R.id.iv_home_audiotoggle)
+    public void ivAudioToggle_onClick(ImageView iv){
+        if (!getHasTTSEngine()) {
+            Toast.makeText(HomeActivity.this, getString(R.string.audio_unavail), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //setHasAudio(!getHasAudio());
+        toggleAudio();
+        //setAudioButtonState();
     }
 
-    private void updateAudioButton(boolean isVisible, boolean hasAudio){
-        mBtnAudioToggle.setVisibility(isVisible?View.VISIBLE:View.INVISIBLE);
-        mBtnAudioToggle.setText(hasAudio?"DISABLE AUDIO":"ENABLE AUDIO");
+    private void toggleAudio(){
+        boolean currentState = getHasAudio();
+        setHasAudio(!currentState);
+        //updateAudioButton(true,getHasAudio());
+        setAudioButtonState();
+    }
+
+    private void updateAudioButton(boolean hasAudio){
+        mIvAudioToggle.setImageResource(hasAudio?R.drawable.ic_audio_on_white_24dp:R.drawable.ic_audio_off_white_24dp);
     }
 
 }

@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/fab_margin"
                 android:layout_marginRight="@dimen/fab_margin"
-                android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:textSize="@dimen/text_size_progress"
                 android:textColor="@color/colorDGray"
                 android:text="@string/score"/>
@@ -74,47 +74,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:textSize="@dimen/text_size_mid"
                 android:textColor="@color/colorDGray"
                 android:text="@string/skip"/>
 
         </FrameLayout>
-
-        <!--
-                <LinearLayout
-                    android:id="@+id/layout_footer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="@dimen/fab_margin"
-                        android:layout_marginRight="@dimen/fab_margin"
-                        android:gravity="center"
-                        android:textSize="@dimen/text_size_mid"
-                        android:textColor="@color/colorDGray"
-                        android:text="@string/score"/>
-
-                    <TextView
-                        android:id="@+id/tv_skip"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:gravity="center"
-                        android:textSize="@dimen/text_size_mid"
-                        android:textColor="@color/colorDGray"
-                        android:text="@string/skip"/>
-
-                </LinearLayout>
-        -->
-
 
     </RelativeLayout>
 

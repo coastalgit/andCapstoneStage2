@@ -1,6 +1,7 @@
 package com.bf.portugo.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 
 /*
@@ -18,11 +19,13 @@ public class HomeViewModel extends ViewModel {
     }
 
     public boolean getHasAlreadySpokenWelcome() {
+        Log.i(TAG, "getHasAlreadySpokenWelcome: SET");
         return mHasAlreadySpokenWelcome;
     }
 
     public void setHasAlreadySpokenWelcome(boolean mHasAlreadySpokenWelcome) {
         this.mHasAlreadySpokenWelcome = mHasAlreadySpokenWelcome;
+        Log.i(TAG, "setHasAlreadySpokenWelcome: SET-"+String.valueOf(mHasAlreadySpokenWelcome));
     }
 
 }

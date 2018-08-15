@@ -63,5 +63,6 @@
     <string name="_0">0</string>
     <string name="correct">Correct</string>
     <string name="wrong">Wrong</string>
+    <string name="study">Study</string>
 
 </resources>
