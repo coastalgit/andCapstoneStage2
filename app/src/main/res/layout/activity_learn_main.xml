@@ -9,14 +9,16 @@
     android:layout_above="@id/adView"
     android:fitsSystemWindows="true"
     android:background="@color/colorGlobalBG"
-    tools:context=".ui.activity.LearnMainActivity">
+    tools:context=".ui.activity.LearnMainActivity"
+    tools:ignore="Overdraw">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_learnmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/global_elevation"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        tools:targetApi="lollipop">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_learnmain"
@@ -42,7 +44,8 @@
             android:id="@+id/tabs_learnmain"
             android:layout_width="match_parent"
             android:elevation="@dimen/global_elevation"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:targetApi="lollipop">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab_learnmain_item1"

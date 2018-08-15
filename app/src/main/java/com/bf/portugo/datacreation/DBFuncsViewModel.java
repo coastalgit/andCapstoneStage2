@@ -16,9 +16,10 @@ import java.util.List;
  * @author frielb
  * Created on 07/08/2018
  */
+@SuppressWarnings("CanBeFinal")
 public class DBFuncsViewModel extends AndroidViewModel {
 
-    private String TAG = DBFuncsViewModel.class.getSimpleName();
+    private final String TAG = DBFuncsViewModel.class.getSimpleName();
 
     private FirebaseDataSource mFbWriteFuncs;
     private List<Verb> mList_Reg;

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
     <LinearLayout
         android:id="@+id/layout_widget_verb"
@@ -23,7 +25,8 @@
             android:background="@color/colorPrimary"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
-            android:text="aprender"/>
+            android:text="aprender"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/tv_widget_en"
@@ -34,7 +37,8 @@
             android:background="@color/colorWhite"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
-            android:text="to learn"/>
+            android:text="to learn"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 

@@ -1,7 +1,5 @@
 package com.bf.portugo.model;
 
-import java.util.List;
-
 /*
  * @author frielb
  * Created on 10/08/2018

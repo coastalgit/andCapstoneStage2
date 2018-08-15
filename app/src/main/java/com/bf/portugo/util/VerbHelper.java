@@ -17,17 +17,18 @@ import java.util.Random;
  * @author frielb
  * Created on 08/08/2018
  */
+@SuppressWarnings({"Convert2Diamond", "JavaDoc"})
 public class VerbHelper {
 
-    private static String TAG = VerbHelper.class.getSimpleName();
+    private static final String TAG = VerbHelper.class.getSimpleName();
 
-    public static <T extends Object> int getLiveListRecordCount(LiveData<List<T>> liveList){
+    public static <T> int getLiveListRecordCount(LiveData<List<T>> liveList){
         if ((liveList != null) && liveList.getValue() != null && (liveList.getValue().size() > 0))
             return liveList.getValue().size();
         return 0;
     }
 
-    public static <T extends Object> int getListRecordCount(List<T> list){
+    public static <T> int getListRecordCount(List<T> list){
         if ((list != null) && (list.size() > 0))
             return list.size();
         return 0;
@@ -98,6 +99,7 @@ public class VerbHelper {
             return null;
 
         Random random = new Random();
+        assert allverbs != null;
         int indexer = random.nextInt(allverbs.size());
         Verb v = allverbs.get(indexer);
         Log.d(TAG, "getRandomVerb: ["+v.getWord_en()+"]");

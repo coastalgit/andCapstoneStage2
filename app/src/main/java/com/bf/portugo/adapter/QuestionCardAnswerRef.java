@@ -1,6 +1,5 @@
 package com.bf.portugo.adapter;
 
-import android.support.v7.widget.CardView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -8,6 +7,7 @@ import android.widget.TextView;
  * @author frielb
  * Created on 10/08/2018
  */
+@SuppressWarnings("WeakerAccess")
 public class QuestionCardAnswerRef {
 
     public FrameLayout getCardFrame() {
@@ -26,8 +26,8 @@ public class QuestionCardAnswerRef {
         this.cardText = cardText;
     }
 
-    private FrameLayout cardFrame = null;
-    private TextView cardText = null;
+    private FrameLayout cardFrame;
+    private TextView cardText;
 
     public QuestionCardAnswerRef(FrameLayout cardFrame, TextView cardText) {
         this.cardFrame = cardFrame;

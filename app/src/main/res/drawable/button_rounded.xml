@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!--suppress AndroidElementNotAllowed -->
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <padding
         android:bottom="7dp"
         android:left="7dp"
         android:right="7dp"
-        android:top="7dp" />
-
-    <!--<item-->
-        <!--android:drawable="@drawable/button_capsule_focused"-->
-        <!--android:state_enabled="false" />-->
+        android:top="7dp" tools:ignore="StateListReachable" />
 
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/button_rounded_press" />
+        android:drawable="@drawable/button_rounded_press" tools:ignore="StateListReachable" />
 
     <item
         android:state_pressed="false"
         android:drawable="@drawable/button_rounded_unpress" />
-
-    <!--<item-->
-        <!--android:state_focused="true"-->
-        <!--android:state_enabled="true"-->
-        <!--android:drawable="@drawable/button_capsule_focused" />-->
-
-    <!--<item-->
-        <!--android:state_enabled="true"-->
-        <!--android:drawable="@drawable/button_capsule_focused" />-->
 
 </selector>

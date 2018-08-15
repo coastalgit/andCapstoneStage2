@@ -5,6 +5,7 @@ android {
     defaultConfig {
         applicationId "com.bf.portugo"
         minSdkVersion 16
+        //noinspection OldTargetApi
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -72,8 +73,11 @@ dependencies {
     implementation "com.flaviofaria:kenburnsview:$rootProject.ext.kenburnsview_version"
 
     //Firebase
+    //noinspection GradleDependency,GradleDependency
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebase_ads_version"
+    //noinspection GradleDependency
     implementation "com.google.firebase:firebase-database:$rootProject.ext.firebase_db_version"
+    //noinspection GradleDependency
     implementation "com.google.firebase:firebase-ads:$rootProject.ext.firebase_ads_version"
 
     //Lifecycle

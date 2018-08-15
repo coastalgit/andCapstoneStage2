@@ -1,9 +1,6 @@
 package com.bf.portugo.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
-
-import com.bf.portugo.model.Verb;
 
 
 /*

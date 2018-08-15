@@ -12,9 +12,10 @@ import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
  * @author frielb
  * Created on 07/08/2018
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class LearnMainVerbsPagerAdapter extends FragmentPagerAdapter {
 
-    private static int TABCOUNT = 2;
+    private static final int TABCOUNT = 2;
 
     public LearnMainVerbsPagerAdapter(FragmentManager fm) {
         super(fm);

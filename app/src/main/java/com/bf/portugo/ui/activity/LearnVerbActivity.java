@@ -9,40 +9,28 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bf.portugo.BuildConfig;
 import com.bf.portugo.R;
-import com.bf.portugo.adapter.LearnMainVerbsPagerAdapter;
 import com.bf.portugo.adapter.LearnVerbPagerAdapter;
 import com.bf.portugo.common.Constants;
 import com.bf.portugo.model.Verb;
-import com.bf.portugo.viewmodel.LearnSamplesViewModel;
 import com.bf.portugo.viewmodel.LearnVerbViewModel;
-import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
-
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "CanBeFinal", "unused"})
 public class LearnVerbActivity extends BaseActivity {
 
-    private String TAG = LearnVerbActivity.class.getSimpleName();
+    private final String TAG = LearnVerbActivity.class.getSimpleName();
 
     public final static String KEY_VERB = "key_verb";
     private static int TAB_INDEX_PRESENT = 1;
@@ -75,6 +63,7 @@ public class LearnVerbActivity extends BaseActivity {
     @BindView(R.id.tv_learnverb_pastpart_en)
     TextView mTvVerb_pastpart_en;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +100,7 @@ public class LearnVerbActivity extends BaseActivity {
 
 
         mFragmentManager = getSupportFragmentManager();
-        buildTabViewPager(mViewModel.getTabPosition());
+        buildTabViewPager();
     }
 
     @Override
@@ -128,7 +117,7 @@ public class LearnVerbActivity extends BaseActivity {
         //
     }
 
-    private void buildTabViewPager(int tabPosition){
+    private void buildTabViewPager(){
         LearnVerbPagerAdapter mPagerAdapter = new LearnVerbPagerAdapter(mFragmentManager);
 
         mViewPager.setAdapter(mPagerAdapter);
@@ -214,6 +203,7 @@ public class LearnVerbActivity extends BaseActivity {
         handleTTSRequest(tv.getText().toString());
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.fab_learnverb)
     public void btnLearnSamples_onClick(FloatingActionButton fab){
         showLearnSamplesActivity(getViewModel().getVerb());

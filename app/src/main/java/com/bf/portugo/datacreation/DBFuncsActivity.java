@@ -10,6 +10,7 @@ import com.bf.portugo.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+@SuppressWarnings("unused")
 public class DBFuncsActivity extends AppCompatActivity {
 
     DBFuncsViewModel mViewModel;

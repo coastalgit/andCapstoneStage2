@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MergeRootFrame">
 
     <android.support.v7.widget.CardView
         android:id="@+id/layout_card_mainverb"
@@ -24,7 +26,8 @@
             android:padding="3dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="KeyboardInaccessibleWidget">
 
             <TextView
                 android:id="@+id/tv_mainverb_pt"
@@ -35,7 +38,8 @@
                 android:textSize="@dimen/text_size_card"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="PT" />
+                android:text="PT"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/tv_mainverb_en"
@@ -46,7 +50,8 @@
                 android:textSize="@dimen/text_size_card"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="EN" />
+                android:text="EN"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 

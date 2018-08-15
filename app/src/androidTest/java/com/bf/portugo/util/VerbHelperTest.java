@@ -16,11 +16,11 @@ import static org.junit.Assert.*;
  */
 public class VerbHelperTest {
 
-    List<Verb> verbs;
-    Verb v1;
+    private List<Verb> verbs;
+    private Verb v1;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         verbs = new ArrayList<>();
 
         //region Test verbs
@@ -59,6 +59,7 @@ public class VerbHelperTest {
     @Test
     public void getRandomVerb() {
         Verb rv = VerbHelper.getRandomVerb(verbs);
+        assert rv != null;
         System.out.println("Random:["+rv.getWord_en()+"]");
         assertNotNull("Null random verb",rv);
     }

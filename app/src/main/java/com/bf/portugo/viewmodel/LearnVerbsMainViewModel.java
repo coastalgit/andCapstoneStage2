@@ -3,7 +3,6 @@ package com.bf.portugo.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -18,9 +17,10 @@ import java.util.List;
  * @author frielb
  * Created on 05/08/2018
  */
+@SuppressWarnings("CanBeFinal")
 public class LearnVerbsMainViewModel extends AndroidViewModel {
 
-    private String TAG = LearnVerbsMainViewModel.class.getSimpleName();
+    private final String TAG = LearnVerbsMainViewModel.class.getSimpleName();
 
     private VerbRoomRepository mRepo;
     private FirebaseDataSource mDataSource;
@@ -47,7 +47,7 @@ public class LearnVerbsMainViewModel extends AndroidViewModel {
         return null;
     }
 
-    public void refreshRoomFromDataSource(){
+    private void refreshRoomFromDataSource(){
         Log.d(TAG, "refreshRoomFromDataSource: ");
         mRepo.fillDBFromDataSource(mDataSource);
     }

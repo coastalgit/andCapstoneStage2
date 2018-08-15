@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.model.Verb;
@@ -22,8 +21,8 @@ public class VerbWidgetProvider extends AppWidgetProvider {
 
     private static final String TAG = VerbWidgetProvider.class.getSimpleName();
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, Verb verb) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                        int appWidgetId, Verb verb) {
 
         // Construct the RemoteViews object and pending intent
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.verb_widget_provider);

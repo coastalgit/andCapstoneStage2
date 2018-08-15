@@ -4,6 +4,7 @@ package com.bf.portugo.common;
  * @author frielb
  * Created on 31/07/2018
  */
+@SuppressWarnings("ALL")
 public class Enums {
 
     public enum LanguageLocale{

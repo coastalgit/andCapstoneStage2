@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="text_margin">8dp</dimen>
-    <dimen name="appbar_padding_top">12dp</dimen>
+    <dimen name="appbar_padding_top" tools:ignore="UnusedResources">12dp</dimen>
     <dimen name="global_elevation">12dp</dimen>
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="card_margin">4dp</dimen>
 
     <dimen name="fab_margin">24dp</dimen>
-    <dimen name="fab_margin_mini">30dp</dimen>
+    <dimen name="fab_margin_mini" tools:ignore="UnusedResources">30dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
 
     <dimen name="text_size_title">28sp</dimen>

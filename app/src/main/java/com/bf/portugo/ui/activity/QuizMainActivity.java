@@ -1,5 +1,6 @@
 package com.bf.portugo.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
@@ -10,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.BuildConfig;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -39,9 +38,10 @@ import static com.bf.portugo.common.Constants.QUIZ_INTERSTITIAL_AD_INDEX;
 import static com.bf.portugo.common.Constants.QUIZ_QUESTION_COUNT;
 import static com.bf.portugo.util.VerbHelper.getListRecordCount;
 
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "unused"})
 public class QuizMainActivity extends BaseActivity{
 
-    private String TAG = QuizMainActivity.class.getSimpleName();
+    private final String TAG = QuizMainActivity.class.getSimpleName();
 
     private QuizMainViewModel mViewModel;
     private QuestionCardPagerAdapter mPagerAdapter;
@@ -55,7 +55,6 @@ public class QuizMainActivity extends BaseActivity{
     @BindView(R.id.fab_quiznext)
     FloatingActionButton mFabQuizNext;
 
-
     @BindView(R.id.tv_skip)
     TextView mTvSkip;
     @BindView(R.id.tv_progress)
@@ -63,6 +62,7 @@ public class QuizMainActivity extends BaseActivity{
 
     private InterstitialAd mInterstitialAd;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +94,7 @@ public class QuizMainActivity extends BaseActivity{
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mInterstitialAd.setAdListener(new AdListener() {
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onAdClosed() {
                     //
@@ -102,6 +103,7 @@ public class QuizMainActivity extends BaseActivity{
         });
     }
 
+    @SuppressWarnings("Convert2Lambda")
     private void subscribeUI(){
             mViewModel.getVerbsAll().observe(this, new Observer<List<Verb>>() {
                 @Override
@@ -156,6 +158,7 @@ public class QuizMainActivity extends BaseActivity{
         mTvSkip.setVisibility(enabled?View.VISIBLE:View.INVISIBLE);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void buildQuestionCardsViewPager(List<QuestionCardData> cardData){
         Log.d(TAG, "buildQuestionCardsViewPager: ");
 
@@ -240,12 +243,7 @@ public class QuizMainActivity extends BaseActivity{
         mViewPager.addOnPageChangeListener(pageChangeListener);
 
         // No swiping
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
+        mViewPager.setOnTouchListener((view, motionEvent) -> true);
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex());
@@ -294,7 +292,6 @@ public class QuizMainActivity extends BaseActivity{
     @OnClick(R.id.tv_skip)
     public void btnSkip_onClick(TextView tv){
         mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
-        //updateScoreLabel(mViewModel.getCurrentScore());
         updateProgessLabel(mViewModel.getActiveCardIndex()+1);
     }
 

@@ -1,6 +1,5 @@
 package com.bf.portugo.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,9 +30,10 @@ import com.google.android.gms.ads.MobileAds;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess"})
 public class LearnMainActivity extends AppCompatActivity implements LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener {
 
-    private String TAG = LearnMainActivity.class.getSimpleName();
+    private final String TAG = LearnMainActivity.class.getSimpleName();
 
     private LearnVerbsMainViewModel mViewModel;
     private FragmentManager mFragmentManager;
@@ -53,6 +53,7 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
 
     private AdView mAdView;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,15 +82,11 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
         mViewModel.subscribeToChildUpdates();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     public LearnVerbsMainViewModel getViewModel() {
         return mViewModel;
     }
 
+    @SuppressWarnings("RedundantCast")
     private void createAdView(){
         mAdView = (AdView) findViewById(R.id.adView);
         if (BuildConfig.BUILD_FREE) {
@@ -116,6 +113,7 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
         startActivity(verbIntent);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void snackBarShow(String message, boolean asIndefinite){
         Log.d(TAG, "snackBarShow: ");
         mSnackbar = Snackbar.make(mLayoutRoot,message, asIndefinite?Snackbar.LENGTH_INDEFINITE:Snackbar.LENGTH_SHORT);
@@ -124,6 +122,7 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
         mSnackbar.show();
     }
 
+    @SuppressWarnings("unused")
     private void snackBarDismiass(){
         if (mSnackbar != null && mSnackbar.isShown())
             mSnackbar.dismiss();

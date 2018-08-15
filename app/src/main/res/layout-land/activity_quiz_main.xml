@@ -24,14 +24,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
-            android:id="@+id/toolbar_quizmain_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quiz"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_mid"
-            android:layout_gravity = "center" />
+                android:id="@+id/toolbar_quizmain_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quiz"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_mid"
+                android:layout_gravity = "center" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -132,6 +132,8 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_navigate_next_white_24dp"
         android:visibility="invisible"
-        android:layout_marginRight="@dimen/fab_margin" />
+        android:layout_marginRight="@dimen/fab_margin"
+        tools:targetApi="lollipop"
+        android:layout_marginEnd="@dimen/fab_margin" />
 
 </android.support.design.widget.CoordinatorLayout>

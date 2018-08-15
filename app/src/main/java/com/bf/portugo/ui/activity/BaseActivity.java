@@ -1,8 +1,7 @@
 package com.bf.portugo.ui.activity;
 
-import android.arch.lifecycle.ViewModel;
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -14,17 +13,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.bf.portugo.R;
 
-import com.bf.portugo.model.Verb;
-import com.bf.portugo.repo.VerbRoomRepository;
 import com.bf.portugo.util.NetworkUtils;
 import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.BaseViewModel;
 
-import java.util.List;
 import java.util.Locale;
 
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
@@ -33,6 +28,7 @@ import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
  * @author frielb
  * Created on 02/02/2018
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
@@ -42,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextToSpeech mTTS;
     protected Typeface mFont;
 
-    NetworkUtils mNetworkUtils;
+    private NetworkUtils mNetworkUtils;
     private int mTTSResult;
 
     private SharedPreferences mPrefs;
@@ -63,6 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         void hasRoomVerbRecords(boolean hasVerbs);
     }
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressWarnings("Convert2Lambda")
     private void initTTSEngine(){
         mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -206,16 +204,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    // TODO: 15/08/2018  
     public void showDialogTTSAction() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.audio)
                 .setMessage(R.string.app_needs_tts)
-                .setPositiveButton(R.string.install_tts, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        launchSystemTTSActivity();
-                    }
-                })
+                .setPositiveButton(R.string.install_tts, (dialog1, which) -> launchSystemTTSActivity())
                 .setNegativeButton(R.string.cancel, null)
                 .create();
         dialog.show();

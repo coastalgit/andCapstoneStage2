@@ -2,14 +2,12 @@ package com.bf.portugo.widget;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
-import android.arch.lifecycle.LiveData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.bf.portugo.R;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.repo.VerbRoomRepository;
 import com.bf.portugo.util.VerbHelper;
@@ -23,6 +21,7 @@ import java.util.List;
  * @author frielb
  * Created on 13/08/2018
  */
+@SuppressWarnings("WeakerAccess")
 public class VerbUpdateService extends IntentService {
 
     private static final String TAG = VerbUpdateService.class.getSimpleName();
@@ -68,6 +67,7 @@ public class VerbUpdateService extends IntentService {
         }
     }
 
+    @SuppressWarnings("Convert2Lambda")
     private void performGetVerb() {
         VerbRoomRepository mRepo = new VerbRoomRepository(getApplication());
         mRepo.fetchVerbsFromRoomDB(new VerbRoomRepository.IRoomQueryTaskComplete() {
@@ -77,6 +77,7 @@ public class VerbUpdateService extends IntentService {
                 Log.d(TAG, "performGetVerb: count="+String.valueOf(verbcount));
                 if (verbcount > 0) {
                     Verb randomVerb = VerbHelper.getRandomVerb(verbs);
+                    assert randomVerb != null;
                     Log.d(TAG, "performGetVerb: Random verb:["+randomVerb.getWord_pt()+"]");
                     startActionUpdateVerbWidgets(VerbUpdateService.this, randomVerb);
                 }

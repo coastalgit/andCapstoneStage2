@@ -13,9 +13,7 @@
         android:id="@+id/appbar_learnverb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/global_elevation"
         android:theme="@style/AppTheme.AppBarOverlay">
-        <!--android:fitsSystemWindows="true"-->
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_collap_learnverb"
@@ -54,7 +52,8 @@
                         android:text="Verb EN"
                         android:layout_weight="1"
                         android:paddingBottom="10dp"
-                        android:gravity = "center" />
+                        android:gravity = "center"
+                        tools:ignore="HardcodedText" />
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -62,7 +61,8 @@
                         android:layout_gravity="center_vertical"
                         android:scaleType="center"
                         android:layout_weight="1"
-                        android:src="@drawable/outline_play_circle_filled_white_24"/>
+                        android:src="@drawable/outline_play_circle_filled_white_24"
+                        android:contentDescription="@string/play_verb" />
 
                     <TextView
                         android:id="@+id/tv_learnverb_verb_phonetic"
@@ -73,7 +73,8 @@
                         android:textColor="@color/colorWhite"
                         android:layout_weight="1"
                         android:paddingBottom="10dp"
-                        android:textSize="@dimen/text_size_mid" />
+                        android:textSize="@dimen/text_size_mid"
+                        tools:ignore="HardcodedText" />
 
 
                 </LinearLayout>
@@ -100,7 +101,8 @@
                             android:textSize="@dimen/text_size_card"
                             android:layout_weight="1"
                             android:text="PT"
-                            android:gravity = "center|center_vertical"/>
+                            android:gravity = "center|center_vertical"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:id="@+id/tv_learnverb_prespart_en"
@@ -110,8 +112,9 @@
                             android:textSize="@dimen/text_size_card"
                             android:layout_weight="1"
                             android:text="EN"
-                            android:layout_gravity="left"
-                            android:gravity = "center|center_vertical"/>
+                            android:layout_gravity="start"
+                            android:gravity = "center|center_vertical"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -129,7 +132,8 @@
                             android:textSize="@dimen/text_size_card"
                             android:layout_weight="1"
                             android:text="PT"
-                            android:gravity = "center|center_vertical"/>
+                            android:gravity = "center|center_vertical"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:id="@+id/tv_learnverb_pastpart_en"
@@ -139,8 +143,9 @@
                             android:textSize="@dimen/text_size_card"
                             android:layout_weight="1"
                             android:text="EN"
-                            android:layout_gravity="left"
-                            android:gravity = "center|center_vertical"/>
+                            android:layout_gravity="start"
+                            android:gravity = "center|center_vertical"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -155,7 +160,6 @@
                 android:layout_height="?android:attr/actionBarSize"
                 android:gravity="center_vertical"
                 app:layout_collapseMode="pin"
-                android:elevation="@dimen/global_elevation"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
                 <!--app:layout_scrollFlags="scroll|enterAlways"-->
                 <!--app:layout_collapseMode="pin"-->
@@ -169,7 +173,6 @@
             android:id="@+id/tabs_learnverb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/global_elevation"
             app:layout_scrollFlags="snap">
             <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
 
@@ -209,7 +212,6 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_gravity="end|bottom"
-        android:elevation="@dimen/fab_elevation"
         app:fabSize="normal"
         app:borderWidth="0dp"
         app:backgroundTint="@color/colorAccent"

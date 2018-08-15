@@ -10,11 +10,12 @@ import java.util.HashMap;
  * @author frielb
  * Created on 31/07/2018
  */
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "CanBeFinal"})
 public class VerbStockData {
 
     private String TAG = VerbStockData.class.getSimpleName();
 
-    public static enum VerbType {
+    public enum VerbType {
         REGULAR,
         IRREGULAR,
         ANY
@@ -43,6 +44,7 @@ public class VerbStockData {
 
     public HashMap<String, Verb> VERB_MAP;
 
+    @SuppressWarnings("IfCanBeSwitch")
     public VerbStockData(VerbType verbType) {
         VERB_MAP = new HashMap<>();
         if (verbType == VerbType.REGULAR){

@@ -1,5 +1,6 @@
 package com.bf.portugo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -35,12 +36,13 @@ import static com.bf.portugo.common.Constants.WRONG_ANSWER_COUNT;
  * @author frielb
  * Created on 10/08/2018
  */
+@SuppressWarnings("CanBeFinal")
 public class QuestionCardPagerAdapter extends PagerAdapter {
 
     private static final String TAG = QuestionCardPagerAdapter.class.getSimpleName();
-    private Typeface mFont;
+    private final Typeface mFont;
 
-    Context mContext;
+    private Context mContext;
     private List<QuestionCardData> mQuestionCardData;
     private List<CardView> mCards;
     private IPagerAdapterAction mListener;
@@ -65,9 +67,9 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         if (mQuestionCardData != null) {
             for (QuestionCardData qc :mQuestionCardData) {
                 if (qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPE1)) {
-                    String answers = "Answers:";
+                    StringBuilder answers = new StringBuilder("Answers:");
                     for (Verb answer : qc.getWrongAnswers()) {
-                        answers = answers + " " + answer.getWord_pt();
+                        answers.append(" ").append(answer.getWord_pt());
                     }
                     Log.d(TAG, "QuestionCardPagerAdapter: Card:[" + qc.getVerb().getWord_en() + "] " + answers);
                 }
@@ -78,7 +80,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
         mCards.set(position, null);
     }
@@ -101,8 +103,10 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         return new Random().nextInt(maxVal-minval+1) + minval;
     }
 
+    @NonNull
+    @SuppressWarnings({"IfCanBeSwitch", "ConstantConditions", "RedundantCast"})
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
 
@@ -220,39 +224,33 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
                 etAnswerInput.setText(answerInput);
 
             ImageButton btnListen = (ImageButton) cardView.findViewById(R.id.ib_listen);
-            btnListen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListener != null)
-                        mListener.speakWord(qc.getVerb().getWord_pt());
-                }
+            btnListen.setOnClickListener(view1 -> {
+                if (mListener != null)
+                    mListener.speakWord(qc.getVerb().getWord_pt());
             });
 
             Button btnReturn = (Button) cardView.findViewById(R.id.btn_quiz_return);
-            btnReturn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (etAnswerInput.getText().length() < 1) {
-                        etAnswerInput.requestFocus();
-                        if (mListener != null)
-                            mListener.displayMessage("Answer required, or skip");
+            btnReturn.setOnClickListener(view12 -> {
+                if (etAnswerInput.getText().length() < 1) {
+                    etAnswerInput.requestFocus();
+                    if (mListener != null)
+                        mListener.displayMessage("Answer required, or skip");
+                }
+                else {
+                    if ((mListener != null) && (!((QuestionCardData_Type2) qc).getAnswerAlreadyChecked())) {
+                        mListener.adjustScore(qc.getChosenAnswerCorrect());
                     }
-                    else {
-                        if ((mListener != null) && (!((QuestionCardData_Type2) qc).getAnswerAlreadyChecked())) {
-                            mListener.adjustScore(qc.getChosenAnswerCorrect());
-                        }
 
-                        ((QuestionCardData_Type2) qc).setAnswerAlreadyChecked(true);
+                    ((QuestionCardData_Type2) qc).setAnswerAlreadyChecked(true);
 
-                        if (VerbHelper.isMatch(true, qc.getVerb().getWord_pt(), etAnswerInput.getText().toString().trim())) {
-                            Log.d(TAG, "onClick: CORRECT");
-                            qc.setChosenAnswerCorrect(true);
-                        } else {
-                            Log.d(TAG, "onClick: INCORRECT");
-                            qc.setChosenAnswerCorrect(false);
-                        }
-                        handleType2Controls((QuestionCardData_Type2) qc, btnReturn, btnListen, etAnswerInput, tvResultMessage, tvCorrectAnswer);
+                    if (VerbHelper.isMatch(true, qc.getVerb().getWord_pt(), etAnswerInput.getText().toString().trim())) {
+                        Log.d(TAG, "onClick: CORRECT");
+                        qc.setChosenAnswerCorrect(true);
+                    } else {
+                        Log.d(TAG, "onClick: INCORRECT");
+                        qc.setChosenAnswerCorrect(false);
                     }
+                    handleType2Controls((QuestionCardData_Type2) qc, btnReturn, btnListen, etAnswerInput, tvResultMessage, tvCorrectAnswer);
                 }
             });
 
@@ -277,12 +275,9 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             tvMessage.setText(((QuestionCardData_End)qc).getLabelMessage());
 
             Button btnReturn = (Button) cardView.findViewById(R.id.btn_quiz_return);
-            btnReturn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListener != null){
-                        mListener.endQuiz();
-                    }
+            btnReturn.setOnClickListener(view13 -> {
+                if (mListener != null){
+                    mListener.endQuiz();
                 }
             });
 
@@ -302,6 +297,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         return (pos < ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex());
     }
 
+    @SuppressLint("SetTextI18n")
     private void handleType2Controls(QuestionCardData_Type2 qcd, Button btnReturn, ImageButton btnListen, EditText etAnswerText, TextView resultMessage, TextView correctAnswer){
         if (qcd.getAnswerAlreadyChecked()){
             // TODO: 12/08/2018 Indicator (Colouring)?
@@ -311,12 +307,12 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
             resultMessage.setVisibility(View.VISIBLE);
             if (qcd.getChosenAnswerCorrect()){
-                resultMessage.setText("CORRECT");
+                resultMessage.setText((mContext.getResources().getString(R.string.correct)).toUpperCase());
                 correctAnswer.setVisibility(View.INVISIBLE);
             }
             else{
                 resultMessage.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-                resultMessage.setText("INCORRECT");
+                resultMessage.setText((mContext.getResources().getString(R.string.wrong)).toUpperCase());
                 etAnswerText.setVisibility(View.INVISIBLE);
                 correctAnswer.setText(qcd.getVerb().getWord_pt());
                 correctAnswer.setVisibility(View.VISIBLE);
@@ -361,7 +357,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         TextView tvAnswer1 = frameAnswer1.findViewById(R.id.tv_quiz_answer);
         FrameLayout frameAnswer2 = cardView.findViewById(R.id.answer_2);
         TextView tvAnswer2 = frameAnswer2.findViewById(R.id.tv_quiz_answer);
-        FrameLayout frameAnswer3 = cardView.findViewById(R.id.answer_3);;
+        FrameLayout frameAnswer3 = cardView.findViewById(R.id.answer_3);
         TextView tvAnswer3 = frameAnswer3.findViewById(R.id.tv_quiz_answer);
 
         configureType1AnswerButtonAfterSelection(selectedIndex==0,correctAnswerIndex==0,frameAnswer0,tvAnswer0);
@@ -391,9 +387,9 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     private void assignType1AnswerButton(final CardView cardView, final int correctAnswerIndex, QuestionCardData qcd, int answerIndex, final FrameLayout answerFrame, final TextView answerTextView){
 
-        String answers = "Answers:";
+        StringBuilder answers = new StringBuilder("Answers:");
         for (Verb answer: qcd.getWrongAnswers()) {
-            answers = answers + " " +answer.getWord_pt();
+            answers.append(" ").append(answer.getWord_pt());
         }
         Log.d(TAG, "assignType1AnswerButton: Card:["+qcd.getVerb().getWord_en()+"] "+answers);
 
@@ -407,15 +403,12 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         answerTextView.setText(answerTxt);
 
         String finalAnswerTxt = answerTxt;
-        answerFrame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: "+(isCorrect?"CORRECT":"WRONG")+" answer selected for index "+ String.valueOf(answerIndex) + ":["+ finalAnswerTxt +"]");
-                if ((mListener != null) && ((QuestionCardData_Type1)qcd).getChosenAnswer()<0) {
-                    mListener.adjustScore(isCorrect);
-                }
-                handleType1AnswerSelection(cardView, correctAnswerIndex, answerIndex);
+        answerFrame.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: "+(isCorrect?"CORRECT":"WRONG")+" answer selected for index "+ String.valueOf(answerIndex) + ":["+ finalAnswerTxt +"]");
+            if ((mListener != null) && ((QuestionCardData_Type1)qcd).getChosenAnswer()<0) {
+                mListener.adjustScore(isCorrect);
             }
+            handleType1AnswerSelection(cardView, correctAnswerIndex, answerIndex);
         });
     }
     //endregion Multiple Choice (Type1) Question Handlers

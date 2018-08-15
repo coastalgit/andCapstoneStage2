@@ -3,6 +3,7 @@ package com.bf.portugo.ui.fragment;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bf.portugo.BuildConfig;
-
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnMainVerbsRecyclerViewAdapter;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.ui.activity.LearnMainActivity;
 import com.bf.portugo.viewmodel.LearnVerbsMainViewModel;
-import com.google.android.gms.ads.MobileAds;
 
 import static com.bf.portugo.common.Enums.*;
 import java.util.List;
@@ -27,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressWarnings("WeakerAccess")
 public class LearnMainVerbsFragment extends Fragment{
 
     private static final String TAG = LearnMainVerbsFragment.class.getSimpleName();
@@ -56,9 +55,6 @@ public class LearnMainVerbsFragment extends Fragment{
         return fragment;
     }
 
-    private void addAdMob(){
-
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +65,7 @@ public class LearnMainVerbsFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mainverbitems_list, container, false);
         ButterKnife.bind(this, rootView);
@@ -78,6 +74,7 @@ public class LearnMainVerbsFragment extends Fragment{
         mRecyclerViewVerbs.setLayoutManager(linearLayoutManager);
         mRecyclerViewVerbs.setHasFixedSize(true);
 
+        //noinspection ConstantConditions
         mVerbsAdapter = new LearnMainVerbsRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerViewVerbs.setAdapter(mVerbsAdapter);
         subscribeUI();
@@ -86,8 +83,9 @@ public class LearnMainVerbsFragment extends Fragment{
     }
 
 
+    @SuppressWarnings("Convert2Lambda")
     private void subscribeUI(){
-        LearnVerbsMainViewModel vm = ((LearnMainActivity)getActivity()).getViewModel();
+        @SuppressWarnings("ConstantConditions") LearnVerbsMainViewModel vm = ((LearnMainActivity)getActivity()).getViewModel();
 
         if (mVerbFilter == VerbFilter.ESSENTIAL){
             vm.getObservableVerbsEssential().observe(this, new Observer<List<Verb>>() {
@@ -130,10 +128,6 @@ public class LearnMainVerbsFragment extends Fragment{
         Log.d(TAG, "onDetach: ");
         super.onDetach();
         mListener = null;
-    }
-
-    public LearnMainVerbsRecyclerViewAdapter getVerbsAdapter() {
-        return mVerbsAdapter;
     }
 
 }

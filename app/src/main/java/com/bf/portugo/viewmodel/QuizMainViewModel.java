@@ -3,7 +3,6 @@ package com.bf.portugo.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -26,9 +25,10 @@ import static com.bf.portugo.common.Constants.WRONG_ANSWER_COUNT;
  * @author frielb
  * Created on 05/08/2018
  */
+@SuppressWarnings("CanBeFinal")
 public class QuizMainViewModel extends AndroidViewModel {
 
-    private String TAG = QuizMainViewModel.class.getSimpleName();
+    private final String TAG = QuizMainViewModel.class.getSimpleName();
 
     private VerbRoomRepository mRepo;
     private int mActiveCardIndex;
@@ -44,7 +44,7 @@ public class QuizMainViewModel extends AndroidViewModel {
         buildNewQuiz();
     }
 
-    public void buildNewQuiz(){
+    private void buildNewQuiz(){
         mActiveCardIndex = 0;
         mCurrentScore = 0;
         mLastPageReached = false;
@@ -66,6 +66,7 @@ public class QuizMainViewModel extends AndroidViewModel {
 
         mQuestionCards = new ArrayList<>();
         int count = 0;
+        assert qVerbs != null;
         for (Verb v:qVerbs) {
 
             QuestionCardData qc;

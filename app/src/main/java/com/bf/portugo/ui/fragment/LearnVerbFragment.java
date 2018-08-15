@@ -1,6 +1,7 @@
 package com.bf.portugo.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+@SuppressWarnings("WeakerAccess")
 public class LearnVerbFragment extends Fragment{
 
     private static final String TAG = LearnVerbFragment.class.getSimpleName();
@@ -81,8 +83,9 @@ public class LearnVerbFragment extends Fragment{
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_verbtenseitem, container, false);
         ButterKnife.bind(this, rootView);
@@ -106,7 +109,7 @@ public class LearnVerbFragment extends Fragment{
 
 
     private void populateVerbByTense(){
-        LearnVerbViewModel vm = ((LearnVerbActivity)getActivity()).getViewModel();
+        @SuppressWarnings("ConstantConditions") LearnVerbViewModel vm = ((LearnVerbActivity)getActivity()).getViewModel();
 
         Verb verb = vm.getVerb();
         Log.d(TAG, "populateVerbByTense: Verb["+verb.getWord_pt()+"]");
@@ -144,6 +147,7 @@ public class LearnVerbFragment extends Fragment{
     }
 
     private void speakTTS(String ttsText){
+        //noinspection ConstantConditions
         ((LearnVerbActivity)getActivity()).handleTTSRequest(ttsText);
     }
 

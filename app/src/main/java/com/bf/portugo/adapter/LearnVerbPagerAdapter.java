@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.bf.portugo.common.Enums;
-import com.bf.portugo.ui.fragment.LearnMainVerbsFragment;
 import com.bf.portugo.ui.fragment.LearnVerbFragment;
 
 
@@ -13,9 +12,10 @@ import com.bf.portugo.ui.fragment.LearnVerbFragment;
  * @author frielb
  * Created on 07/08/2018
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class LearnVerbPagerAdapter extends FragmentPagerAdapter {
 
-    private static int TABCOUNT = 3;
+    private static final int TABCOUNT = 3;
 
     public LearnVerbPagerAdapter(FragmentManager fm) {
         super(fm);

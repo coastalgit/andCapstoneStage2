@@ -22,7 +22,7 @@ import static com.bf.portugo.util.VerbHelper.getLiveListRecordCount;
  * @author frielb
  * Created on 03/08/2018
  */
-@SuppressWarnings({"Convert2MethodRef", "SpellCheckingInspection"})
+@SuppressWarnings({"Convert2MethodRef", "SpellCheckingInspection", "JavaDoc"})
 public class VerbRoomRepository {
     private static final String TAG = VerbRoomRepository.class.getSimpleName();
 
@@ -67,6 +67,7 @@ public class VerbRoomRepository {
         }
     }
 
+    @SuppressWarnings("unused")
     public void deleteAllRoomDbRecs(){
         int recCount = getLiveListRecordCount(mObservableVerbs);
         Log.d(TAG, "deleteAllRoomDbRecs: COUNT="+String.valueOf(recCount));
@@ -95,6 +96,7 @@ public class VerbRoomRepository {
         }
     }
 
+    @SuppressWarnings("unused")
     public void unsubscribeFromChildUpdates(FirebaseDataSource dataSource){
         if (dataSource != null)
             dataSource.removeChildListener();

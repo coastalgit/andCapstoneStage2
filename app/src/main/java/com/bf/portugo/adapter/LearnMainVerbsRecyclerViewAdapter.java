@@ -2,8 +2,8 @@ package com.bf.portugo.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 
+@SuppressWarnings("ALL")
 public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<LearnMainVerbsRecyclerViewAdapter.VerbViewHolder> {
 
     private static final String TAG = LearnMainVerbsRecyclerViewAdapter.class.getSimpleName();
@@ -26,7 +27,7 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
     private final Context mContext;
     private List<Verb> mVerbs;
     private final LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener mListener;
-    private Typeface mFont;
+    private final Typeface mFont;
 
     public LearnMainVerbsRecyclerViewAdapter(Context mContext, LearnMainVerbsFragment.OnLearnMainVerbFragmentInteractionListener listener) {
         this.mContext = mContext;
@@ -39,26 +40,24 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public VerbViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public VerbViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_mainverbitem, parent, false);
         return new VerbViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final VerbViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final VerbViewHolder holder, int position) {
         holder.mVerb = mVerbs.get(position);
         holder.mTvVerb_PT.setText(mVerbs.get(position).getWord_pt());
         holder.mTvVerb_EN.setText(mVerbs.get(position).getWord_en());
 
         //ripple support
-        holder.mContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onVerbItemClick(holder.mVerb);
-                }
+        holder.mContainer.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onVerbItemClick(holder.mVerb);
             }
         });
     }
@@ -71,16 +70,15 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
     }
 
     public class VerbViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mTvVerb_EN;
-        public final TextView mTvVerb_PT;
-        public final LinearLayout mContainer;//for ripple click events
+        final TextView mTvVerb_EN;
+        final TextView mTvVerb_PT;
+        final LinearLayout mContainer;//for ripple click events
 
-        public Verb mVerb;
+        Verb mVerb;
 
-        public VerbViewHolder(View view) {
+        @SuppressWarnings("RedundantCast")
+        VerbViewHolder(View view) {
             super(view);
-            mView = view;
             mContainer = (LinearLayout) view.findViewById(R.id.layout_card_container);
             mTvVerb_PT = (TextView) view.findViewById(R.id.tv_mainverb_pt);
             mTvVerb_PT.setTypeface(mFont);

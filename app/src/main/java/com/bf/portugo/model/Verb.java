@@ -12,9 +12,11 @@ import java.io.Serializable;
  * Created on 31/07/2018
  */
 
+@SuppressWarnings({"unused", "JavaDoc"})
 @Entity
 public class Verb implements Serializable {
 
+    @SuppressWarnings("NullableProblems")
     @PrimaryKey
     @NonNull
     private String word_en; // english words to be used as unique
@@ -116,6 +118,7 @@ public class Verb implements Serializable {
      * @param sample_3_pt
      * @param sample_3_en
      */
+    @SuppressWarnings("JavaDoc")
     @Ignore
     public Verb(@NonNull String word_en,
                 String word_pt,

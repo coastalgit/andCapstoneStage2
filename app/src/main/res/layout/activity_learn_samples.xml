@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_learnmain_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:background="@color/colorGlobalBG"
-    tools:context=".ui.activity.LearnSamplesActivity">
+    tools:context=".ui.activity.LearnSamplesActivity"
+    tools:ignore="Overdraw">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_learnsamples"
-            android:layout_width="match_parent"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_learnsamples"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/global_elevation"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:id="@+id/toolbar_learnsamples_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:elevation="@dimen/global_elevation"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <TextView
-                android:id="@+id/toolbar_learnsamples_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Examples"
-                android:textStyle="bold"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/text_size_mid"
-                android:layout_gravity = "center" />
-            <!--style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"-->
-            <!--android:layout_marginRight="?attr/actionBarSize"-->
-        </android.support.v7.widget.Toolbar>
+            android:text="@string/examples"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_mid"
+            android:layout_gravity = "center" />
+        <!--style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"-->
+        <!--android:layout_marginRight="?attr/actionBarSize"-->
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"

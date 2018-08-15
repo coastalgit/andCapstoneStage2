@@ -10,12 +10,14 @@ import java.util.List;
  * Created on 31/07/2018
  */
 
+@SuppressWarnings("ALL")
 public interface IVerbDataSource {
     void fetchVerbItems(VerbDataSourceListener listener);
     void fetchVerbItemsByType(VerbStockData.VerbType verbType, VerbDataSourceListener listener);
 
-    public interface VerbDataSourceListener {
+    interface VerbDataSourceListener {
         void onSuccess(List<Verb> verbs);
+        @SuppressWarnings({"EmptyMethod", "unused"})
         void onError(Enums.ErrorCode errorCode, String errorMsg);
     }
 }

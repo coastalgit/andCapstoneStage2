@@ -18,6 +18,7 @@ import java.util.List;
  * @author frielb
  * Created on 01/08/2018
  */
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "CanBeFinal", "JavaDoc"})
 public class FirebaseDataSource implements IVerbDataSource {
 
     private String TAG = FirebaseDataSource.class.getSimpleName();
@@ -47,6 +48,7 @@ public class FirebaseDataSource implements IVerbDataSource {
                 List<Verb> verbs = new ArrayList<>();
                 for (DataSnapshot vSnapshot : dataSnapshot.getChildren()) {
                     Verb v = vSnapshot.getValue(Verb.class);
+                    assert v != null;
                     Log.d(TAG, "onDataChange: v=[" + v.getWord_en() + "]");
                     verbs.add(v);
                 }
@@ -97,6 +99,7 @@ public class FirebaseDataSource implements IVerbDataSource {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                     Verb v = dataSnapshot.getValue(Verb.class);
+                    assert v != null;
                     Log.d(TAG, "onChildAdded: child:["+v.getWord_en()+"]");
                     if (mVerbChildEventListener != null){
                         mVerbChildEventListener.onVerbAdded(v);
@@ -106,6 +109,7 @@ public class FirebaseDataSource implements IVerbDataSource {
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     Verb v = dataSnapshot.getValue(Verb.class);
+                    assert v != null;
                     Log.d(TAG, "onChildChanged: child:["+v.getWord_en()+"]");
                     if (mVerbChildEventListener != null){
                         mVerbChildEventListener.onVerbChanged(v);
@@ -115,6 +119,7 @@ public class FirebaseDataSource implements IVerbDataSource {
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
                     Verb v = dataSnapshot.getValue(Verb.class);
+                    assert v != null;
                     Log.d(TAG, "onChildRemoved: child:["+v.getWord_en()+"]");
                     if (mVerbChildEventListener != null){
                         mVerbChildEventListener.onVerbDeleted(v);

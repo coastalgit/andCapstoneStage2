@@ -37,15 +37,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.bf.portugo.common.Constants.Fonts.FONT_ITIM_REGULAR;
 import static com.bf.portugo.common.Constants.Fonts.FONT_LOBSTER_REGULAR;
 
 /**
  * Responsible for checking if TTS engine is resident, and
  */
+@SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "unused"})
 public class HomeActivity extends BaseActivity {
 
-    private String TAG = HomeActivity.class.getSimpleName();
+    private final String TAG = HomeActivity.class.getSimpleName();
     private HomeViewModel mViewModel;
 
     private Typeface mTitleFont;
@@ -66,6 +66,7 @@ public class HomeActivity extends BaseActivity {
     TextView mTvLoading;
 
 
+    @SuppressWarnings("RedundantCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,29 +152,26 @@ public class HomeActivity extends BaseActivity {
 
     private void launchNextActivity(Intent intent){
         startActivity(intent);
-    };
+    }
 
     private void determineProgress(Intent intent, boolean isQuiz){
-        hasVerbsInRoom(new IBaseActivityRoomFunc() {
-            @Override
-            public void hasRoomVerbRecords(boolean hasVerbs) {
-                if (getNetworkUtils().isConnected(HomeActivity.this)){
-                    if (hasVerbs)
-                        launchNextActivity(intent);
-                    else{
-                        if (isQuiz)
-                            // populates Room DB from Firebase
-                            showDialogLearningRequired();
-                        else
-                            launchNextActivity(intent);
-                    }
-                }
+        hasVerbsInRoom(hasVerbs -> {
+            if (getNetworkUtils().isConnected(HomeActivity.this)){
+                if (hasVerbs)
+                    launchNextActivity(intent);
                 else{
-                    if (hasVerbs)
-                        launchNextActivity(intent);
+                    if (isQuiz)
+                        // populates Room DB from Firebase
+                        showDialogLearningRequired();
                     else
-                        showDialogNoOfflineAbility();
+                        launchNextActivity(intent);
                 }
+            }
+            else{
+                if (hasVerbs)
+                    launchNextActivity(intent);
+                else
+                    showDialogNoOfflineAbility();
             }
         });
     }
