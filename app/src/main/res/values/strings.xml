@@ -64,5 +64,6 @@
     <string name="correct">Correct</string>
     <string name="wrong">Wrong</string>
     <string name="study">Study</string>
+    <string name="irregular_suffix">(irr)</string>
 
 </resources>

@@ -9,14 +9,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bf.portugo.R;
 
 import com.bf.portugo.util.NetworkUtils;
+import com.bf.portugo.util.SimpleIdlingResource;
 import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.BaseViewModel;
 
@@ -58,6 +63,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     public interface IBaseActivityRoomFunc {
         void hasRoomVerbRecords(boolean hasVerbs);
     }
+
+/*
+    //region Espresso
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+    //endregion Espresso
+*/
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -178,6 +199,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent installTTSIntent = new Intent();
         installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
         startActivityForResult(installTTSIntent, CODE_TTS_CHECK);
+    }
+
+    public void handleTTSRequest(String ttsText){
+        Log.d(TAG, "handleTTSRequest: TTS Text["+ttsText+"]");
+        if (getHasTTSEngine() && getHasAudio())
+            doTTSSpeak(ttsText);
+        else
+            Toast.makeText(this, R.string.audio_unavail, Toast.LENGTH_SHORT).show();
     }
 
     protected void doTTSSpeak(String ttsText){

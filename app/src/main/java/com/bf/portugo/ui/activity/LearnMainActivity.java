@@ -4,6 +4,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -15,8 +18,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.support.test.espresso.IdlingResource;
 
 import com.bf.portugo.BuildConfig;
+import com.bf.portugo.util.SimpleIdlingResource;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -52,6 +57,20 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
     CoordinatorLayout mLayoutRoot;
 
     private AdView mAdView;
+
+    //region Espresso
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+    //endregion Espresso
 
     @SuppressWarnings("ConstantConditions")
     @Override

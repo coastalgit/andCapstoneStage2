@@ -6,9 +6,13 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +25,7 @@ import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnVerbPagerAdapter;
 import com.bf.portugo.common.Constants;
 import com.bf.portugo.model.Verb;
+import com.bf.portugo.util.SimpleIdlingResource;
 import com.bf.portugo.viewmodel.LearnVerbViewModel;
 
 import butterknife.BindView;
@@ -62,6 +67,20 @@ public class LearnVerbActivity extends BaseActivity {
     TextView mTvVerb_pastpart_pt;
     @BindView(R.id.tv_learnverb_pastpart_en)
     TextView mTvVerb_pastpart_en;
+
+    //region Espresso
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+    //endregion Espresso
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -164,14 +183,6 @@ public class LearnVerbActivity extends BaseActivity {
         mTvVerb_pastpart_pt.setText(verb.getPast_part_pt());
         mTvVerb_pastpart_en.setTypeface(mFont);
         mTvVerb_pastpart_en.setText(verb.getPast_part_en());
-    }
-
-    public void handleTTSRequest(String ttsText){
-        Log.d(TAG, "handleTTSRequest: TTS Text["+ttsText+"]");
-        if (getHasTTSEngine() && getHasAudio())
-            doTTSSpeak(ttsText);
-        else
-            Toast.makeText(this, R.string.audio_unavail, Toast.LENGTH_SHORT).show();
     }
 
     public LearnVerbViewModel getViewModel() {

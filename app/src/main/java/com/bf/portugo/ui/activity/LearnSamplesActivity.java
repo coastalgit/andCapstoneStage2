@@ -130,15 +130,4 @@ public class LearnSamplesActivity extends BaseActivity{
         //
     }
 
-    private void handleTTSRequest(String ttsText){
-        Log.d(TAG, "handleTTSRequest: TTS Text["+ttsText+"]");
-        if (getHasTTSEngine()){
-            doTTSSpeak(ttsText);
-        }
-        else{
-            // TODO: 14/08/2018
-            Toast.makeText(this, "TODO - Handle TTS", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 }

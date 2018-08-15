@@ -12,20 +12,35 @@ public class HomeViewModel extends ViewModel {
 
     private String TAG = HomeViewModel.class.getSimpleName();
 
-    private boolean mHasAlreadySpokenWelcome;
+//    private boolean mCreatedOnce;
+//    private boolean mHasAlreadySpokenWelcome;
 
     public HomeViewModel() {
-        mHasAlreadySpokenWelcome = false;
+//        Log.d(TAG, "HomeViewModel:");
+//        mHasAlreadySpokenWelcome = false;
+//        mCreatedOnce = false;
+    }
+
+/*
+    public boolean getCreatedOnce() {
+        Log.d(TAG, "getCreatedOnce: current ="+String.valueOf(mCreatedOnce));
+        return mCreatedOnce;
+    }
+
+    public void setCreatedOnce(boolean mCreatedOnce) {
+        this.mCreatedOnce = mCreatedOnce;
+        Log.d(TAG, "setCreatedOnce: now="+String.valueOf(mCreatedOnce));
     }
 
     public boolean getHasAlreadySpokenWelcome() {
-        Log.i(TAG, "getHasAlreadySpokenWelcome: SET");
+        Log.i(TAG, "getHasAlreadySpokenWelcome: current="+String.valueOf(mHasAlreadySpokenWelcome));
         return mHasAlreadySpokenWelcome;
     }
 
     public void setHasAlreadySpokenWelcome(boolean mHasAlreadySpokenWelcome) {
         this.mHasAlreadySpokenWelcome = mHasAlreadySpokenWelcome;
-        Log.i(TAG, "setHasAlreadySpokenWelcome: SET-"+String.valueOf(mHasAlreadySpokenWelcome));
+        Log.i(TAG, "setHasAlreadySpokenWelcome: now="+String.valueOf(mHasAlreadySpokenWelcome));
     }
+*/
 
 }

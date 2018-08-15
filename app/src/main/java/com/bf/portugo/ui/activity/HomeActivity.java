@@ -19,9 +19,14 @@ package com.bf.portugo.ui.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +36,8 @@ import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.datacreation.DBFuncsActivity;
+import com.bf.portugo.manager.Globals;
+import com.bf.portugo.util.SimpleIdlingResource;
 import com.bf.portugo.viewmodel.HomeViewModel;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
@@ -69,6 +76,22 @@ public class HomeActivity extends BaseActivity {
     TextView mTvLoading;
 
 
+    //region Espresso
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+    //endregion Espresso
+
+
+
     @SuppressWarnings("RedundantCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,18 +113,9 @@ public class HomeActivity extends BaseActivity {
             mKbv.setImageDrawable(getDrawable(R.drawable.splashland));
         }
 
-        updateAudioButton(getHasTTSEngine() && getHasAudio());
+        //updateAudioButton(getHasTTSEngine() && getHasAudio());
         //updateAudioButton(getHasTTSEngine(),getHasAudio());
-    }
-
-    private void setAudioButtonState(){
-        if (!getHasTTSEngine()) {
-            updateAudioButton(false);
-            setHasAudio(false);
-            return;
-        }
-
-        updateAudioButton(getHasAudio());
+        setAudioButtonState();
     }
 
     @Override
@@ -110,12 +124,22 @@ public class HomeActivity extends BaseActivity {
             //updateAudioButton(true,getHasAudio());
             //setAudioButtonState();
             //Toast.makeText(this, "<<< Vamos >>>", Toast.LENGTH_SHORT).show();
+/*
             if (getHasAudio()) {
                 if (!mViewModel.getHasAlreadySpokenWelcome()) {
                     sayWelcomeMessage();
                     mViewModel.setHasAlreadySpokenWelcome(true);
                 }
             }
+*/
+
+            if (!Globals.getInstance().getWelomeMessagePlayedOnce()){
+                if (getHasAudio()) {
+                    sayWelcomeMessage();
+                }
+                Globals.getInstance().setWelomeMessagePlayedOnce(true);
+            }
+
             setControlsVisibility(true);
         }
         else {
@@ -146,6 +170,7 @@ public class HomeActivity extends BaseActivity {
         mTvLoading.setVisibility(visible?View.INVISIBLE:View.VISIBLE);
         mBtnLearn.setVisibility(visible?View.VISIBLE:View.INVISIBLE);
         mBtnQuiz.setVisibility(visible?View.VISIBLE:View.INVISIBLE);
+        mIvAudioToggle.setVisibility(visible?View.VISIBLE:View.INVISIBLE);
     }
 
     @OnClick(R.id.btn_populatedb_fb)
@@ -210,15 +235,43 @@ public class HomeActivity extends BaseActivity {
         //setAudioButtonState();
     }
 
+    private void setAudioButtonState(){
+        if (!getHasTTSEngine()) {
+            updateAudioButton(false);
+            setHasAudio(false);
+            return;
+        }
+
+        if (!Globals.getInstance().getHomeCreatedOnce()){
+            // default to ON on app start
+            setHasAudio(true);
+            Globals.getInstance().setHomeCreatedOnce(true);
+        }
+
+/*
+        if (!Globals.getInstance().getWelomeMessagePlayedOnce()){
+            if (getHasAudio()) {
+                sayWelcomeMessage();
+            }
+            Globals.getInstance().setWelomeMessagePlayedOnce(true);
+        }
+*/
+
+        updateAudioButton(getHasAudio());
+    }
+
     private void toggleAudio(){
         boolean currentState = getHasAudio();
+        Log.d(TAG, "toggleAudio: current="+String.valueOf(currentState));
         setHasAudio(!currentState);
         //updateAudioButton(true,getHasAudio());
         setAudioButtonState();
     }
 
     private void updateAudioButton(boolean hasAudio){
-        mIvAudioToggle.setImageResource(hasAudio?R.drawable.ic_audio_on_white_24dp:R.drawable.ic_audio_off_white_24dp);
+        Log.d(TAG, "updateAudioButton: ENABLE="+String.valueOf(hasAudio));
+        Resources res = getResources();
+        mIvAudioToggle.setImageDrawable(res.getDrawable(hasAudio?R.drawable.ic_audio_on_white_24dp:R.drawable.ic_audio_off_white_24dp));
     }
 
 }

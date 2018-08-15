@@ -51,7 +51,10 @@ public class LearnMainVerbsRecyclerViewAdapter extends RecyclerView.Adapter<Lear
     @Override
     public void onBindViewHolder(@NonNull final VerbViewHolder holder, int position) {
         holder.mVerb = mVerbs.get(position);
-        holder.mTvVerb_PT.setText(mVerbs.get(position).getWord_pt());
+        String verbText = mVerbs.get(position).getWord_pt();
+        if (mVerbs.get(position).getIrregular())
+            verbText = verbText + " " + mContext.getString(R.string.irregular_suffix);
+        holder.mTvVerb_PT.setText(verbText);
         holder.mTvVerb_EN.setText(mVerbs.get(position).getWord_en());
 
         //ripple support

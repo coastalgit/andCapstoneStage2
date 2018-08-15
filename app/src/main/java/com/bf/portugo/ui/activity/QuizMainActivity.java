@@ -189,7 +189,8 @@ public class QuizMainActivity extends BaseActivity{
 
             @Override
             public void speakWord(String wordText) {
-                doTTSSpeak(wordText);
+                //doTTSSpeak(wordText);
+                handleTTSRequest(wordText);
             }
 
             @Override

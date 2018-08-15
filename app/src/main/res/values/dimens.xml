@@ -19,4 +19,5 @@
 
     <dimen name="text_holder_y_offset">50dp</dimen>
 
+    <dimen name="audio_button_size">40dp</dimen>
 </resources>
