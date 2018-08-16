@@ -113,14 +113,28 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         QuestionCardData qc = mQuestionCardData.get(position);
 
         if (qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPE1))
-            Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString()+" with selectedindex="+String.valueOf(((QuestionCardData_Type1)qc).getChosenAnswer()));
-        else
-            Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
+            Log.i(TAG, "instantiateItem: >>> TYPE1 Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString()+" with selectedindex=["+String.valueOf(((QuestionCardData_Type1)qc).getChosenAnswer())+"]");
+        else if (qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPE2))
+            Log.i(TAG, "instantiateItem: >>> OTHER Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
 
-        if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getLastPageReached()) && (!((QuizMainActivity)mContext).getViewModel().getFinalCardShown())){
+        StringBuilder answers1 = new StringBuilder("Answers:");
+        for (Verb answer: qc.getWrongAnswers()) {
+            answers1.append(" ").append(answer.getWord_pt());
+        }
+        Log.i(TAG, "instantiateItem: >>> LOADED AT ("+String.valueOf(position)+") WITH :["+qc.getVerb().getWord_en()+"] "+answers1);
+        Log.i(TAG, "instantiateItem: >>> ACTIVE (VM) INDEX ="+((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()+"");
+
+        Log.d(TAG, "instantiateItem: *** CARDTYPE["+qc.getQuestionType().toString()+"]");
+        Log.d(TAG, "instantiateItem: *** LASTPAGE["+((QuizMainActivity)mContext).getViewModel().getLastPageReached()+"]");
+        Log.d(TAG, "instantiateItem: *** FINALSHOWN["+((QuizMainActivity)mContext).getViewModel().getFinalCardShown()+"]");
+
+        //if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getLastPageReached()) && (!((QuizMainActivity)mContext).getViewModel().getFinalCardShown())){
+        if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getFinalCardShown())){
             // Ignore previously instantiated cards as we do not allow backward option
-            if (isDiscardedCard(position))
+            if (isDiscardedCard(position)) {
+                Log.i(TAG, "instantiateItem: DISCARDED AT POS="+String.valueOf(position));
                 return null;
+            }
         }
 
         int resourceId;
@@ -166,14 +180,23 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
             int correctAnswerIndex = generateRandomAnswerIndex();
             if (((QuestionCardData_Type1)qc).getAnswerPosition() != -1) {
                 correctAnswerIndex = ((QuestionCardData_Type1)qc).getAnswerPosition();
+                Log.d(TAG, "instantiateItem: Correct answer SET at " + String.valueOf(correctAnswerIndex));
             }
-            Log.d(TAG, "instantiateItem: Correct answer at " + String.valueOf(correctAnswerIndex));
+            else
+                Log.d(TAG, "instantiateItem: Correct answer ALREADY at " + String.valueOf(correctAnswerIndex));
 
             if (isCurrentCard(position)) {
                 ((QuestionCardData_Type1) qc).setAnswerPosition(correctAnswerIndex);
+
+                StringBuilder answers = new StringBuilder("Answers:");
+                for (Verb answer: qc.getWrongAnswers()) {
+                    answers.append(" ").append(answer.getWord_pt());
+                }
+                Log.i(TAG, "instantiateItem: CURRENT, POPULATE ("+String.valueOf(position)+") with:["+qc.getVerb().getWord_en()+"] "+answers);
                 mQuestionCardData.set(position, qc);
             }
-
+            else
+                Log.i(TAG, "instantiateItem: NOT CURRENT (POS="+String.valueOf(position)+")");
 
             assignType1AnswerButton(cardView, correctAnswerIndex, qc, 0, frameAnswer0, tvAnswer0);
             assignType1AnswerButton(cardView, correctAnswerIndex, qc, 1, frameAnswer1, tvAnswer1);
@@ -207,10 +230,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         else if (qc.getQuestionType() == QuestionCardData.QuestionType.TYPE2) {
             //region TYPE 2
             Log.d(TAG, "instantiateItem: CARD TYPE 2 at pos=" + String.valueOf(position) + " answerInput=" + ((QuestionCardData_Type2)qc).getAnswerInput() + " correct=" + String.valueOf(qc.getChosenAnswerCorrect()));
-//            final TextView tvQuestion = view.findViewById(R.id.tv_quiz_question);
-//            tvQuestion.setTypeface(mFont);
-//            tvQuestion.setText(qc.getVerb().getWord_en());
-//
+
             TextView tvQuestion = (TextView) cardView.findViewById(R.id.tv_quiz_question);
             tvQuestion.setTypeface(mFont);
             TextView tvResultMessage = (TextView) cardView.findViewById(R.id.tv_quiz_resultmsg);
@@ -283,7 +303,9 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
         }
 
+        Log.i(TAG, "instantiateItem: SET CARDVIEW AT POS:["+String.valueOf(position)+"]");
         mCards.set(position,cardView);
+        Log.i(TAG, "instantiateItem: END <<<<<<<<<<<<<<<<<<<<<<");
         return view;
     }
 
@@ -293,7 +315,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     }
 
     private boolean isDiscardedCard(int pos){
-        Log.d(TAG, "isDiscardedCard: POS="+String.valueOf(pos)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
+        Log.i(TAG, "isDiscardedCard: POS="+String.valueOf(pos)+" CURRENT="+String.valueOf(((QuizMainActivity)mContext).getViewModel().getActiveCardIndex()));
         return (pos < ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex());
     }
 
@@ -343,11 +365,26 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
     //region Multiple Choice (Type1) Question Handlers
     private void handleType1AnswerSelection(CardView cardView, int correctAnswerIndex, int selectedIndex){
 
+        Log.d(TAG, "handleType1AnswerSelection: >>> SELECTED INDEX:["+String.valueOf(selectedIndex)+"]");
         int pos = ((QuizMainActivity)mContext).getViewModel().getActiveCardIndex();
+        Log.d(TAG, "handleType1AnswerSelection: >>> ACTIVE INDEX:["+String.valueOf(pos)+"]");
         QuestionCardData qcd = mQuestionCardData.get(pos);
+
+        StringBuilder answers1 = new StringBuilder("Answers:");
+        for (Verb answer: qcd.getWrongAnswers()) {
+            answers1.append(" ").append(answer.getWord_pt());
+        }
+        Log.i(TAG, "instantiateItem: >>> CARD OFF STACK AT ("+String.valueOf(pos)+") WITH :["+qcd.getVerb().getWord_en()+"] "+answers1);
+
         ((QuestionCardData_Type1)qcd).setChosenAnswer(selectedIndex);
+        Log.d(TAG, "handleType1AnswerSelection: >>> CORRECT ANS INDEX:["+String.valueOf(correctAnswerIndex)+"]");
         boolean correct = correctAnswerIndex==selectedIndex;
+        Log.d(TAG, "handleType1AnswerSelection: >>> CORRECT? :["+String.valueOf(correct)+"]");
         qcd.setChosenAnswerCorrect(correct);
+        if (correct) {
+            ((QuestionCardData_Type1) qcd).setAnswerPosition(correctAnswerIndex);
+            Log.d(TAG, "handleType1AnswerSelection: >>> SAVED: CORRECT ANS INDEX:["+String.valueOf(correctAnswerIndex)+"]");
+        }
         Log.d(TAG, "handleType1AnswerSelection: Pos="+String.valueOf(pos)+"("+qcd.getVerb().getWord_pt()+") Selected="+String.valueOf(selectedIndex)+" Correct="+String.valueOf(correct));
         mQuestionCardData.set(pos,qcd);
 
@@ -387,11 +424,13 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
 
     private void assignType1AnswerButton(final CardView cardView, final int correctAnswerIndex, QuestionCardData qcd, int answerIndex, final FrameLayout answerFrame, final TextView answerTextView){
 
+/*
         StringBuilder answers = new StringBuilder("Answers:");
         for (Verb answer: qcd.getWrongAnswers()) {
             answers.append(" ").append(answer.getWord_pt());
         }
         Log.d(TAG, "assignType1AnswerButton: Card:["+qcd.getVerb().getWord_en()+"] "+answers);
+*/
 
         boolean isCorrect = (correctAnswerIndex == answerIndex);
         String answerTxt = qcd.getVerb().getWord_pt();

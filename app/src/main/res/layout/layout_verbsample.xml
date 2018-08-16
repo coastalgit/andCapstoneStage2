@@ -54,7 +54,6 @@
                     android:textSize="@dimen/text_size_card"
                     android:textColor="@color/colorWhite"
                     android:text="@string/sample"
-                    android:supportsRtl="true"
                     android:foregroundGravity="left" />
                 <!--android:layout_margin="@dimen/text_margin"-->
 

@@ -8,8 +8,7 @@ public class Constants {
     public static final String DBNAME_VERBBUNDLE_PT = "verbpt.db";
     public static final int VERB_CLASSIFICATIONCEILING_ESSENTIAL = 50;
 
-    // TODO: 14/08/2018 More verbs, test and change values
-    public static final int QUIZ_QUESTION_COUNT = 6;
+    public static final int QUIZ_QUESTION_COUNT = 10;
     public static final int WRONG_ANSWER_COUNT = 4;
     public static final int QUIZ_QUESTION_TYPE_DIVISOR = 3;
     public static final int QUIZ_INTERSTITIAL_AD_INDEX = 3;

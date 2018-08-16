@@ -115,8 +115,8 @@ public class QuizMainActivity extends BaseActivity{
                         if (getListRecordCount(mViewModel.getQuestionCards()) < 1)
                             mViewModel.buildQuizBase(getHasAudio());
 
-                        if (!mViewModel.getLastPageReached()) {
-                            loadQuestionCardPager();                        }
+                        if (!mViewModel.getLastPageReached())
+                            loadQuestionCardPager();
                         else{
                             if (mViewModel.getFinalCardShown())
                                 showFinalCard();
@@ -223,25 +223,12 @@ public class QuizMainActivity extends BaseActivity{
                         mInterstitialAd.show();
                     }
 
-/*
                     if (position == QUIZ_QUESTION_COUNT - 1) {
                         mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
                         Log.d(TAG, "onPageSelected: LAST PAGE");
                         mViewModel.setLastPageReached(true);
-                        setSkipAccess(false);
-                    } else {
-                        setSkipAccess(true);
                     }
-*/
-                    if (position == QUIZ_QUESTION_COUNT - 1) {
-                        mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
-                        Log.d(TAG, "onPageSelected: LAST PAGE");
-                        mViewModel.setLastPageReached(true);
-                        setSkipAccess(true);//test
-                    } else {
-                        setSkipAccess(true);
-                    }
-
+                    setSkipAccess(true);//test
                 }
                 else{
                     Log.d(TAG, "onPageSelected: LAST PAGE REACHED");
@@ -315,10 +302,8 @@ public class QuizMainActivity extends BaseActivity{
         }
         else {
             mViewModel.setActiveCardIndex(0);
-            //updateProgessLabel(QUIZ_QUESTION_COUNT);
             showFinalCard();
         }
-
     }
 
 }
