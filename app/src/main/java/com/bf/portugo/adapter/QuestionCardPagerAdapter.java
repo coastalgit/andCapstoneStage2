@@ -117,7 +117,7 @@ public class QuestionCardPagerAdapter extends PagerAdapter {
         else
             Log.d(TAG, "instantiateItem: Card at pos="+String.valueOf(position)+" is of type:"+qc.getQuestionType().toString());
 
-        if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getLastPageReached())){
+        if (!(qc.getQuestionType().equals(QuestionCardData.QuestionType.TYPEEND)) && (!((QuizMainActivity)mContext).getViewModel().getLastPageReached()) && (!((QuizMainActivity)mContext).getViewModel().getFinalCardShown())){
             // Ignore previously instantiated cards as we do not allow backward option
             if (isDiscardedCard(position))
                 return null;

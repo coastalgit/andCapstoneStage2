@@ -223,6 +223,7 @@ public class QuizMainActivity extends BaseActivity{
                         mInterstitialAd.show();
                     }
 
+/*
                     if (position == QUIZ_QUESTION_COUNT - 1) {
                         mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
                         Log.d(TAG, "onPageSelected: LAST PAGE");
@@ -231,7 +232,23 @@ public class QuizMainActivity extends BaseActivity{
                     } else {
                         setSkipAccess(true);
                     }
+*/
+                    if (position == QUIZ_QUESTION_COUNT - 1) {
+                        mFabQuizNext.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight));
+                        Log.d(TAG, "onPageSelected: LAST PAGE");
+                        mViewModel.setLastPageReached(true);
+                        setSkipAccess(true);//test
+                    } else {
+                        setSkipAccess(true);
+                    }
 
+                }
+                else{
+                    Log.d(TAG, "onPageSelected: LAST PAGE REACHED");
+                    if (!mViewModel.getFinalCardShown()) {
+                        mViewModel.setActiveCardIndex(position);
+                        setSkipAccess(true);
+                    }
                 }
             }
 
@@ -292,8 +309,16 @@ public class QuizMainActivity extends BaseActivity{
 
     @OnClick(R.id.tv_skip)
     public void btnSkip_onClick(TextView tv){
-        mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
-        updateProgessLabel(mViewModel.getActiveCardIndex()+1);
+        if (!mViewModel.getLastPageReached()) {
+            mViewPager.setCurrentItem(mViewModel.getActiveCardIndex()+1, true);
+            updateProgessLabel(mViewModel.getActiveCardIndex()+1);
+        }
+        else {
+            mViewModel.setActiveCardIndex(0);
+            //updateProgessLabel(QUIZ_QUESTION_COUNT);
+            showFinalCard();
+        }
+
     }
 
 }

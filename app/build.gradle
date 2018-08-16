@@ -26,9 +26,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseConfig
 
+            signingConfig signingConfigs.releaseConfig
             signingConfig getSigningConfig()
+
             applicationVariants.all { variant ->
                 variant.outputs.all {
                     def formattedDate = new Date().format('yyyyMMdd');
