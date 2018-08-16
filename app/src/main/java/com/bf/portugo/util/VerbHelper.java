@@ -2,6 +2,7 @@ package com.bf.portugo.util;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bf.portugo.R;
@@ -211,6 +212,15 @@ public class VerbHelper {
         // Zero is a match
         int comp = instance.compare(originalString.toLowerCase(), userInput.toLowerCase());
         return (comp==0);
+    }
+
+    public static boolean hasSample(Verb verb){
+        if (verb == null)
+            return false;
+
+        return !TextUtils.isEmpty(verb.getSample_1_pt()) ||
+                (!TextUtils.isEmpty(verb.getSample_2_pt())) ||
+                (!TextUtils.isEmpty(verb.getSample_3_pt()));
     }
 
     public static String buildEndCardMessage(Context context, int newScore, int previousScore, int bestScore) {

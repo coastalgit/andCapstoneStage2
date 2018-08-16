@@ -19,12 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bf.portugo.R;
 import com.bf.portugo.adapter.LearnVerbPagerAdapter;
 import com.bf.portugo.common.Constants;
 import com.bf.portugo.model.Verb;
 import com.bf.portugo.util.SimpleIdlingResource;
+import com.bf.portugo.util.VerbHelper;
 import com.bf.portugo.viewmodel.LearnVerbViewModel;
 
 import butterknife.BindView;
@@ -193,9 +195,13 @@ public class LearnVerbActivity extends BaseActivity {
     }
 
     private void showLearnSamplesActivity(Verb verb){
-        Intent verbIntent = new Intent(this, LearnSamplesActivity.class);
-        verbIntent.putExtra(LearnSamplesActivity.KEY_VERB, verb);
-        startActivity(verbIntent);
+        if (VerbHelper.hasSample(verb)) {
+            Intent verbIntent = new Intent(this, LearnSamplesActivity.class);
+            verbIntent.putExtra(LearnSamplesActivity.KEY_VERB, verb);
+            startActivity(verbIntent);
+        }
+        else
+            Toast.makeText(this, R.string.no_samples_avail, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.layout_toucharea)
