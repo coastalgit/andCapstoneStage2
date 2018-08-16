@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="admob_appid" tools:ignore="MissingTranslation">ca-app-pub-9861252818562269~6437507307</string>
-<!--
-    <string name="admob_banner_unit_id_1" tools:ignore="MissingTranslation">ca-app-pub-9861252818562269/9945082443</string>
-    <string name="admob_interstitial_unit_id_1" tools:ignore="MissingTranslation">ca-app-pub-9861252818562269/3915285741</string>
--->
     <string name="admob_banner_unit_id_test" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
     <string name="admob_interstitial_unit_test" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/1033173712</string>
 </resources>
