@@ -214,6 +214,7 @@ public class VerbHelper {
         return (comp==0);
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     public static boolean hasSample(Verb verb){
         if (verb == null)
             return false;

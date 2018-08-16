@@ -3,6 +3,8 @@ package com.bf.portugo.ui.fragment;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,10 +33,13 @@ public class LearnMainVerbsFragment extends Fragment{
     private static final String TAG = LearnMainVerbsFragment.class.getSimpleName();
 
     private static final String KEY_VERBFILTER = "key_verbfilter";
+    private static final String EXTRA_LISTSTATE = "recyclerpos";
 
     private VerbFilter mVerbFilter = VerbFilter.ALL;
     private OnLearnMainVerbFragmentInteractionListener mListener;
     private LearnMainVerbsRecyclerViewAdapter mVerbsAdapter;
+    private LinearLayoutManager mLayoutManager;
+    private Parcelable mListState;
 
     @BindView(R.id.recyclerview_learnmain)
     RecyclerView mRecyclerViewVerbs;
@@ -67,11 +72,12 @@ public class LearnMainVerbsFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView("+mVerbFilter.toString()+"): ");
         View rootView = inflater.inflate(R.layout.fragment_mainverbitems_list, container, false);
         ButterKnife.bind(this, rootView);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerViewVerbs.setLayoutManager(linearLayoutManager);
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerViewVerbs.setLayoutManager(mLayoutManager);
         mRecyclerViewVerbs.setHasFixedSize(true);
 
         //noinspection ConstantConditions
@@ -82,6 +88,34 @@ public class LearnMainVerbsFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        Log.d(TAG, "onSaveInstanceState("+mVerbFilter.toString()+"): ");
+        super.onSaveInstanceState(savedInstanceState);
+        mListState = mLayoutManager.onSaveInstanceState();
+        savedInstanceState.putParcelable(EXTRA_LISTSTATE, mListState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated("+mVerbFilter.toString()+"): ");
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null){
+            mListState = savedInstanceState.getParcelable(EXTRA_LISTSTATE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume("+mVerbFilter.toString()+"):");
+        super.onResume();
+        if (mListState != null) {
+            new Handler().postDelayed(() -> {
+                mLayoutManager.onRestoreInstanceState(mListState);
+                //mRecyclerViewVerbs.scrollToPosition(mLayoutManager.findFirstVisibleItemPosition());
+            }, 300);
+        }
+    }
 
     @SuppressWarnings("Convert2Lambda")
     private void subscribeUI(){
@@ -116,7 +150,7 @@ public class LearnMainVerbsFragment extends Fragment{
 
     @Override
     public void onAttach(Context context) {
-        Log.d(TAG, "onAttach: ");
+        Log.d(TAG, "onAttach("+mVerbFilter.toString()+"): ");
         super.onAttach(context);
         if (context instanceof OnLearnMainVerbFragmentInteractionListener) {
             mListener = (OnLearnMainVerbFragmentInteractionListener) context;
@@ -125,7 +159,7 @@ public class LearnMainVerbsFragment extends Fragment{
 
     @Override
     public void onDetach() {
-        Log.d(TAG, "onDetach: ");
+        Log.d(TAG, "onDetach("+mVerbFilter.toString()+"): ");
         super.onDetach();
         mListener = null;
     }

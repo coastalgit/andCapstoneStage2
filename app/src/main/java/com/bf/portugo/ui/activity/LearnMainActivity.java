@@ -101,6 +101,7 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
         mViewModel.subscribeToChildUpdates();
     }
 
+
     public LearnVerbsMainViewModel getViewModel() {
         return mViewModel;
     }
@@ -108,6 +109,7 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
     @SuppressWarnings("RedundantCast")
     private void createAdView(){
         mAdView = (AdView) findViewById(R.id.adView);
+
         if (BuildConfig.BUILD_FREE) {
             MobileAds.initialize(this, getString(R.string.admob_appid));
             //mAdView.setAdSize(AdSize.BANNER);
@@ -115,7 +117,9 @@ public class LearnMainActivity extends AppCompatActivity implements LearnMainVer
             mAdView.loadAd(adRequest);
         }
         else
+
             mAdView.setVisibility(View.GONE);
+
     }
 
     private void buildTabViewPager(){
